@@ -37,7 +37,7 @@ class MainMenuState extends MusicBeatState
 
 	var save = new FlxSave();
 
-	public static var engineVer:String = '0.0.1';
+	public static var engineVer:String = '0.0.1 Fix outdate';
 
 	override function create()
 	{

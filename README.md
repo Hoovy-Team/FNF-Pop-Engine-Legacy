@@ -19,7 +19,7 @@ Engine need to using source to mod!
 ## Credits
 
 - [Huy1234th (me!)](https://gamebanana.com/members/1965608) - Coder and stuff by me
-- [Twingamerdudes](https://www.youtube.com/c/Twingamerdudes) - The guy who teach how to make a options using substate (Please sub him)
+- [Twingamerdudes](https://www.youtube.com/c/Twingamerdudes) - The guy who teach how to make a options using substate
 
 # (OG) Friday Night Funkin
 

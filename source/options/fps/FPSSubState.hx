@@ -111,7 +111,7 @@ class FPSSubState extends FlxSubState
 				}
 			}
 			if(MUSICBEATSTATE.controls.RIGHT){
-				if(textMenuItems[curSelected] == "FPS" && FPS <= 159){
+				if(textMenuItems[curSelected] == "FPS" && FPS <= 179){
 					FPS += 1;
 					sys.io.File.saveContent(Paths.txt('options/fps'), Std.string(FPS));
 					FlxG.updateFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));

@@ -26,7 +26,9 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import io.newgrounds.NG;
 import lime.app.Application;
+import flixel.util.FlxSave;
 import openfl.Assets;
+import Options;
 
 using StringTools;
 
@@ -44,6 +46,8 @@ class TitleState extends MusicBeatState
 
 	var wackyImage:FlxSprite;
 
+	public static var save = new FlxSave();
+
 	override public function create():Void
 	{
 		#if polymod
@@ -51,6 +55,16 @@ class TitleState extends MusicBeatState
 		#end
 
 		PlayerSettings.init();
+		Options.optionsLoad();
+
+		save.bind("Options");
+		try{
+			if(save.data.options == null)
+				save.data.options = new Array<String>();
+				save.data.options[0] = "";
+		}catch(e){
+			trace("not work");
+		}
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
@@ -292,11 +306,15 @@ class TitleState extends MusicBeatState
 	
 					http.onData = function (data:String) {
 					  
-						  if (!MainMenuState.engineVer.contains(data.trim()) && !OutdatedSubState.leftState)
+						if (!MainMenuState.engineVer.contains(data.trim()) && !dateSubState.OutdatedSubState.leftState)
 						{
 							trace('outdated now!!! ' + data.trim() + ' != ' + MainMenuState.engineVer);
-							OutdatedSubState.needVer = data;
-							FlxG.switchState(new OutdatedSubState());
+							dateSubState.OutdatedSubState.needVer = data;
+							FlxG.switchState(new dateSubState.OutdatedSubState());
+						}
+						else if (save.data.options.contains("Skip Check Version"))
+						{
+							FlxG.switchState(new MainMenuState());
 						}
 						else
 						{

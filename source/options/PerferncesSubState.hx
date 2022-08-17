@@ -10,7 +10,7 @@ import flixel.util.FlxSave;
 
 class PerferncesSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Ghost tap', 'Downscroll', 'Accuracy', 'Exit'];
+	var textMenuItems:Array<String> = ['Ghost tap', 'Downscroll', 'Accuracy', 'Time Bar', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -118,6 +118,13 @@ class PerferncesSubState extends MusicBeatSubstate
 						save.data.options.remove("Accuracy");
 					}
 					trace("Accuracy change");
+				case "Time Bar":
+					if(!save.data.options.contains("Time Bar")){
+						save.data.options.push("Time Bar");
+					}else{
+						save.data.options.remove("Time Bar");
+					}
+					trace("Time Bar change");
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new OptionsSubState());

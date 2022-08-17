@@ -47,6 +47,8 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
+	public static var STRUM_X = 42;
+
 	public static var curStage:String = '';
 	public static var SONG:SwagSong;
 	public static var isStoryMode:Bool = false;
@@ -126,6 +128,16 @@ class PlayState extends MusicBeatState
 	private var totalNotesHit:Float = 0;
 	private var totalPlayed:Int = 0;
 	var watermark:FlxText;
+
+	var songPercent:Float = 0;
+
+	private var updateTime:Bool = false;
+
+	var timeTxt:FlxText;
+	private var timeBarBG:AttachedSprite;
+	public var timeBar:FlxBar;
+
+	// private var botplay:FlxText;
 
 	public static var campaignScore:Int = 0;
 
@@ -595,19 +607,19 @@ class PlayState extends MusicBeatState
 
 		switch (curStage)
 		{
-			case 'limo':
-				gfVersion = 'gf-car';
-			case 'mall' | 'mallEvil':
-				gfVersion = 'gf-christmas';
-			case 'school':
-				gfVersion = 'gf-pixel';
-			case 'schoolEvil':
-				gfVersion = 'gf-pixel';
+			  case 'limo':
+				  gfVersion = 'gf-car';
+			  case 'mall' | 'mallEvil':
+				  gfVersion = 'gf-christmas';
+			  case 'school':
+				  gfVersion = 'gf-pixel';
+			  case 'schoolEvil':
+				  gfVersion = 'gf-pixel';
 		}
-
+	  
 		if (curStage == 'limo')
-			gfVersion = 'gf-car';
-
+			  gfVersion = 'gf-car';
+	  
 		gf = new Character(400, 130, gfVersion);
 		gf.scrollFactor.set(0.95, 0.95);
 
@@ -746,6 +758,35 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
+		if (save.data.options.contains("Time Bar")){
+			timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 20, 400, "", 32);
+			timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			timeTxt.scrollFactor.set();
+			if(save.data.options.contains("Downscroll")){
+				timeTxt.y = FlxG.height - 45;
+			}
+
+			timeBarBG = new AttachedSprite('timeBar');
+			timeBarBG.x = timeTxt.x;
+			timeBarBG.y = timeTxt.y + (timeTxt.height / 4);
+			timeBarBG.scrollFactor.set();
+			timeBarBG.alpha = 0;
+			timeBarBG.color = FlxColor.BLACK;
+			timeBarBG.xAdd = -4;
+			timeBarBG.yAdd = -4;
+			add(timeBarBG);
+
+			timeBar = new FlxBar(timeBarBG.x + 4, timeBarBG.y + 4, LEFT_TO_RIGHT, Std.int(timeBarBG.width - 8), Std.int(timeBarBG.height - 8), this,
+				'songPercent', 0, 1);
+			timeBar.scrollFactor.set();
+			timeBar.createFilledBar(0xFF000000, 0xFFFFFFFF);
+			timeBar.numDivisions = 800;
+			timeBar.alpha = 0;
+			add(timeBar);
+			add(timeTxt);
+			timeBarBG.sprTracker = timeBar;
+		}
+
 		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.image('healthBar'));
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
@@ -807,6 +848,11 @@ class PlayState extends MusicBeatState
 		if (save.data.options.contains("Watermark")){
 			watermark.cameras = [camHUD];
 		}
+		if (save.data.options.contains("Time Bar")){
+			timeBar.cameras = [camHUD];
+			timeBarBG.cameras = [camHUD];
+			timeTxt.cameras = [camHUD];
+		}
 		doof.cameras = [camHUD];
 
 		// if (SONG.song == 'South')
@@ -815,6 +861,7 @@ class PlayState extends MusicBeatState
 
 		// cameras = [FlxG.cameras.list[1]];
 		startingSong = true;
+		updateTime = true;
 
 		if (isStoryMode)
 		{
@@ -1081,6 +1128,8 @@ class PlayState extends MusicBeatState
 		#if desktop
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
+		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
+		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 
 		// Updating Discord Rich Presence (with Time Left)
 		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, true, songLength);
@@ -1500,12 +1549,21 @@ class PlayState extends MusicBeatState
 		perfectMode = false;
 		#end
 
-		if (FlxG.keys.justPressed.NINE)
+		/*if (FlxG.keys.justPressed.NINE)
 		{
 			if (iconP1.animation.curAnim.name == 'bf-old')
 				iconP1.animation.play(SONG.player1);
 			else
 				iconP1.animation.play('bf-old');
+		}*/
+
+		if (save.data.options.contains("Old BF Icon"))
+		{
+			iconP1.animation.play('bf-old');
+		}
+		else
+		{
+			iconP1.animation.play(SONG.player1);
 		}
 
 		switch (curStage)
@@ -1596,10 +1654,12 @@ class PlayState extends MusicBeatState
 		/* if (FlxG.keys.justPressed.NINE)
 			FlxG.switchState(new Charting()); */
 
-		#if debug
 		if (FlxG.keys.justPressed.EIGHT)
 			FlxG.switchState(new AnimationDebug(SONG.player2));
-		#end
+		if (FlxG.keys.justPressed.NINE)
+			FlxG.switchState(new AnimationDebug(SONG.player1));
+		// if (FlxG.keys.justPressed.ZERO)
+		//	FlxG.switchState(new AnimationDebug(SONG.gfVersion));
 
 		if (startingSong)
 		{
@@ -1627,6 +1687,20 @@ class PlayState extends MusicBeatState
 					Conductor.lastSongPos = Conductor.songPosition;
 					// Conductor.songPosition += FlxG.elapsed * 1000;
 					// trace('MISSED FRAME');
+				}
+
+				if(updateTime) {
+					var curTime:Float = FlxG.sound.music.time;
+					if(curTime < 0) curTime = 0;
+					songPercent = (curTime / songLength);
+
+					var secondsTotal:Int = Math.floor((songLength - curTime) / 1000);
+					if(secondsTotal < 0) secondsTotal = 0;
+
+					var minutesRemaining:Int = Math.floor(secondsTotal / 60);
+					var secondsRemaining:String = '' + secondsTotal % 60;
+					if(secondsRemaining.length < 2) secondsRemaining = '0' + secondsRemaining; //Dunno how to make it display a zero first in Haxe lol
+					timeTxt.text = minutesRemaining + ':' + secondsRemaining;
 				}
 			}
 
@@ -1824,12 +1898,32 @@ class PlayState extends MusicBeatState
 					{
 						case 0:
 							dad.playAnim('singLEFT' + altAnim, true);
+							if (save.data.options.contains("Health Drain")){
+								health -= 0.00475;
+							}else{
+								health -= 0;
+							}
 						case 1:
 							dad.playAnim('singDOWN' + altAnim, true);
+							if (save.data.options.contains("Health Drain")){
+								health -= 0.00475;
+							}else{
+								health -= 0;
+							}
 						case 2:
 							dad.playAnim('singUP' + altAnim, true);
+							if (save.data.options.contains("Health Drain")){
+								health -= 0.00475;
+							}else{
+								health -= 0;
+							}
 						case 3:
 							dad.playAnim('singRIGHT' + altAnim, true);
+							if (save.data.options.contains("Health Drain")){
+								health -= 0.00475;
+							}else{
+								health -= 0;
+							}
 					}
 
 					dad.holdTimer = 0;
@@ -1885,8 +1979,23 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
+	function finishSong():Void
+	{
+		var finishCallback:Void->Void = endSong; //In case you want to change it in a specific song.
+
+		updateTime = false;
+		FlxG.sound.music.volume = 0;
+		vocals.volume = 0;
+		vocals.pause();
+	}
+
 	function endSong():Void
 	{
+		timeBarBG.visible = false;
+		timeBar.visible = false;
+		timeTxt.visible = false;
+		updateTime = false;
+
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;

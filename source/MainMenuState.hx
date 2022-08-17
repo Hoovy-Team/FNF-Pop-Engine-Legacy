@@ -37,7 +37,7 @@ class MainMenuState extends MusicBeatState
 
 	var save = new FlxSave();
 
-	public static var engineVer:String = '0.0.1 Fix outdate';
+	public static var engineVer:String = '0.0.2';
 
 	override function create()
 	{
@@ -110,7 +110,12 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0.06);
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "v " + Application.current.meta.get('version') + " | Pop Engine: " + engineVer, 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "v" + Application.current.meta.get('version') +
+		if (save.data.options.contains("Watermark")){
+		" | Pop Engine: " + engineVer;
+		}else{
+			"";
+		}, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);

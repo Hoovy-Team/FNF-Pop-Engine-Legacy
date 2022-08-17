@@ -1,4 +1,4 @@
-package;
+package options;
 
 import Alphabet;
 import flixel.FlxG;
@@ -6,15 +6,18 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.util.FlxSave;
 
-class OptionsSubState extends MusicBeatSubstate
+class EarseDataSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Controls', 'Perfernces', 'Game Setting', 'Misc', 'FPS', 'Exit'];
+	var textMenuItems:Array<String> = ['EARSE ALL DATA', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
 
 	var grpOptionsTexts:FlxTypedGroup<Alphabet>;
+
+	var save = new FlxSave();
 
 	public function new()
 	{
@@ -26,10 +29,19 @@ class OptionsSubState extends MusicBeatSubstate
 		selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
 		add(selector);
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Options State" + " | " + "Press Enter to go this setting", 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Earse State" + " | " + "Press Enter to delete data", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
+
+		save.bind("Options");
+		try{
+			if(save.data.options == null)
+				save.data.options = new Array<String>();
+				save.data.options[0] = "";
+		}catch(e){
+			trace("not work");
+		}
 
 		for (i in 0...textMenuItems.length)
 		{
@@ -56,12 +68,6 @@ class OptionsSubState extends MusicBeatSubstate
 		if (controls.DOWN_P)
 			changeSelection(1);
 
-		if(controls.BACK)
-		{
-			FlxG.state.closeSubState();
-			FlxG.switchState(new MainMenuState());
-		}
-
 		if (curSelected < 0)
 			curSelected = textMenuItems.length - 1;
 
@@ -72,32 +78,39 @@ class OptionsSubState extends MusicBeatSubstate
 		{
 			txt.color = FlxColor.WHITE;
 
-			if (txt.ID == curSelected)
+			if (txt.ID == curSelected && save.data.options.contains(txt.text))
+				txt.color = FlxColor.GREEN;
+			else if (txt.ID == curSelected)
 				txt.color = FlxColor.YELLOW;
+			else if (txt.ID == 0)
+				txt.color = FlxColor.RED;
+			else
+				txt.color = FlxColor.WHITE;
+				
 		});
+
+		if(controls.BACK)
+		{
+			FlxG.state.closeSubState();
+			FlxG.state.openSubState(new OptionsSubState());
+		}
 
 		if (controls.ACCEPT)
 		{
 			switch (textMenuItems[curSelected])
 			{
-				case "Controls":
-					FlxG.state.closeSubState();
-					FlxG.state.openSubState(new options.ControlsSubState());
-				case "Perfernces":
-					FlxG.state.closeSubState();
-					FlxG.state.openSubState(new options.PerferncesSubState());
-				case "FPS":
-					FlxG.state.closeSubState();
-					FlxG.state.openSubState(new options.fps.FPSSubState());
-				case "Misc":
-					FlxG.state.closeSubState();
-					FlxG.state.openSubState(new options.MiscSubState());
-				case "Game Setting":
-					FlxG.state.closeSubState();
-					FlxG.state.openSubState(new options.game.GameSettingSubState());
+				case "EARSE ALL DATA":
+					var save = new FlxSave();
+					save.flush();
+					sys.io.File.saveContent(Paths.txt('options/keybinds/left'), 'A');
+					sys.io.File.saveContent(Paths.txt('options/keybinds/down'), 'S');
+					sys.io.File.saveContent(Paths.txt('options/keybinds/up'), 'W');
+					sys.io.File.saveContent(Paths.txt('options/keybinds/right'), 'D');
+					FlxG.updateFramerate = 60;
+					FlxG.drawFramerate = 60;
 				case "Exit":
 					FlxG.state.closeSubState();
-					FlxG.switchState(new MainMenuState());
+					FlxG.state.openSubState(new OptionsSubState());
 			}
 		}
 	}

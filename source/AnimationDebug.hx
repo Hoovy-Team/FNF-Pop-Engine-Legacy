@@ -1,14 +1,24 @@
 package;
 
+import Section.SwagSection;
+import Song.SwagSong;
+import openfl.net.FileReference;
+import openfl.events.IOErrorEvent;
+import openfl.events.Event;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.ui.FlxButton;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.FlxCamera;
+import game.FlxUIDropDownMenuCustom;
+import PlayState;
 
+using StringTools;
 /**
 	*DEBUG MODE
  */
@@ -24,6 +34,14 @@ class AnimationDebug extends FlxState
 	var isDad:Bool = true;
 	var daAnim:String = 'spooky';
 	var camFollow:FlxObject;
+
+	var charDropDown:FlxUIDropDownMenuCustom;
+
+	var _song:SwagSong;
+
+	var camHUD:FlxCamera;
+
+	var _file:FileReference;
 
 	public function new(daAnim:String = 'spooky')
 	{
@@ -78,6 +96,18 @@ class AnimationDebug extends FlxState
 		add(camFollow);
 
 		FlxG.camera.follow(camFollow);
+
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Animation Debug State" + " | " + "Press Esc to return songs // Press E to zoom in // Press Q to zoom out", 12);
+		versionShit.scrollFactor.set();
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
+
+		/*var offset:FlxButton = new FlxButton(charDropDown.x, charDropDown.y - 30, "Save your Offsets", function() {
+			saveOffsets();
+		});
+		offset.scrollFactor.set();
+		offset.cameras = [camHUD];
+		add(offset);*/
 
 		super.create();
 	}
@@ -167,6 +197,19 @@ class AnimationDebug extends FlxState
 		var rightP = FlxG.keys.anyJustPressed([RIGHT]);
 		var downP = FlxG.keys.anyJustPressed([DOWN]);
 		var leftP = FlxG.keys.anyJustPressed([LEFT]);
+		//var back = FlxG.keys.anyJustPressed([ESCAPE]);
+
+		/*if (back)
+			PlayState.SONG = _song;
+			FlxG.sound.music.stop();
+			// vocals.stop();
+			FlxG.switchState(new PlayState());*/
+
+		if (FlxG.keys.justPressed.ESCAPE)
+		{
+			// FlxG.mouse.visible = false;
+			FlxG.switchState(new PlayState());
+		}
 
 		var holdShift = FlxG.keys.pressed.SHIFT;
 		var multiplier = 1;
@@ -192,4 +235,53 @@ class AnimationDebug extends FlxState
 
 		super.update(elapsed);
 	}
+
+	/*function saveOffsets()
+	{
+		var offsetsText:String = "";
+	
+		for (anim => offsets in char.animOffsets)
+		{
+			offsetsText += anim + " " + offsets[0] + " " + offsets[1] + "\n";
+		}
+	
+		if ((offsetsText != "") && (offsetsText.length > 0))
+		{
+			if (offsetsText.endsWith("\n"))
+				offsetsText = offsetsText.substr(0, offsetsText.length - 1);
+	
+			_file = new FileReference();
+			_file.addEventListener(Event.COMPLETE, onSaveComplete);
+			_file.addEventListener(Event.CANCEL, onSaveCancel);
+			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+	
+			_file.save(offsetsText, "offsets.txt");
+		}
+	}
+	
+	function onSaveComplete(_):Void
+	{
+		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
+		_file.removeEventListener(Event.CANCEL, onSaveCancel);
+		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+		_file = null;
+		FlxG.log.notice("Successfully saved OFFSETS FILE.");
+	}
+	
+	function onSaveCancel(_):Void
+	{
+		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
+		_file.removeEventListener(Event.CANCEL, onSaveCancel);
+		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+		_file = null;
+	}
+	
+	function onSaveError(_):Void
+	{
+		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
+		_file.removeEventListener(Event.CANCEL, onSaveCancel);
+		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
+		_file = null;
+		FlxG.log.error("Problem saving offsets file");
+	}*/
 }

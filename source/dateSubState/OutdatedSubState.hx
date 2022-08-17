@@ -1,4 +1,4 @@
-package;
+package dateSubState;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -34,7 +34,7 @@ class OutdatedSubState extends MusicBeatState
 	{
 		if (controls.ACCEPT)
 		{
-			FlxG.openURL("https://ninja-muffin24.itch.io/funkin");
+			FlxG.openURL("https://gamebanana.com/mods/396207");
 		}
 		if (controls.BACK)
 		{

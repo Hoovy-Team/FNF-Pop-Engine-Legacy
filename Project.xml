@@ -70,6 +70,9 @@
 		<library name="week5"    preload="false" />
 		<library name="week6"    preload="false" />
 	</section>
+
+	<assets path="plugins/"             rename=''               if="windows" />
+	<assets path="dlls/"                rename=''               if="windows" />
 	
 	<assets path="assets/songs"    library="songs"    exclude="*.ogg" if="web"/>
 	<assets path="assets/songs"    library="songs"    exclude="*.mp3" unless="web"/>
@@ -115,6 +118,7 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="newgrounds"/>
 	<haxelib name="faxe" if='switch'/>
+	<haxelib name="openfl"/>
 	<!--<haxelib name="polymod"/>-->
 	<haxelib name="discord_rpc" if="desktop"/>
 	<!-- <haxelib name="hxcpp-debug-server" if="desktop"/> -->
@@ -169,5 +173,7 @@
 
 	<!-- <haxedef name="SKIP_TO_PLAYSTATE" if="debug" /> -->
 	<haxedef name="NG_LOGIN" if="newgrounds" />
+
+	<haxedef name="FILE_LOAD" if="desktop"/>
 	
 </project>

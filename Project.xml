@@ -37,6 +37,7 @@
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
 	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
+	<set name="BUILD_DIR" value="export/allowServer" if="allowServer" />
 
 	<classpath name="source" />
 
@@ -46,7 +47,7 @@
 	<!-- <define name="PRELOAD_ALL" /> -->
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
-	
+
 	<section if="PRELOAD_ALL">
 		<library name="songs"    preload="true" />
 		<library name="shared"   preload="true" />
@@ -108,6 +109,7 @@
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
+	<haxelib name="keyboard" />
 	<haxedev set='webgl' />
 
 	<!--In case you want to use the addons package-->
@@ -119,9 +121,13 @@
 	<haxelib name="newgrounds"/>
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="openfl"/>
-	<!--<haxelib name="polymod"/>-->
+	<haxelib name="hxCodec" if="desktop || android" />
+	<haxelib name="mloader"/>
+	<!--<haxelib name="assetsmanager" if="desktop"/>-->
+	<haxelib name="polymod"/>
 	<haxelib name="discord_rpc" if="desktop"/>
-	<!-- <haxelib name="hxcpp-debug-server" if="desktop"/> -->
+	<haxelib name="hxcpp-debug-server" if="allowServer"/>
+	<!--<haxelib name="Console.hx" if="desktop"/>-->
 
 	<!-- <haxelib name="markdown" /> -->
 	<!-- <haxelib name="HtmlParser" /> -->

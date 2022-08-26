@@ -10,7 +10,7 @@ import flixel.util.FlxSave;
 
 class MiscSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Watermark', 'Exit'];
+	var textMenuItems:Array<String> = ['Watermark', 'Count down note', 'Health text', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -104,6 +104,20 @@ class MiscSubState extends MusicBeatSubstate
 						save.data.options.remove("Watermark");
 					}
 					trace("Watermark change");
+				case "Count down note":
+					if(!save.data.options.contains("Count down note")){
+						save.data.options.push("Count down note");
+					}else{
+						save.data.options.remove("Count down note");
+					}
+					trace("Count down note change");
+				case "Health text":
+					if(!save.data.options.contains("Health text")){
+						save.data.options.push("Health text");
+					}else{
+						save.data.options.remove("Health text");
+					}
+					trace("Health text change");
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new OptionsSubState());

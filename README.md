@@ -8,13 +8,26 @@ this engine have:
 - Downscroll
 - Accuracy
 - Controls change
-- FPS Cap (Cap to 160 FPS)
+- FPS Cap (Cap to 240 FPS)
 - Game setting
 - Watermark
 
 and more...
 
 Engine need to using source to mod!
+
+# Build
+
+install new haxelib
+
+```
+keyboard
+mloader
+```
+
+and git HxCodec (Not work the video?)
+
+`haxelib git hxCodec https://github.com/polybiusproxy/hxCodec.git`
 
 ## Credits
 
@@ -62,14 +75,18 @@ flixel-addons
 flixel-ui
 hscript
 newgrounds
+keyboard
+mloader
+polymod
 ```
 So for each of those type `haxelib install [library]` so shit like `haxelib install newgrounds`
+
+and type `haxelib install polymod 1.5.2` to install polymod
 
 You'll also need to install a couple things that involve Gits. To do this, you need to do a few things first.
 1. Download [git-scm](https://git-scm.com/downloads). Works for Windows, Mac, and Linux, just select your build.
 2. Follow instructions to install the application properly.
-3. Run `haxelib git polymod https://github.com/larsiusprime/polymod.git` to install Polymod.
-4. Run `haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc` to install Discord RPC.
+3. Run `haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc` to install Discord RPC.
 
 You should have everything ready for compiling the game! Follow the guide below to continue!
 

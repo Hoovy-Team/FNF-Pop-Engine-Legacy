@@ -1,4 +1,4 @@
-package options;
+package options.game;
 
 import Alphabet;
 import flixel.FlxG;
@@ -7,6 +7,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxSave;
+import lime.utils.Assets;
 
 class EarseDataSubState extends MusicBeatSubstate
 {
@@ -84,6 +85,8 @@ class EarseDataSubState extends MusicBeatSubstate
 				txt.color = FlxColor.YELLOW;
 			else if (txt.ID == 0)
 				txt.color = FlxColor.RED;
+			else if (txt.ID == 1)
+				txt.color = FlxColor.GREEN;
 			else
 				txt.color = FlxColor.WHITE;
 				
@@ -99,7 +102,18 @@ class EarseDataSubState extends MusicBeatSubstate
 		{
 			switch (textMenuItems[curSelected])
 			{
-				case "EARSE ALL DATA":
+				case "EARSE ALL DATA": //Finaly, done the earse data!!!!!!!!!!!!!!!!!!!!!
+					trace('are you sure?');
+					//Debug.displayAlert("THIS IS WILL BE EARSE ALL DATA YOU SET AND POINT!!!!!!!!!!!!");
+					save.data.options.remove("Time Bar");
+					save.data.options.remove("Accuracy");
+					save.data.options.remove("Downscroll");
+					save.data.options.remove("Ghost tap");
+					save.data.options.remove("Watermark");
+					save.data.options.remove("Kill One Miss");
+					save.data.options.remove("Hide Health Bar");
+					save.data.options.remove("Hide score info");
+					save.data.options.remove("Health Drain");
 					var save = new FlxSave();
 					save.flush();
 					sys.io.File.saveContent(Paths.txt('options/keybinds/left'), 'A');
@@ -108,6 +122,11 @@ class EarseDataSubState extends MusicBeatSubstate
 					sys.io.File.saveContent(Paths.txt('options/keybinds/right'), 'D');
 					FlxG.updateFramerate = 60;
 					FlxG.drawFramerate = 60;
+					//FlxG.updateFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
+					//FlxG.drawFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
+					trace('Earse all data done');
+					//Debug.displayAlert("EARSE AND RESET ALL DONE!");
+					//Sys.exit(0);
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new OptionsSubState());

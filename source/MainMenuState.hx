@@ -37,7 +37,7 @@ class MainMenuState extends MusicBeatState
 
 	var save = new FlxSave();
 
-	public static var engineVer:String = '0.0.2';
+	public static var engineVer:String = '0.0.3';
 
 	override function create()
 	{
@@ -109,6 +109,16 @@ class MainMenuState extends MusicBeatState
 		}
 
 		FlxG.camera.follow(camFollow, null, 0.06);
+
+		var language:FlxText = new FlxText(5, FlxG.height - 36, 0, "" +
+		if (save.data.options.contains("Vietnamese")){
+			"Ngôn ngữ: Việt";
+		}else{
+			"";
+		},12);
+		language.scrollFactor.set();
+		language.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(language);
 
 		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "v" + Application.current.meta.get('version') +
 		if (save.data.options.contains("Watermark")){

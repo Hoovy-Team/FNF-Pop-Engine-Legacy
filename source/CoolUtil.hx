@@ -32,6 +32,11 @@ class CoolUtil
 		return daThing;
 	}
 
+	inline public static function boundTo(value:Float, min:Float, max:Float):Float
+	{
+		return Math.max(min, Math.min(max, value));
+	}
+
 	public static function numberArray(max:Int, ?min = 0):Array<Int>
 	{
 		var dumbArray:Array<Int> = [];

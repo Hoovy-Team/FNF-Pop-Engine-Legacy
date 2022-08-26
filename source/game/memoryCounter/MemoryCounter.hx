@@ -1,5 +1,6 @@
 package game.memoryCounter;
 
+import flixel.math.FlxMath;
 import openfl.events.Event;
 import openfl.system.System;
 import openfl.text.TextField;

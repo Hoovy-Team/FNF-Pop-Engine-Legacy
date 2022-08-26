@@ -29,6 +29,7 @@ class FPSSubState extends FlxSubState
 	var fpsText:FlxText;
 
 	public static var MUSICBEATSTATE:MusicBeatState;
+	
 	public function new()
 	{
 		super();
@@ -102,7 +103,7 @@ class FPSSubState extends FlxSubState
 			}
 			fpsText.text = "FPS: " + Std.string(FPS);
 			if(MUSICBEATSTATE.controls.LEFT){
-				if(textMenuItems[curSelected] == "FPS" && FPS >= 50){
+				if(textMenuItems[curSelected] == "FPS" && FPS >= 59){
 					FPS -= 1;
 					sys.io.File.saveContent(Paths.txt('options/fps'), Std.string(FPS));
 					FlxG.updateFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
@@ -111,7 +112,7 @@ class FPSSubState extends FlxSubState
 				}
 			}
 			if(MUSICBEATSTATE.controls.RIGHT){
-				if(textMenuItems[curSelected] == "FPS" && FPS <= 179){
+				if(textMenuItems[curSelected] == "FPS" && FPS <= 239){
 					FPS += 1;
 					sys.io.File.saveContent(Paths.txt('options/fps'), Std.string(FPS));
 					FlxG.updateFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));

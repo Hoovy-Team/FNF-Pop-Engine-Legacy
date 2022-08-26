@@ -42,6 +42,7 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+import Note;
 
 using StringTools;
 
@@ -137,6 +138,15 @@ class PlayState extends MusicBeatState
 	private var timeBarBG:AttachedSprite;
 	public var timeBar:FlxBar;
 
+	var countDownNote:Int = 0;
+	var countDownNoteTxt:FlxText;
+
+	var nps:Int = 0;
+	var maxNPS:Int = 0;
+	var npsTxt:FlxText;
+
+	var healthTxt:FlxText;
+
 	// private var botplay:FlxText;
 
 	public static var campaignScore:Int = 0;
@@ -158,6 +168,8 @@ class PlayState extends MusicBeatState
 	#end
 
 	var save = new FlxSave();
+
+	var notesHitArray:Array<Date> = [];
 
 	override public function create()
 	{
@@ -838,6 +850,27 @@ class PlayState extends MusicBeatState
 			add(watermark);
 		}
 
+		if (save.data.options.contains("Count down note")){
+			countDownNoteTxt = new FlxText(5, FlxG.height - 36, 0, "", 12);
+			countDownNoteTxt.scrollFactor.set();
+			countDownNoteTxt.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			add(countDownNoteTxt);
+		}
+
+		if (save.data.options.contains("NPS Display")){
+			npsTxt = new FlxText(5, FlxG.height - 54, 0, "", 12);
+			npsTxt.scrollFactor.set();
+			npsTxt.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			add(npsTxt);
+		}
+
+		if (save.data.options.contains("Health text")){
+			healthTxt = new FlxText(5, FlxG.height - 72, 0, "", 12);
+			healthTxt.scrollFactor.set();
+			healthTxt.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			add(healthTxt);
+		}
+
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
@@ -852,6 +885,15 @@ class PlayState extends MusicBeatState
 			timeBar.cameras = [camHUD];
 			timeBarBG.cameras = [camHUD];
 			timeTxt.cameras = [camHUD];
+		}
+		if (save.data.options.contains("Count down note")){
+			countDownNoteTxt.cameras = [camHUD];
+		}
+		if (save.data.options.contains("NPS Display")){
+			npsTxt.cameras = [camHUD];
+		}
+		if (save.data.options.contains("Health text")){
+			healthTxt.cameras = [camHUD];
 		}
 		doof.cameras = [camHUD];
 
@@ -1443,17 +1485,16 @@ class PlayState extends MusicBeatState
 		}
 
 	function updateAccuracy()
+	{
+		totalPlayed += 1;
+		accuracy = totalNotesHit / totalPlayed * 100;
+		//trace(totalNotesHit + '/' + totalPlayed + '* 100 = ' + accuracy);
+		if (accuracy >= 100.00)
 		{
-
-			totalPlayed += 1;
-			accuracy = totalNotesHit / totalPlayed * 100;
-			//trace(totalNotesHit + '/' + totalPlayed + '* 100 = ' + accuracy);
-			if (accuracy >= 100.00)
-			{
-					accuracy = 100;
-			}
-		
+				accuracy = 100;
 		}
+	
+	}
 
 	function generateRanking():String //Code From Kade Engine 1.3.1
 		{
@@ -1549,22 +1590,38 @@ class PlayState extends MusicBeatState
 		perfectMode = false;
 		#end
 
-		/*if (FlxG.keys.justPressed.NINE)
+		if (FlxG.keys.justPressed.NINE)
 		{
 			if (iconP1.animation.curAnim.name == 'bf-old')
 				iconP1.animation.play(SONG.player1);
 			else
 				iconP1.animation.play('bf-old');
-		}*/
+		}
 
-		if (save.data.options.contains("Old BF Icon"))
+		{
+			var balls = notesHitArray.length - 1;
+			while (balls >= 0)
+			{
+				var cock:Date = notesHitArray[balls];
+				if (cock != null && cock.getTime() + 1000 < Date.now().getTime())
+					notesHitArray.remove(cock);
+				else
+					balls = 0;
+				balls--;
+			}
+			nps = notesHitArray.length;
+			if (nps > maxNPS)
+				maxNPS = nps;
+		}
+
+		/*if (save.data.options.contains("Old BF Icon"))
 		{
 			iconP1.animation.play('bf-old');
 		}
 		else
 		{
 			iconP1.animation.play(SONG.player1);
-		}
+		}*/
 
 		switch (curStage)
 		{
@@ -1593,7 +1650,17 @@ class PlayState extends MusicBeatState
 			scoreTxt.text = "Score: " + songScore;
 		}
 
+		if(save.data.options.contains("Count down note")){
+			countDownNoteTxt.text = "Count Down Note: " + countDownNote;
+		}
 
+		if(save.data.options.contains("NPS Display")){
+			npsTxt.text = "NPS: " + nps + " (Max: " + maxNPS + " )";
+		}
+
+		if(save.data.options.contains("Health text")){
+			healthTxt.text = "Health: " + health;
+		}
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
@@ -1627,12 +1694,14 @@ class PlayState extends MusicBeatState
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
 
-		iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.2)));
-		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.2)));
-
+		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		iconP1.scale.set(mult, mult);
 		iconP1.updateHitbox();
-		iconP2.updateHitbox();
 
+		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		iconP2.scale.set(mult, mult);
+		iconP2.updateHitbox();
+		
 		var iconOffset:Int = 26;
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
@@ -2071,6 +2140,11 @@ class PlayState extends MusicBeatState
 		{
 			trace('WENT BACK TO FREEPLAY??');
 			FlxG.switchState(new FreeplayState());
+			if (FlxG.sound.music != null)
+			{
+				if (!FlxG.sound.music.playing)
+					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+			}
 		}
 	}
 
@@ -2530,12 +2604,19 @@ class PlayState extends MusicBeatState
 
 	function goodNoteHit(note:Note):Void
 	{
+		if(!note.isSustainNote){
+			notesHitArray.unshift(Date.now());
+		}
+
 		if (!note.wasGoodHit)
 		{
 			if (!note.isSustainNote)
 			{
 				popUpScore(note.strumTime);
 				combo += 1;
+				if (save.data.options.contains("Count down note")){
+					countDownNote += 1;
+				}	
 			}
 			else
 				totalNotesHit += 1;
@@ -2723,8 +2804,8 @@ class PlayState extends MusicBeatState
 			camHUD.zoom += 0.03;
 		}
 
-		iconP1.setGraphicSize(Std.int(iconP1.width + 150));
-		iconP2.setGraphicSize(Std.int(iconP2.width + 150));
+		iconP1.setGraphicSize(Std.int(iconP1.width + 30));
+		iconP2.setGraphicSize(Std.int(iconP2.width + 30));
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();

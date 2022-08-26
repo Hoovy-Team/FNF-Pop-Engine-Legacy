@@ -9,7 +9,7 @@ import flixel.util.FlxColor;
 
 class OptionsSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Controls', 'Perfernces', 'Game Setting', 'Misc', 'FPS', 'Exit'];
+	var textMenuItems:Array<String> = ['Controls', 'Perfernces', 'Misc', 'FPS', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -74,6 +74,10 @@ class OptionsSubState extends MusicBeatSubstate
 
 			if (txt.ID == curSelected)
 				txt.color = FlxColor.YELLOW;
+			//else if (txt.ID == 4)
+			//	txt.color = FlxColor.RED;
+			else
+				txt.color = FlxColor.WHITE;
 		});
 
 		if (controls.ACCEPT)
@@ -92,12 +96,9 @@ class OptionsSubState extends MusicBeatSubstate
 				case "Misc":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new options.MiscSubState());
-				case "Game Setting":
+				/*case "EARSE":
 					FlxG.state.closeSubState();
-					FlxG.state.openSubState(new options.game.GameSettingSubState());
-				case "Check":
-					FlxG.state.closeSubState();
-					FlxG.state.openSubState(new options.game.CheckSubState());
+					FlxG.state.openSubState(new options.game.EarseDataSubState());*/
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.switchState(new MainMenuState());

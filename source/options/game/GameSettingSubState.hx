@@ -10,7 +10,7 @@ import flixel.util.FlxSave;
 
 class GameSettingSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Kill One Miss', 'Hide Health Bar', 'Hide score info', 'Health Drain', 'Old BF Icon', 'Exit'];
+	var textMenuItems:Array<String> = ['Kill One Miss', 'Hide Health Bar', 'Hide score info', 'Health Drain', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -125,16 +125,9 @@ class GameSettingSubState extends MusicBeatSubstate
 						save.data.options.remove("Health Drain");
 					}
 					trace("Health Drain change");
-				case "Old BF Icon":
-					if(!save.data.options.contains("Old BF Icon")){
-						save.data.options.push("Old BF Icon");
-					}else{
-						save.data.options.remove("Old BF Icon");
-					}
-					trace("Old BF Icon change");
 				case "Exit":
 					FlxG.state.closeSubState();
-					FlxG.state.openSubState(new OptionsSubState());
+					FlxG.switchState(new FreeplayState());
 			}
 		}
 	}

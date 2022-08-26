@@ -5,6 +5,9 @@ import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
+import haxe.Json;
+
+using StringTools;
 
 class Paths
 {
@@ -34,6 +37,60 @@ class Paths
 		}
 
 		return getPreloadPath(file);
+	}
+
+	/**
+	 * For a given key and library for an image, returns the corresponding BitmapData.
+	 		* We can probably move the cache handling here.
+	 * @param key 
+	 * @param library 
+	 * @return BitmapData
+	 */
+
+	static public function loadImage(key:String, ?library:String):FlxGraphic
+	{
+		var path = image(key, library);
+
+		#if FILE_LOAD
+		if (Caching.bitmapData != null)
+		{
+			if (Caching.bitmapData.exists(key))
+			{
+				// Get data from cache.
+				return Caching.bitmapData.get(key);
+			}
+		}
+		#end
+		if (OpenFlAssets.exists(path, IMAGE))
+		{
+			var bitmap = OpenFlAssets.getBitmapData(path);
+			return FlxGraphic.fromBitmapData(bitmap);
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	static public function loadJSON(key:String, ?library:String):Dynamic
+	{
+		var rawJson = OpenFlAssets.getText(Paths.json(key, library)).trim();
+
+		// Perform cleanup on files that have bad data at the end.
+		while (!rawJson.endsWith("}"))
+		{
+			rawJson = rawJson.substr(0, rawJson.length - 1);
+		}
+		try
+		{
+			// Attempt to parse and return the JSON data.
+			return Json.parse(rawJson);
+		}
+		catch (e)
+		{
+			trace('cant parsing json file');
+			return null;
+		}
 	}
 
 	static public function getLibraryPath(file:String, library = "preload")
@@ -111,35 +168,14 @@ class Paths
 		return getPath('images/$key.png', IMAGE, library);
 	}
 
-	static public function loadImage(key:String, ?library:String):FlxGraphic
-	{
-		var path = image(key, library);
-
-		#if FILE_LOAD
-		if (Caching.bitmapData != null)
-		{
-			if (Caching.bitmapData.exists(key))
-			{
-				return Caching.bitmapData.get(key);
-			}
-		}
-		#end
-
-		if (OpenFlAssets.exists(path, IMAGE))
-		{
-			var bitmap = OpenFlAssets.getBitmapData(path);
-			return FlxGraphic.fromBitmapData(bitmap);
-		}
-		else
-		{
-			trace('cant load image file');
-			return null;
-		}
-	}
-
 	inline static public function font(key:String)
 	{
 		return 'assets/fonts/$key';
+	}
+
+	inline static public function video(key:String)
+	{
+		return 'assets/videos/$key';
 	}
 
 	inline static public function getSparrowAtlas(key:String, ?library:String)

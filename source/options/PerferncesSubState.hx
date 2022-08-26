@@ -10,7 +10,7 @@ import flixel.util.FlxSave;
 
 class PerferncesSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Ghost tap', 'Downscroll', 'Accuracy', 'Time Bar', 'Exit'];
+	var textMenuItems:Array<String> = ['Ghost tap', 'Downscroll', 'Accuracy', 'Time Bar', 'NPS Display', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -29,7 +29,7 @@ class PerferncesSubState extends MusicBeatSubstate
 		selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
 		add(selector);
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Perfernces State" + " | " + "Press Enter to enable setting", 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Perfernces State | Press Enter to enable setting", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -125,6 +125,13 @@ class PerferncesSubState extends MusicBeatSubstate
 						save.data.options.remove("Time Bar");
 					}
 					trace("Time Bar change");
+				case "NPS Display":
+					if(!save.data.options.contains("NPS Display")){
+						save.data.options.push("NPS Display");
+					}else{
+						save.data.options.remove("NPS Display");
+					}
+					trace("NPS Display change");
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new OptionsSubState());

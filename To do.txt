@@ -1,3 +1,4 @@
 Add Note Skin (light skin)
 Add note glow options
-And more
+Add the sicks, goods, bad and shit gui
+Edit Chart State

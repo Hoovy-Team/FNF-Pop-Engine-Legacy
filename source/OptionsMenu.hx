@@ -11,6 +11,7 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import flixel.FlxSubState;
 
 class OptionsMenu extends MusicBeatState
 {
@@ -24,7 +25,7 @@ class OptionsMenu extends MusicBeatState
 	override function create()
 	{
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		controlsStrings = CoolUtil.coolTextFile(Paths.txt('controls'));
+		// controlsStrings = CoolUtil.coolTextFile(Paths.txt('controls'));
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
@@ -51,7 +52,7 @@ class OptionsMenu extends MusicBeatState
 
 		super.create();
 
-		openSubState(new options.OptionsSubState());
+		FlxG.state.openSubState(new options.OptionsSubState());
 	}
 
 	override function update(elapsed:Float)
@@ -76,6 +77,8 @@ class OptionsMenu extends MusicBeatState
 					changeSelection(1);
 			}
 		 */
+		// if (controls.BACK)
+		//	FlxG.switchState(new MainMenuState());
 	}
 
 	function waitingInput():Void
@@ -100,7 +103,7 @@ class OptionsMenu extends MusicBeatState
 	function changeSelection(change:Int = 0)
 	{
 		#if !switch
-		NGio.logEvent('Fresh');
+		// NGio.logEvent('Fresh');
 		#end
 
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);

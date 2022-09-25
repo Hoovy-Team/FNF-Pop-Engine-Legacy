@@ -1,0 +1,16 @@
+-main LoadDir
+-lib mloader
+-lib mconsole
+
+--next
+
+-main LoadDir
+-lib mloader
+-lib mconsole
+-debug
+
+--next
+
+-main LoadDir
+-lib mloader
+-lib mconsole

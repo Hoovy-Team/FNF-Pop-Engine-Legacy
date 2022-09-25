@@ -83,7 +83,7 @@ class NGio
 			/* They are NOT playing on newgrounds.com, no session id was found. We must start one manually, if we want to.
 			 * Note: This will cause a new browser window to pop up where they can log in to newgrounds
 			 */
-			NG.core.requestLogin(onNGLogin);
+			// NG.core.requestLogin(onNGLogin);
 		}
 	}
 
@@ -94,10 +94,10 @@ class NGio
 		FlxG.save.data.sessionId = NG.core.sessionId;
 		// FlxG.save.flush();
 		// Load medals then call onNGMedalFetch()
-		NG.core.requestMedals(onNGMedalFetch);
+		// NG.core.requestMedals(onNGMedalFetch);
 
 		// Load Scoreboards hten call onNGBoardsFetch()
-		NG.core.requestScoreBoards(onNGBoardsFetch);
+		// NG.core.requestScoreBoards(onNGBoardsFetch);
 
 		ngDataLoaded.dispatch();
 	}

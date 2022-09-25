@@ -9,9 +9,10 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
-import keyboard.Key;
-import keyboard.Keyboard;
+/*import keyboard.Key;
+import keyboard.Keyboard;*/
 import flixel.system.FlxSound;
+
 
 #if windows
 import Discord.DiscordClient;
@@ -189,14 +190,16 @@ class FreeplayState extends MusicBeatState
 
 		scoreText.text = "PERSONAL BEST:" + lerpScore;
 
-		Keyboard.onPress(Key.C, () -> {
+		if (FlxG.keys.justPressed.C) {
 			FlxG.state.openSubState(new options.game.GameSettingSubState());
-		});
+		}
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
 		var accepted = controls.ACCEPT;
-		var space = FlxG.keys.justPressed.SPACE;
+		var playMusic = FlxG.keys.justPressed.P;
+		// var openGameSetting = 
+		// var cP = FlxG.keys.justPressed.C;
 
 		if (upP)
 		{
@@ -215,6 +218,43 @@ class FreeplayState extends MusicBeatState
 		if (controls.BACK)
 		{
 			FlxG.switchState(new MainMenuState());
+		}
+
+		if (playMusic)
+		{
+			if(instPlaying != curSelected)
+			{
+				#if PRELOAD_ALL
+				destroyFreeplayVocals();
+				FlxG.sound.music.volume = 0;
+				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
+				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
+				if (PlayState.SONG.needsVoices)
+					vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
+				else
+					vocals = new FlxSound();
+
+				var songLowercase = StringTools.replace(songs[curSelected].songName, " ", "-").toLowerCase();
+				switch (songLowercase) {
+					case 'dad-battle': songLowercase = 'dadbattle';
+					case 'philly-nice': songLowercase = 'philly';
+					case 'winter-horrorland': songLowercase = 'winter-horrorland';
+				}
+				var songHighscore = StringTools.replace(songs[curSelected].songName, " ", "-");
+				switch (songHighscore) {
+					case 'Dad-Battle': songHighscore = 'Dadbattle';
+					case 'Philly-Nice': songHighscore = 'Philly';
+					case 'Winter-Horrorland': songHighscore = 'Winter-Horrorland';
+				}
+				FlxG.sound.list.add(vocals);
+				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.7);
+				vocals.play();
+				vocals.persist = true;
+				vocals.looped = true;
+				vocals.volume = 0.7;
+				instPlaying = curSelected;
+				#end
+			}
 		}
 
 		if (accepted)
@@ -246,28 +286,8 @@ class FreeplayState extends MusicBeatState
 			trace('CUR WEEK' + PlayState.storyWeek);
 			LoadingState.loadAndSwitchState(new PlayState());
 
-			destroyFreeplayVocals();
+			// destroyFreeplayVocals();
 		}
-		
-		#if PRELOAD_ALL
-		Keyboard.onPress(Key.V, () -> {
-			destroyFreeplayVocals();
-			var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
-			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
-			if (PlayState.SONG.needsVoices)
-				vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
-			else
-				vocals = new FlxSound();
-	
-			FlxG.sound.list.add(vocals);
-			FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.7);
-			vocals.play();
-			vocals.persist = true;
-			vocals.looped = true;
-			vocals.volume = 0.7;
-			instPlaying = curSelected;
-		});
-		#end
 	}
 
 	public static function destroyFreeplayVocals() {
@@ -338,10 +358,6 @@ class FreeplayState extends MusicBeatState
 		#if !switch
 		intendedScore = Highscore.getScore(songHighscore, curDifficulty);
 		// lerpScore = 0;
-		#end
-
-		#if PRELOAD_ALL
-		//FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
 		#end
 
 		var bullShit:Int = 0;

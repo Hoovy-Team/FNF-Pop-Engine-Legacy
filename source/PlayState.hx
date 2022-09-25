@@ -1,5 +1,7 @@
 package;
 
+import haxe.rtti.CType.Abstractdef;
+import flixel.addons.ui.FlxUI.NamedBool;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -81,6 +83,7 @@ class PlayState extends MusicBeatState
 
 	private var strumLineNotes:FlxTypedGroup<FlxSprite>;
 	private var playerStrums:FlxTypedGroup<FlxSprite>;
+	private var player2Strums:FlxTypedGroup<FlxSprite>;
 
 	private var camZooming:Bool = false;
 	private var curSong:String = "";
@@ -129,6 +132,7 @@ class PlayState extends MusicBeatState
 	private var totalNotesHit:Float = 0;
 	private var totalPlayed:Int = 0;
 	var watermark:FlxText;
+	var botplayTxt:FlxText;
 
 	var songPercent:Float = 0;
 
@@ -173,6 +177,8 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+		// keyShit();
+		
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
@@ -742,6 +748,7 @@ class PlayState extends MusicBeatState
 		add(strumLineNotes);
 
 		playerStrums = new FlxTypedGroup<FlxSprite>();
+		player2Strums = new FlxTypedGroup<FlxSprite>();
 
 		// startCountdown();
 
@@ -843,6 +850,13 @@ class PlayState extends MusicBeatState
 		}
 		add(scoreTxt);
 
+		if (save.data.options.contains("Botplay")){
+			botplayTxt = new FlxText(0, healthBarBG.y + 72, FlxG.width, "", 20);
+			botplayTxt.setFormat(Paths.font("vcr.ttf"), 40, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			botplayTxt.scrollFactor.set();
+			add(botplayTxt);	
+		}
+
 		if (save.data.options.contains("Watermark")){
 			watermark = new FlxText(5, FlxG.height - 18, 0, "Song: " + SONG.song + " " + (storyDifficulty == 2 ? "Hard" : storyDifficulty == 1 ? "Normal" : "Easy") +  " | Pop Engine: " + MainMenuState.engineVer, 12);
 			watermark.scrollFactor.set();
@@ -878,6 +892,9 @@ class PlayState extends MusicBeatState
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
+		if (save.data.options.contains("Botplay")){
+			botplayTxt.cameras = [camHUD];
+		}
 		if (save.data.options.contains("Watermark")){
 			watermark.cameras = [camHUD];
 		}
@@ -1373,6 +1390,10 @@ class PlayState extends MusicBeatState
 			{
 				playerStrums.add(babyArrow);
 			}
+			else
+			{
+				player2Strums.add(babyArrow);
+			}
 
 			babyArrow.animation.play('static');
 			babyArrow.x += 50;
@@ -1583,6 +1604,36 @@ class PlayState extends MusicBeatState
 	
 			return ranking;
 		}
+	private var strumming2:Array<Bool> = [false, false, false, false];
+
+	function sustain2(strum:Int, spr:FlxSprite, note:Note):Void
+		{
+			var length:Float = note.sustainLength;
+	
+			if (length > 0)
+			{
+				strumming2[strum] = true;
+			}
+	
+			var bps:Float = Conductor.bpm / 60;
+			var spb:Float = 1 / bps;
+	
+			if (!note.isSustainNote)
+			{
+				new FlxTimer().start(length == 0 ? 0.2 : (length / Conductor.crochet * spb) + 0.1, function(tmr:FlxTimer)
+				{
+					if (!strumming2[strum])
+					{
+						spr.animation.play("static", true);
+					}
+					else if (length > 0)
+					{
+						strumming2[strum] = false;
+						spr.animation.play("static", true);
+					}
+				});
+			}
+		}
 
 	override public function update(elapsed:Float)
 	{
@@ -1644,22 +1695,49 @@ class PlayState extends MusicBeatState
 		if(save.data.options.contains("Accuracy"))
 		{
 			scoreTxt.text = "Score: " + songScore + " | Misses: " + misses + " | Accuracy: " + truncateFloat(accuracy, 2) + "%" + " | " + generateRanking();
+			if(save.data.options.contains("Botplay"))
+			{
+				scoreTxt.text = "";
+			}
 		}
 		else
 		{
+			scoreTxt.visible = true;
 			scoreTxt.text = "Score: " + songScore;
+		}
+
+		if(save.data.options.contains("Botplay")){
+			botplayTxt.text = "BOTPLAY";
+			botplayTxt.visible = true;
+		}else{
+			botplayTxt.visible = false;
 		}
 
 		if(save.data.options.contains("Count down note")){
 			countDownNoteTxt.text = "Count Down Note: " + countDownNote;
+			if(save.data.options.contains("Botplay")){
+				countDownNoteTxt.visible = false;
+			}else{
+				countDownNoteTxt.visible = true;
+			}
 		}
 
 		if(save.data.options.contains("NPS Display")){
 			npsTxt.text = "NPS: " + nps + " (Max: " + maxNPS + " )";
+			if(save.data.options.contains("Botplay")){
+				npsTxt.visible = false;
+			}else{
+				npsTxt.visible = true;
+			}
 		}
 
 		if(save.data.options.contains("Health text")){
 			healthTxt.text = "Health: " + health;
+			if(save.data.options.contains("Botplay")){
+				healthTxt.visible = false;
+			}else{
+				healthTxt.visible = true;
+			}
 		}
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
@@ -1875,18 +1953,27 @@ class PlayState extends MusicBeatState
 		// better streaming of shit
 
 		// RESET = Quick Game Over Screen
-		if (controls.RESET)
-		{
-			health = 0;
-			trace("RESET = True");
+		if (save.data.options.contains("Reset Key")){
+			if (controls.RESET)
+			{
+				health = 0;
+				trace("RESET = True");
+			}
 		}
 
+		#if hack_power //ww
+		if (FlxG.keys.justPressed.H){
+			// trace('why user');
+			trace('user is cheating!');
+			health += 1;
+		}
+		#end
 		// CHEAT = brandon's a pussy
-		if (controls.CHEAT)
+		/*if (controls.CHEAT)
 		{
 			health += 1;
 			trace("User is cheating!");
-		}
+		}*/
 
 		if (health <= 0)
 		{
@@ -1995,10 +2082,81 @@ class PlayState extends MusicBeatState
 							}
 					}
 
+					player2Strums.forEach(function(spr:FlxSprite)
+					{
+						if (Math.abs(daNote.noteData) == spr.ID)
+						{
+							spr.animation.play('confirm');
+							sustain2(spr.ID, spr, daNote);
+						}
+					});
+
 					dad.holdTimer = 0;
 
 					if (SONG.needsVoices)
 						vocals.volume = 1;
+
+					daNote.kill();
+					notes.remove(daNote, true);
+					daNote.destroy();
+				}
+
+				if (daNote.canBeHit && save.data.options.contains("Botplay"))
+				{
+					// var note:Note;
+
+					if (daNote.y > FlxG.height)
+					{
+						daNote.active = false;
+						daNote.visible = false;
+					}
+					else
+					{
+						daNote.visible = true;
+						daNote.active = true;
+					}
+
+					daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed, 2)));
+
+					if (daNote.isSustainNote
+						&& daNote.y + daNote.offset.y <= strumLine.y + Note.swagWidth / 2
+						&& (!daNote.mustPress || (daNote.wasGoodHit || (daNote.prevNote.wasGoodHit && !daNote.canBeHit))))
+					{
+						var swagRect = new FlxRect(0, strumLine.y + Note.swagWidth / 2 - daNote.y, daNote.width * 2, daNote.height * 2);
+						swagRect.y /= daNote.scale.y;
+						swagRect.height -= swagRect.y;
+	
+						daNote.clipRect = swagRect;
+					}
+
+					switch (Math.abs(daNote.noteData))
+					{
+						case 0:
+							boyfriend.playAnim('singLEFT', true);
+						case 1:
+							boyfriend.playAnim('singDOWN', true);
+						case 2:
+							boyfriend.playAnim('singUP', true);
+						case 3:
+							boyfriend.playAnim('singRIGHT', true);
+					}
+
+					health += 0.023;
+		
+					// var backToStatic:Bool = false;
+					// var timer = new FlxTimer();
+
+					playerStrums.forEach(function(spr:FlxSprite)
+					{
+						if (Math.abs(daNote.noteData) == spr.ID)
+						{
+							spr.animation.play('confirm');
+							sustain2(spr.ID, spr, daNote);
+						}
+					});
+					// spr.animation.play('static');
+					daNote.active = false;
+					daNote.visible = false;
 
 					daNote.kill();
 					notes.remove(daNote, true);
@@ -2036,6 +2194,23 @@ class PlayState extends MusicBeatState
 					notes.remove(daNote, true);
 					daNote.destroy();
 				}
+
+				player2Strums.forEach(function(spr:FlxSprite)
+				{
+					if (strumming2[spr.ID])
+					{
+						spr.animation.play("confirm");
+					}
+	
+					if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
+					{
+						spr.centerOffsets();
+						spr.offset.x -= 13;
+						spr.offset.y -= 13;
+					}
+					else
+						spr.centerOffsets();
+				});
 			});
 		}
 
@@ -2534,8 +2709,13 @@ class PlayState extends MusicBeatState
 			}
 			combo = 0;
 
-			songScore -= 10;
-			misses++;
+			if (save.data.options.contains("Botplay")){
+				songScore = 0;
+				misses = 0;
+			}else{
+				songScore -= 10;
+				misses++;
+			}
 
 			if (save.data.options.contains("Kill One Miss")){
 				health -= 2;

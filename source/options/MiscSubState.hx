@@ -7,10 +7,11 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxSave;
+import flixel.FlxSubState;
 
 class MiscSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Watermark', 'Count down note', 'Health text', 'Exit'];
+	var textMenuItems:Array<String> = ['Watermark', 'Count down note', 'Health text', 'Botplay', 'Reset Key', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -118,6 +119,20 @@ class MiscSubState extends MusicBeatSubstate
 						save.data.options.remove("Health text");
 					}
 					trace("Health text change");
+				case "Botplay":
+					if(!save.data.options.contains("Botplay")){
+						save.data.options.push("Botplay");
+					}else{
+						save.data.options.remove("Botplay");
+					}
+					trace("Botplay change");
+				case "Reset Key":
+					if(!save.data.options.contains("Reset Key")){
+						save.data.options.push("Reset Key");
+					}else{
+						save.data.options.remove("Reset Key");
+					}
+					// trace("Botplay change");
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new OptionsSubState());

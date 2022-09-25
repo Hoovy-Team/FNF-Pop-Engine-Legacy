@@ -39,6 +39,8 @@
 	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
 	<set name="BUILD_DIR" value="export/allowServer" if="allowServer" />
 
+	<define name="hack_power" if="desktop"/> <!--Wow, this engine come with hacker power-->
+
 	<classpath name="source" />
 
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
@@ -109,7 +111,7 @@
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
-	<haxelib name="keyboard" />
+	<!--<haxelib name="keyboard" />-->
 	<haxedev set='webgl' />
 
 	<!--In case you want to use the addons package-->
@@ -121,9 +123,9 @@
 	<haxelib name="newgrounds"/>
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="openfl"/>
-	<haxelib name="hxCodec" if="desktop || android" />
+	<!--<haxelib name="hxCodec" if="desktop || android" />
 	<haxelib name="mloader"/>
-	<!--<haxelib name="assetsmanager" if="desktop"/>-->
+	<haxelib name="assetsmanager" if="desktop"/>-->
 	<haxelib name="polymod"/>
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="hxcpp-debug-server" if="allowServer"/>

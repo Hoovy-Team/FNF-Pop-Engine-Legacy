@@ -9,6 +9,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import flixel.FlxSubState;
 
 class FPSSubState extends FlxSubState
 {

@@ -21,6 +21,7 @@ class Note extends FlxSprite
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
+	public var isDeath:Bool = false;
 
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
@@ -35,7 +36,7 @@ class Note extends FlxSprite
 
 	var save = new FlxSave();
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?isDeath:Bool = false)
 	{
 		super();
 
@@ -53,6 +54,7 @@ class Note extends FlxSprite
 
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;
+		this.isDeath = isDeath;
 
 		x += 50;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?

@@ -9,10 +9,11 @@ import flixel.util.FlxColor;
 import Controls.Control;
 import MusicBeatState;
 import Controls;
+import flixel.FlxSubState;
 
 class ControlsSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Left', 'Down', 'Up', 'Right', 'Exit'];
+	var textMenuItems:Array<String> = ['Left', 'Down', 'Up', 'Right', 'Reset', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -126,6 +127,9 @@ class ControlsSubState extends MusicBeatSubstate
 						controls.setKeyboardScheme(Solo);
 					case "Right":
 						sys.io.File.saveContent(Paths.txt('options/keybinds/right'), FlxG.keys.getIsDown()[0].ID.toString());
+						controls.setKeyboardScheme(Solo);
+					case "Reset":
+						sys.io.File.saveContent(Paths.txt('options/keybinds/reset'), FlxG.keys.getIsDown()[0].ID.toString());
 						controls.setKeyboardScheme(Solo);
 				}
 			}

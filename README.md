@@ -23,7 +23,7 @@ Engine need to using source to mod!
 1. `8` Key For player 2 offset
 2. `9` Key For player 1 offset
 
-- Chart State have new stuff, please check it out!
+- Chart State have new stuff, please check it out! (Srr but there no)
 - Note glow from [ProjectFNF](https://github.com/aflacc/ProjectFNF)
 - Botplay its from [Xgen Engine](https://github.com/Twingamerdudes/XGen) (i change some stuff lol)
 

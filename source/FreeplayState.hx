@@ -115,7 +115,7 @@ class FreeplayState extends MusicBeatState
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
-		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
+		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "< " + curDifficulty + " >", 24);
 		diffText.font = scoreText.font;
 		add(diffText);
 
@@ -217,7 +217,13 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
+			FlxG.sound.music.stop();
 			FlxG.switchState(new MainMenuState());
+			if (FlxG.sound.music != null)
+			{
+				if (!FlxG.sound.music.playing)
+					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+			}
 		}
 
 		if (playMusic)

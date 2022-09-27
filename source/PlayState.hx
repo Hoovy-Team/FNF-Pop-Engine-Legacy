@@ -133,6 +133,7 @@ class PlayState extends MusicBeatState
 	private var totalPlayed:Int = 0;
 	var watermark:FlxText;
 	var botplayTxt:FlxText;
+	var moregui:FlxText;
 
 	var songPercent:Float = 0;
 
@@ -864,6 +865,13 @@ class PlayState extends MusicBeatState
 			add(watermark);
 		}
 
+		if (save.data.options.contains("More GUI")){
+			moregui = new FlxText(40, FlxG.height - 400, 0, "", 12);
+			moregui.scrollFactor.set();
+			moregui.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			add(moregui);
+		}
+
 		if (save.data.options.contains("Count down note")){
 			countDownNoteTxt = new FlxText(5, FlxG.height - 36, 0, "", 12);
 			countDownNoteTxt.scrollFactor.set();
@@ -894,6 +902,9 @@ class PlayState extends MusicBeatState
 		scoreTxt.cameras = [camHUD];
 		if (save.data.options.contains("Botplay")){
 			botplayTxt.cameras = [camHUD];
+		}
+		if (save.data.options.contains("More GUI")){
+			moregui.cameras = [camHUD];
 		}
 		if (save.data.options.contains("Watermark")){
 			watermark.cameras = [camHUD];
@@ -1531,6 +1542,8 @@ class PlayState extends MusicBeatState
 				ranking = "(FC)";
 			else if (misses >= 10 || (shits >= 10 || bads >= 10)) // Combo Breaks
 				ranking = "(CB)";
+			else if (save.data.options.contains("Botplay"))
+				ranking = "";
 			else
 				ranking = "(Clear)";
 	
@@ -1598,8 +1611,10 @@ class PlayState extends MusicBeatState
 					break;
 				}
 			}
-	
-			if (accuracy == 0)
+			if (save.data.options.contains("Botplay")){
+				ranking = "Botplay";
+			}
+			else if (accuracy == 0)
 				ranking = "N/A";
 	
 			return ranking;
@@ -1695,49 +1710,39 @@ class PlayState extends MusicBeatState
 		if(save.data.options.contains("Accuracy"))
 		{
 			scoreTxt.text = "Score: " + songScore + " | Misses: " + misses + " | Accuracy: " + truncateFloat(accuracy, 2) + "%" + " | " + generateRanking();
-			if(save.data.options.contains("Botplay"))
-			{
-				scoreTxt.text = "";
-			}
 		}
 		else
 		{
-			scoreTxt.visible = true;
+			// scoreTxt.visible = true;
 			scoreTxt.text = "Score: " + songScore;
 		}
 
 		if(save.data.options.contains("Botplay")){
 			botplayTxt.text = "BOTPLAY";
-			botplayTxt.visible = true;
-		}else{
-			botplayTxt.visible = false;
+			// botplayTxt.visible = true;
 		}
 
 		if(save.data.options.contains("Count down note")){
 			countDownNoteTxt.text = "Count Down Note: " + countDownNote;
-			if(save.data.options.contains("Botplay")){
-				countDownNoteTxt.visible = false;
-			}else{
-				countDownNoteTxt.visible = true;
-			}
 		}
 
 		if(save.data.options.contains("NPS Display")){
-			npsTxt.text = "NPS: " + nps + " (Max: " + maxNPS + " )";
-			if(save.data.options.contains("Botplay")){
-				npsTxt.visible = false;
-			}else{
-				npsTxt.visible = true;
-			}
+			npsTxt.text = "NPS: " + nps + " (Max: " + maxNPS + ")";
 		}
 
 		if(save.data.options.contains("Health text")){
 			healthTxt.text = "Health: " + health;
-			if(save.data.options.contains("Botplay")){
-				healthTxt.visible = false;
-			}else{
-				healthTxt.visible = true;
-			}
+		}
+		
+		if(save.data.options.contains("More GUI")){
+			moregui.text = 
+				"Sicks: " + sicks +
+				"\n" +
+				"\nGood: " + goods +
+				"\n" +
+				"\nBad: " + bads +
+				"\n" +
+				"\nShit: " + shits;
 		}
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
@@ -2081,15 +2086,16 @@ class PlayState extends MusicBeatState
 								health -= 0;
 							}
 					}
-
-					player2Strums.forEach(function(spr:FlxSprite)
-					{
-						if (Math.abs(daNote.noteData) == spr.ID)
-						{
-							spr.animation.play('confirm');
-							sustain2(spr.ID, spr, daNote);
-						}
-					});
+					if (save.data.options.contains("Note Glow")){
+						player2Strums.forEach(function(spr:FlxSprite)
+							{
+								if (Math.abs(daNote.noteData) == spr.ID)
+								{
+									spr.animation.play('confirm');
+									sustain2(spr.ID, spr, daNote);
+								}
+							});
+					}
 
 					dad.holdTimer = 0;
 
@@ -2250,6 +2256,13 @@ class PlayState extends MusicBeatState
 			#end
 		}
 
+		sicks = 0;
+		goods = 0;
+		bads = 0;
+		shits = 0;
+
+		trace("END SONG");
+
 		if (isStoryMode)
 		{
 			campaignScore += songScore;
@@ -2313,7 +2326,8 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			trace('WENT BACK TO FREEPLAY??');
+			// trace('WENT BACK TO FREEPLAY??');
+			FlxG.sound.music.stop();
 			FlxG.switchState(new FreeplayState());
 			if (FlxG.sound.music != null)
 			{

@@ -29,6 +29,7 @@ import lime.app.Application;
 import flixel.util.FlxSave;
 import openfl.Assets;
 import Options;
+import WarmVar;
 
 using StringTools;
 
@@ -314,14 +315,23 @@ class TitleState extends MusicBeatState
 							dateSubState.OutdatedSubState.needVer = data;
 							FlxG.switchState(new dateSubState.OutdatedSubState());
 						}
-						else if (save.data.options.contains("Skip Check Version"))
-						{
-							FlxG.switchState(new MainMenuState());
-						}
 						else
 						{
 							FlxG.switchState(new MainMenuState());
 						}
+
+						#if x86_system
+						if (WarmVar.warmFirst == true){
+							trace('x86 computer, go to warm');
+							FlxG.switchState(new WarmSubState());
+						}
+						else if (WarmVar.warmFirst == false){
+							FlxG.switchState(new MainMenuState());							
+						}
+						else{
+							FlxG.switchState(new MainMenuState());
+						}
+						#end
 					}
 					
 					http.request();

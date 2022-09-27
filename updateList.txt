@@ -1,3 +1,13 @@
+0.0.5:
+- Fixed Botplay crash when disable
+- Fixed Left arrow when Press this
+- Disable Hide Count Down Note, Health Text, NPS and Score Text (For good)
+- Add Setting Note glow
+- Add Sicks, good, bad and shit gui (Options as More gui)
+- Fixed After finish Song in Freeplay not play "FreakyMenu"
+- Change Botplay Text in Score Text
+- x86 System now working (only the source)
+
 0.0.4:
 - Add reset key
 - Add reset change key

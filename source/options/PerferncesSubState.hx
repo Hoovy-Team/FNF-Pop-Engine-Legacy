@@ -11,7 +11,7 @@ import flixel.FlxSubState;
 
 class PerferncesSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Ghost tap', 'Downscroll', 'Accuracy', 'Time Bar', 'NPS Display', 'Exit'];
+	var textMenuItems:Array<String> = ['Ghost tap', 'Downscroll', 'Accuracy', 'Time Bar', 'NPS Display', 'Note Glow', 'More GUI', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -133,6 +133,20 @@ class PerferncesSubState extends MusicBeatSubstate
 						save.data.options.remove("NPS Display");
 					}
 					trace("NPS Display change");
+				case "Note Glow":
+					if(!save.data.options.contains("Note Glow")){
+						save.data.options.push("Note Glow");
+					}else{
+						save.data.options.remove("Note Glow");
+					}
+					trace("Note Glow change");
+				case "More GUI":
+					if(!save.data.options.contains("More GUI")){
+						save.data.options.push("More GUI");
+					}else{
+						save.data.options.remove("More GUI");
+					}
+					trace("More GUI change");
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new OptionsSubState());

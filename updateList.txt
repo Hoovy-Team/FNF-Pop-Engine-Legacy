@@ -1,3 +1,20 @@
+0.0.6:
+- Pop Up in Botplay Mode will like normall play
+- NPS in Botplay Mode will like normall play
+- Count down note in Botplay Mode will like normall play
+- Score in Botplay Mode will Gain Up too (score +100)
+- Fixed Swap Icon in Chart State
+- Fixed Mouse when back Play State from Chart State
+- Change text from 'Memory Leak' to 'Memory Peak'
+- Fixed when Press Esc in Freeplay Mode
+- Upgrade Again FPS in '240' to '360'
+- Fix FPS when less on 60
+- Now Change Package name
+- Now Change File Game
+- Add Credits State
+- Remove Botplay text
+- Add Text in all Options
+
 0.0.5:
 - Fixed Botplay crash when disable
 - Fixed Left arrow when Press this

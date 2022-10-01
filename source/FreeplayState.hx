@@ -12,9 +12,11 @@ import lime.utils.Assets;
 /*import keyboard.Key;
 import keyboard.Keyboard;*/
 import flixel.system.FlxSound;
+import PlayState;
+import flixel.util.FlxTimer;
+import sys.FileSystem;
 
-
-#if windows
+#if desktop
 import Discord.DiscordClient;
 #end
 
@@ -32,6 +34,7 @@ class FreeplayState extends MusicBeatState
 	var diffText:FlxText;
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
+	// var timeText:FlxText;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
@@ -39,6 +42,9 @@ class FreeplayState extends MusicBeatState
 	private var iconArray:Array<HealthIcon> = [];
 	var instPlaying:Int = -1;
 	private static var vocals:FlxSound = null;
+	var versionShit:FlxText;
+
+	// var minutesRemaining:Int = Math.floor(Float = 60);
 
 	override function create()
 	{
@@ -58,10 +64,10 @@ class FreeplayState extends MusicBeatState
 		}
 		 
 
-		 #if windows
-		 // Updating Discord Rich Presence
-		 DiscordClient.changePresence("In the Freeplay Menu", null);
-		 #end
+		#if desktop
+		// Updating Discord Rich Presence
+		DiscordClient.changePresence("In the Freeplay Menu", null);
+		#end
 
 		var isDebug:Bool = false;
 
@@ -73,10 +79,11 @@ class FreeplayState extends MusicBeatState
 
 		// LOAD CHARACTERS
 
-		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
-		textBG.alpha = 0.6;
-		add(textBG);
-		var versionShit:FlxText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, "Press C to open Game Setting | Press V to listen songs | Press Enter or Space to play this songs", 18);
+		// var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
+		// textBG.alpha = 0.6;
+		// add(textBG);
+		// 
+		versionShit = new FlxText(5, FlxG.height - 18, 0, "", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -115,10 +122,13 @@ class FreeplayState extends MusicBeatState
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
-		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "< " + curDifficulty + " >", 24);
+		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
 		diffText.font = scoreText.font;
 		add(diffText);
 
+		// timeText = new FlxText(scoreText.x, scoreText.y + 54, 0, "", 24);
+		// timeText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, RIGHT);
+		// add(timeText);
 		add(scoreText);
 
 		changeSelection();
@@ -178,6 +188,8 @@ class FreeplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		versionShit.text = "Press P to Listen Music | Press Enter to play | Press C to Open Game Setting";
+
 		if (FlxG.sound.music.volume < 0.7)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
@@ -188,7 +200,9 @@ class FreeplayState extends MusicBeatState
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;
 
-		scoreText.text = "PERSONAL BEST:" + lerpScore;
+		scoreText.text = "Personal Best:" + lerpScore;
+
+		// diffText.text = "Mode: " + CoolUtil.difficultyArray;
 
 		if (FlxG.keys.justPressed.C) {
 			FlxG.state.openSubState(new options.game.GameSettingSubState());
@@ -217,7 +231,7 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.sound.music.stop();
+			// FlxG.sound.music.stop();
 			FlxG.switchState(new MainMenuState());
 			if (FlxG.sound.music != null)
 			{
@@ -292,7 +306,7 @@ class FreeplayState extends MusicBeatState
 			trace('CUR WEEK' + PlayState.storyWeek);
 			LoadingState.loadAndSwitchState(new PlayState());
 
-			// destroyFreeplayVocals();
+			destroyFreeplayVocals();
 		}
 	}
 
@@ -306,6 +320,9 @@ class FreeplayState extends MusicBeatState
 
 	function changeDiff(change:Int = 0)
 	{
+		// var curTime:Float = FlxG.sound.music.time;
+		// timeText.text = 'Time: ' + minutesRemaining + ' Minutes';
+
 		curDifficulty += change;
 
 		if (curDifficulty < 0)

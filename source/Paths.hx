@@ -175,6 +175,11 @@ class Paths
 		return 'assets/fonts/$key';
 	}
 
+	inline static public function ttffont(key:String)
+	{
+		return 'assets/fonts/$key.ttf';
+	}
+
 	inline static public function video(key:String)
 	{
 		return 'assets/videos/$key';

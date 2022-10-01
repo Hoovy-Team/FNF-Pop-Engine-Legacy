@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin' Pop Engine" file="Funkin" packageName="com.ninjamuffin99.funkin" package="com.ninjamuffin99.funkin" main="Main" version="0.2.7.1" company="ninjamuffin99" />
+	<app title="Friday Night Funkin' Pop Engine" file="PopEngine" packageName="com.huy1234th.popEngine" package="com.huy1234th.popEngine" main="Main" version="0.2.7.1" company="huy1234th" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -40,7 +40,7 @@
 	<set name="BUILD_DIR" value="export/allowServer" if="allowServer" />
 
 	<define name="hack_power" if="desktop"/> <!--Wow, this engine come with hacker power-->
-	<define name="x86_system" if="desktop"/> 
+	<define name="x86_system" if="desktop"/> <!-- For x86 computer-->
 
 	<classpath name="source" />
 

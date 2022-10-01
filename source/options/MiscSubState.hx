@@ -19,6 +19,7 @@ class MiscSubState extends MusicBeatSubstate
 	var grpOptionsTexts:FlxTypedGroup<Alphabet>;
 
 	var save = new FlxSave();
+	var textOptions:FlxText;
 
 	public function new()
 	{
@@ -29,11 +30,6 @@ class MiscSubState extends MusicBeatSubstate
 
 		selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
 		add(selector);
-
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Misc State" + " | " + "Press Enter to enable setting", 12);
-		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(versionShit);
 
 		save.bind("Options");
 		try{
@@ -57,6 +53,25 @@ class MiscSubState extends MusicBeatSubstate
 				if (txt.ID != 0)
 					txt.alpha = 0.6;
 			});
+
+		optionsText();
+		textHint();
+	}
+
+	function optionsText() 
+	{
+		textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "", 35);
+		textOptions.scrollFactor.set();
+		textOptions.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(textOptions);			
+	}
+
+	function textHint() 
+	{
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Misc State" + " | " + "Press Enter to enable setting", 12);
+		versionShit.scrollFactor.set();
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
 	}
 
 	override function update(elapsed:Float)
@@ -152,6 +167,21 @@ class MiscSubState extends MusicBeatSubstate
 			else if (curSelected >= textMenuItems.length)
 				curSelected = 0;
 	
+			switch (textMenuItems[curSelected]){
+				case "Watermark":
+					textOptions.text = "Disable or Enable\nPop Engine Watermark";
+				case "Count down note":
+					textOptions.text = "Display Count Down Note text";
+				case "Health text":
+					textOptions.text = "Display Health text";
+				case "Botplay":
+					textOptions.text = "This will help you\nshowcase your chart";
+				case "Reset Key":
+					textOptions.text = "Press reset key to\nquick dead";
+				case "Exit":
+					textOptions.text = "Return Options Menu";
+			}
+
 			var stuff:Int = 0;
 	
 			for (item in grpOptionsTexts.members)

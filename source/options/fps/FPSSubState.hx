@@ -10,6 +10,8 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
 import flixel.FlxSubState;
+import flixel.util.FlxSave;
+import Options;
 
 class FPSSubState extends FlxSubState
 {
@@ -104,7 +106,7 @@ class FPSSubState extends FlxSubState
 			}
 			fpsText.text = "FPS: " + Std.string(FPS);
 			if(MUSICBEATSTATE.controls.LEFT){
-				if(textMenuItems[curSelected] == "FPS" && FPS >= 59){
+				if(textMenuItems[curSelected] == "FPS" && FPS >= 61){
 					FPS -= 1;
 					sys.io.File.saveContent(Paths.txt('options/fps'), Std.string(FPS));
 					FlxG.updateFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
@@ -113,7 +115,7 @@ class FPSSubState extends FlxSubState
 				}
 			}
 			if(MUSICBEATSTATE.controls.RIGHT){
-				if(textMenuItems[curSelected] == "FPS" && FPS <= 239){
+				if(textMenuItems[curSelected] == "FPS" && FPS <= 359){
 					FPS += 1;
 					sys.io.File.saveContent(Paths.txt('options/fps'), Std.string(FPS));
 					FlxG.updateFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));

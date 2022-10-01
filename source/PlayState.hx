@@ -134,6 +134,7 @@ class PlayState extends MusicBeatState
 	var watermark:FlxText;
 	var botplayTxt:FlxText;
 	var moregui:FlxText;
+	var shitGUI:FlxText;
 
 	var songPercent:Float = 0;
 
@@ -179,7 +180,8 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 		// keyShit();
-		
+		FlxG.mouse.visible = false;
+
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
@@ -870,6 +872,11 @@ class PlayState extends MusicBeatState
 			moregui.scrollFactor.set();
 			moregui.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			add(moregui);
+
+			shitGUI = new FlxText(40, moregui.y - 400, 0, "", 12);
+			shitGUI.scrollFactor.set();
+			shitGUI.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			add(shitGUI);
 		}
 
 		if (save.data.options.contains("Count down note")){
@@ -905,6 +912,7 @@ class PlayState extends MusicBeatState
 		}
 		if (save.data.options.contains("More GUI")){
 			moregui.cameras = [camHUD];
+			shitGUI.cameras = [camHUD];
 		}
 		if (save.data.options.contains("Watermark")){
 			watermark.cameras = [camHUD];
@@ -1742,7 +1750,12 @@ class PlayState extends MusicBeatState
 				"\n" +
 				"\nBad: " + bads +
 				"\n" +
-				"\nShit: " + shits;
+				"\nShits: " + shits;
+			// shitGUI.text =
+		}
+
+		if (health > 2.023){
+			health = 2; //Fix max health
 		}
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
@@ -2148,6 +2161,15 @@ class PlayState extends MusicBeatState
 					}
 
 					health += 0.023;
+					if (!daNote.isSustainNote)
+					{
+						popUpScore(daNote.strumTime);
+						combo += 1;
+						if (save.data.options.contains("Count down note")){
+							countDownNote += 1;
+						}
+						notesHitArray.unshift(Date.now());
+					}	
 		
 					// var backToStatic:Bool = false;
 					// var timer = new FlxTimer();
@@ -2261,6 +2283,10 @@ class PlayState extends MusicBeatState
 		bads = 0;
 		shits = 0;
 
+		if (save.data.options.contains("Botplay")){
+			songScore = 0;
+		}
+
 		trace("END SONG");
 
 		if (isStoryMode)
@@ -2367,7 +2393,12 @@ class PlayState extends MusicBeatState
 					totalNotesHit += 1;
 				}
 				score = 50;
-				shits++;
+				if (save.data.options.contains("Botplay")){
+					shits = 0;
+				}
+				else{
+					shits++;
+				}
 			}
 		else if (noteDiff > Conductor.safeZoneOffset * Conductor.badZone)
 			{
@@ -2379,7 +2410,11 @@ class PlayState extends MusicBeatState
 				else {
 					totalNotesHit += 1;
 				}
-				bads++;
+				if (save.data.options.contains("Botplay")){
+					bads = 0;
+				}else{
+					bads++;
+				}
 			}
 		else if (noteDiff > Conductor.safeZoneOffset * Conductor.goodZone)
 			{
@@ -2391,12 +2426,20 @@ class PlayState extends MusicBeatState
 					totalNotesHit += 1;
 				}
 				score = 200;
-				goods++;
+				if (save.data.options.contains("Botplay")){
+					goods = 0;
+				}else{
+					goods++;
+				}
 			}
 		if (daRating == 'sick')
 			totalNotesHit += 1;
 			score = 500;
-			sicks++;
+			if (save.data.options.contains("Botplay")){
+				sicks = 0;
+			}else{
+				sicks++;
+			}
 
 		songScore += score;
 
@@ -2421,6 +2464,9 @@ class PlayState extends MusicBeatState
 		rating.screenCenter();
 		rating.x = coolText.x - 40;
 		rating.y -= 60;
+		if (save.data.options.contains("Botplay")){
+			rating.visible = true;
+		}
 		rating.acceleration.y = 550;
 		rating.velocity.y -= FlxG.random.int(140, 175);
 		rating.velocity.x -= FlxG.random.int(0, 10);
@@ -2428,9 +2474,11 @@ class PlayState extends MusicBeatState
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
 		comboSpr.screenCenter();
 		comboSpr.x = coolText.x;
+		if (save.data.options.contains("Botplay")){
+			comboSpr.visible = true;
+		}
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
-
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
 		add(rating);
 

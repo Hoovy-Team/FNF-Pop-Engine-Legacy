@@ -37,7 +37,10 @@ class MainMenuState extends MusicBeatState
 
 	var save = new FlxSave();
 
-	public static var engineVer:String = '0.0.5';
+	public static var engineVer:String = "0.0.6";
+
+	var updateList:FlxText;
+	var creditsText:FlxText;
 
 	override function create()
 	{
@@ -110,6 +113,18 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0.06);
 
+		// NG.core.calls.event.logEvent('swag').send();
+
+		changeItem();
+		textShow();
+
+		super.create();
+	}
+
+	var selectedSomethin:Bool = false;
+
+	function textShow() 
+	{
 		var language:FlxText = new FlxText(5, FlxG.height - 36, 0, "" +
 		if (save.data.options.contains("Vietnamese")){
 			"Ngôn ngữ: Việt";
@@ -120,6 +135,18 @@ class MainMenuState extends MusicBeatState
 		language.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(language);
 
+		#if debug
+		updateList = new FlxText(5, FlxG.height - 36, 0, "Press U to see the Update List", 12);
+		updateList.scrollFactor.set();
+		updateList.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(updateList);
+		#end
+
+		creditsText = new FlxText(5, FlxG.height - 36, 0, "Press C to see the Credits", 12);
+		creditsText.scrollFactor.set();
+		creditsText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(creditsText);
+
 		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "v" + Application.current.meta.get('version') +
 		if (save.data.options.contains("Watermark")){
 		" | Pop Engine: " + engineVer;
@@ -129,15 +156,7 @@ class MainMenuState extends MusicBeatState
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-
-		// NG.core.calls.event.logEvent('swag').send();
-
-		changeItem();
-
-		super.create();
 	}
-
-	var selectedSomethin:Bool = false;
 
 	override function update(elapsed:Float)
 	{
@@ -159,7 +178,16 @@ class MainMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
 			}
-
+			#if debug
+			if (FlxG.keys.justPressed.U){
+				FlxTransitionableState.skipNextTransIn = true;
+				FlxTransitionableState.skipNextTransOut = true;
+				FlxG.switchState(new ListUpdateState());
+			}
+			#end
+			if (FlxG.keys.justPressed.C){
+				FlxG.switchState(new CreditsState());
+			}
 			if (controls.BACK)
 			{
 				FlxG.switchState(new TitleState());

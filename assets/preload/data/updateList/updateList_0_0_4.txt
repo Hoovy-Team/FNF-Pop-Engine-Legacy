@@ -1,0 +1,8 @@
+0.0.4:
+- Add reset key
+- Add reset change key
+- Add Botplay
+- Add Note glow (will have turn on 
+and off in next version)
+- Add listen music in 
+Freeplay Mode (Press P to play)

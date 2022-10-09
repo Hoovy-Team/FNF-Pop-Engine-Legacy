@@ -11,6 +11,7 @@ import openfl.display._internal.stats.DrawCallContext;
 #if flash
 import openfl.Lib;
 #end
+import flixel.text.FlxText;
 
 /**
 	The FPS class provides an easy-to-use monitor to display
@@ -42,6 +43,7 @@ class FPS extends TextField
 		selectable = false;
 		mouseEnabled = false;
 		defaultTextFormat = new TextFormat("_sans", 12, color);
+		// defaultTextFormat.setFormat(Paths.font("vcr.ttf"), 12, color);
 		text = "FPS: ";
 
 		cacheCount = 0;

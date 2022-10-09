@@ -38,7 +38,7 @@ class MemoryCounter extends TextField
 
 		if (visible)
 		{
-			text = "\nMemory: " + mem + " MB\nMemory Leak: " + memPeak + " MB";
+			text = "\nMemory: " + mem + " MB\nMemory Peak: " + memPeak + " MB";
 		}
 	}
 }

@@ -13,7 +13,7 @@ import flixel.util.FlxColor;
 import lime.utils.Assets;
 import flixel.FlxSubState;
 
-class OptionsMenu extends MusicBeatState
+class ListUpdateState extends MusicBeatState
 {
 	var selector:FlxText;
 	var curSelected:Int = 0;
@@ -52,9 +52,7 @@ class OptionsMenu extends MusicBeatState
 
 		super.create();
 
-		// options.OptionsText.text();
-
-		FlxG.state.openSubState(new options.OptionsSubState());
+		FlxG.state.openSubState(new listUpdate.ListSubStateUpdate());
 	}
 
 	override function update(elapsed:Float)

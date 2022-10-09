@@ -31,8 +31,6 @@ Engine need to using source to mod!
 
 Using [Setup.bat](https://gamebanana.com/tuts/13798)
 
-While install, dont using git to install polymod, using this `haxelib install polymod 1.5.2` and the file in polymod-fix folder instead!
-
 ## Credits
 
 - [Huy1234th (me!)](https://gamebanana.com/members/1965608) - Coder and stuff by me

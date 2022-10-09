@@ -1,3 +1,20 @@
+0.0.6:
+- Combo in Botplay Mode will like normall play
+- NPS in Botplay Mode will like normall play
+- Count down note in Botplay Mode will like normall play
+- Change text from 'Memory Leak' to 'Memory Peak'
+- Fixed when Press Esc in Freeplay Mode
+- Upgrade Again FPS in '240' to '360'
+- Fix FPS when less on 60
+- Now Change Package name
+- Now Change File Game
+- Add Credits State
+- Remove Botplay text because i already add it
+- Add Text in all Options
+- NGio File has Disable
+- Remove Red Select all Options Menu
+- change to be og songs for 'dad battle', 'philly nice' and more...
+
 0.0.5:
 - Fixed Botplay crash when disable
 - Fixed Left arrow when Press this

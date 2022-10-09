@@ -2,6 +2,8 @@ package;
 
 import flixel.FlxG;
 import flixel.util.FlxSave;
+import Main;
+import openfl.Lib;
 
 class Options
 {
@@ -19,5 +21,9 @@ class Options
 		}catch(e){
 			trace("not work");
 		}
+
+		// (cast (Lib.current.getChildAt(0), Main)).toggleFPS(save.data.options.contains("FPS Counter"));
+
+		// (cast (Lib.current.getChildAt(0), Main)).toggleMem(save.data.options.contains("Memory Counter"));
 	}
 }

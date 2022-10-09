@@ -149,6 +149,7 @@ class Paths
 			switch (songLowercase) {
 				case 'dad-battle': songLowercase = 'dadbattle';
 				case 'philly-nice': songLowercase = 'philly';
+				case 'satin-panties': songLowercase = 'satin-panties';
 				case 'winter-horrorland': songLowercase = 'winter-horrorland';
 			}
 		return 'songs:assets/songs/${songLowercase}/Voices.$SOUND_EXT';
@@ -160,6 +161,7 @@ class Paths
 			switch (songLowercase) {
 				case 'dad-battle': songLowercase = 'dadbattle';
 				case 'philly-nice': songLowercase = 'philly';
+				case 'satin-panties': songLowercase = 'satin-panties';
 				case 'winter-horrorland': songLowercase = 'winter-horrorland';
 			}
 		return 'songs:assets/songs/${songLowercase}/Inst.$SOUND_EXT';
@@ -173,6 +175,11 @@ class Paths
 	inline static public function font(key:String)
 	{
 		return 'assets/fonts/$key';
+	}
+
+	inline static public function ttffont(key:String)
+	{
+		return 'assets/fonts/$key.ttf';
 	}
 
 	inline static public function video(key:String)

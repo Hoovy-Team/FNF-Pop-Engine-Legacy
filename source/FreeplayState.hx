@@ -43,6 +43,7 @@ class FreeplayState extends MusicBeatState
 	var instPlaying:Int = -1;
 	private static var vocals:FlxSound = null;
 	var versionShit:FlxText;
+	var playSong:Bool = false;
 
 	// var minutesRemaining:Int = Math.floor(Float = 60);
 
@@ -231,13 +232,23 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			// FlxG.sound.music.stop();
-			FlxG.switchState(new MainMenuState());
-			if (FlxG.sound.music != null)
+			playSong = false;
+			if (playSong = false){
+				FlxG.sound.music.stop();
+				if (FlxG.sound.music != null)
+				{
+					if (!FlxG.sound.music.playing)
+						FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				}
+			}else if (FlxG.sound.music != null)
 			{
 				if (!FlxG.sound.music.playing)
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			}
+			
+			// FlxG.sound.music.stop();
+			destroyFreeplayVocals();
+			FlxG.switchState(new MainMenuState());
 		}
 
 		if (playMusic)
@@ -258,12 +269,14 @@ class FreeplayState extends MusicBeatState
 				switch (songLowercase) {
 					case 'dad-battle': songLowercase = 'dadbattle';
 					case 'philly-nice': songLowercase = 'philly';
+					case 'satin-panties': songLowercase = 'satin-panties';
 					case 'winter-horrorland': songLowercase = 'winter-horrorland';
 				}
 				var songHighscore = StringTools.replace(songs[curSelected].songName, " ", "-");
 				switch (songHighscore) {
 					case 'Dad-Battle': songHighscore = 'Dadbattle';
 					case 'Philly-Nice': songHighscore = 'Philly';
+					case 'satin-panties': songLowercase = 'satin-panties';
 					case 'Winter-Horrorland': songHighscore = 'Winter-Horrorland';
 				}
 				FlxG.sound.list.add(vocals);
@@ -310,7 +323,8 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 
-	public static function destroyFreeplayVocals() {
+	public function destroyFreeplayVocals() {
+		playSong = true;
 		if(vocals != null) {
 			vocals.stop();
 			vocals.destroy();

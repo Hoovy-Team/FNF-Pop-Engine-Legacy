@@ -8,6 +8,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxSave;
 import flixel.FlxSubState;
+import OptionsMenu;
 
 class MiscSubState extends MusicBeatSubstate
 {
@@ -28,8 +29,8 @@ class MiscSubState extends MusicBeatSubstate
 		grpOptionsTexts = new FlxTypedGroup<Alphabet>();
 		add(grpOptionsTexts);
 
-		selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
-		add(selector);
+		// selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
+		// add(selector);
 
 		save.bind("Options");
 		try{
@@ -54,16 +55,12 @@ class MiscSubState extends MusicBeatSubstate
 					txt.alpha = 0.6;
 			});
 
-		optionsText();
 		textHint();
-	}
 
-	function optionsText() 
-	{
-		textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "", 35);
+		textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "Disable or Enable\nPop Engine Watermark", 35);
 		textOptions.scrollFactor.set();
 		textOptions.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(textOptions);			
+		add(textOptions);	
 	}
 
 	function textHint() 

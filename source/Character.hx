@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 import lime.utils.Assets;
+import haxe.Json;
 
 using StringTools;
 
@@ -445,7 +446,6 @@ class Character extends FlxSprite
 	}
 
 	private var danced:Bool = false;
-
 	/**
 	 * FOR GF DANCING SHIT
 	 */

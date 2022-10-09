@@ -39,7 +39,7 @@
 	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
 	<set name="BUILD_DIR" value="export/allowServer" if="allowServer" />
 
-	<define name="hack_power" if="desktop"/> <!--Wow, this engine come with hacker power-->
+	<define name="hack_power" if="debug"/> <!--Wow, this engine come with hacker power-->
 	<define name="x86_system" if="desktop"/> <!-- For x86 computer-->
 
 	<classpath name="source" />
@@ -125,9 +125,10 @@
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="openfl"/>
 	<!--<haxelib name="hxCodec" if="desktop || android" />
-	<haxelib name="mloader"/>
+		<haxelib name="FlashCache"/>
+		<haxelib name="mloader"/>
 	<haxelib name="assetsmanager" if="desktop"/>-->
-	<haxelib name="polymod"/>
+	<!--<haxelib name="polymod"/>--> <!--Decide to none using polymod, mods will i using psych Mods System Instead-->
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="hxcpp-debug-server" if="allowServer"/>
 	<!--<haxelib name="Console.hx" if="desktop"/>-->

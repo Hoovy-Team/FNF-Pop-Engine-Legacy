@@ -7,6 +7,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.FlxSubState;
+import OptionsMenu;
 
 class OptionsSubState extends MusicBeatSubstate
 {
@@ -17,6 +18,8 @@ class OptionsSubState extends MusicBeatSubstate
 
 	var grpOptionsTexts:FlxTypedGroup<Alphabet>;
 
+	var textOptions:FlxText;
+
 	public function new()
 	{
 		super();
@@ -24,8 +27,8 @@ class OptionsSubState extends MusicBeatSubstate
 		grpOptionsTexts = new FlxTypedGroup<Alphabet>();
 		add(grpOptionsTexts);
 
-		selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
-		add(selector);
+		// selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
+		// add(selector);
 
 		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Options State" + " | " + "Press Enter to go this setting", 12);
 		versionShit.scrollFactor.set();
@@ -45,6 +48,10 @@ class OptionsSubState extends MusicBeatSubstate
 				if (txt.ID != 0)
 					txt.alpha = 0.6;
 			});
+	    textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "Edit your keybinds", 35);
+		textOptions.scrollFactor.set();
+		textOptions.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(textOptions);	
 	}
 
 	override function update(elapsed:Float)
@@ -119,6 +126,18 @@ class OptionsSubState extends MusicBeatSubstate
 			else if (curSelected >= textMenuItems.length)
 				curSelected = 0;
 	
+			switch (textMenuItems[curSelected]){
+				case "Controls":
+					textOptions.text = "Edit your keybinds";
+				case "Perfernces":
+					textOptions.text = "Disable or Enable\nthe main setting";
+				case "FPS":
+					textOptions.text = "Change FPS Cap";
+				case "Misc":
+					textOptions.text = "Disable or Enable\nthe misc setting";
+				case "Exit":
+					textOptions.text = "Return the game";
+			}	
 			var stuff:Int = 0;
 	
 			for (item in grpOptionsTexts.members)

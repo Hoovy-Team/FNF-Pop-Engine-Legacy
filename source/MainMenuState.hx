@@ -41,6 +41,7 @@ class MainMenuState extends MusicBeatState
 
 	var updateList:FlxText;
 	var creditsText:FlxText;
+	// var textItem:FlxText;
 
 	override function create()
 	{
@@ -87,11 +88,14 @@ class MainMenuState extends MusicBeatState
 		add(menuItems);
 
 		save.bind("Options");
-		try{
-			if(save.data.options == null)
+		try
+		{
+			if (save.data.options == null)
 				save.data.options = new Array<String>();
-				save.data.options[0] = "";
-		}catch(e){
+			save.data.options[0] = "";
+		}
+		catch (e)
+		{
 			trace("not work");
 		}
 
@@ -123,14 +127,15 @@ class MainMenuState extends MusicBeatState
 
 	var selectedSomethin:Bool = false;
 
-	function textShow() 
+	function textShow()
 	{
-		var language:FlxText = new FlxText(5, FlxG.height - 36, 0, "" +
-		if (save.data.options.contains("Vietnamese")){
+		var language:FlxText = new FlxText(5, FlxG.height - 36, 0, "" + if (save.data.options.contains("Vietnamese"))
+		{
 			"Ngôn ngữ: Việt";
-		}else{
+		} else
+		{
 			"";
-		},12);
+		}, 12);
 		language.scrollFactor.set();
 		language.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(language);
@@ -147,15 +152,23 @@ class MainMenuState extends MusicBeatState
 		creditsText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(creditsText);
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "v" + Application.current.meta.get('version') +
-		if (save.data.options.contains("Watermark")){
-		" | Pop Engine: " + engineVer;
-		}else{
-			"";
-		}, 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0,
+			"v" + Application.current.meta.get('version') + if (save.data.options.contains("Watermark"))
+			{
+				" | Pop Engine: " + engineVer;
+			}
+			else
+			{
+				"";
+			}, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
+
+		// textItem = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "", 35);
+		// textItem.scrollFactor.set();
+		// textItem.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		// add(textItem);
 	}
 
 	override function update(elapsed:Float)
@@ -179,13 +192,15 @@ class MainMenuState extends MusicBeatState
 				changeItem(1);
 			}
 			#if debug
-			if (FlxG.keys.justPressed.U){
+			if (FlxG.keys.justPressed.U)
+			{
 				FlxTransitionableState.skipNextTransIn = true;
 				FlxTransitionableState.skipNextTransOut = true;
 				FlxG.switchState(new ListUpdateState());
 			}
 			#end
-			if (FlxG.keys.justPressed.C){
+			if (FlxG.keys.justPressed.C)
+			{
 				FlxG.switchState(new CreditsState());
 			}
 			if (controls.BACK)

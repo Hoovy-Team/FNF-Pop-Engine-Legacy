@@ -10,6 +10,7 @@ import Controls.Control;
 import MusicBeatState;
 import Controls;
 import flixel.FlxSubState;
+import OptionsMenu;
 
 class ControlsSubState extends MusicBeatSubstate
 {
@@ -39,8 +40,8 @@ class ControlsSubState extends MusicBeatSubstate
 		grpOptionsTexts = new FlxTypedGroup<Alphabet>();
 		add(grpOptionsTexts);
 
-		selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
-		add(selector);
+		// selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
+		// add(selector);
 
 		for (i in 0...textMenuItems.length)
 		{

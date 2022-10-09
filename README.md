@@ -1,3 +1,11 @@
+# Something
+
+- This FNF Pop Engine just a normall engine and working only one person!
+
+- It you want working this with me, just make issus and upload some code here!
+
+- I dont have discord and i dont want to using discord because it not working with me
+
 # FNF Pop Engine
 
 A very normall engine made by me!

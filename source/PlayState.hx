@@ -1562,8 +1562,8 @@ class PlayState extends MusicBeatState
 				ranking = "(FC)";
 			else if (misses >= 10 || (shits >= 10 || bads >= 10)) // Combo Breaks
 				ranking = "(CB)";
-			else if (save.data.options.contains("Botplay"))
-				ranking = "";
+			// else if (save.data.options.contains("Botplay"))
+			// 	ranking = "";
 			else
 				ranking = "(Clear)";
 	

@@ -24,7 +24,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import io.newgrounds.NG;
 import lime.app.Application;
 import flixel.util.FlxSave;
 import openfl.Assets;
@@ -73,13 +72,6 @@ class TitleState extends MusicBeatState
 
 		super.create();
 
-		// NGio.noLogin(APIStuff.API);
-
-		/*#if ng
-		var ng:NGio = new NGio(APIStuff.API, APIStuff.EncKey);
-		trace('NEWGROUNDS LOL');
-		#end*/
-
 		FlxG.save.bind('funkin', 'options');
 
 		Highscore.load();
@@ -98,16 +90,10 @@ class TitleState extends MusicBeatState
 				StoryMenuState.weekUnlocked[0] = true;
 		}
 
-		#if FREEPLAY
-		FlxG.switchState(new FreeplayState());
-		#elseif CHARTING
-		FlxG.switchState(new ChartingState());
-		#else
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 		{
 			startIntro();
 		});
-		#end
 
 		#if desktop
 		DiscordClient.initialize();
@@ -287,14 +273,6 @@ class TitleState extends MusicBeatState
 
 		if (pressedEnter && !transitioning && skippedIntro)
 		{
-			/*#if !switch
-			NGio.unlockMedal(60960);
-
-			// If it's Friday according to da clock
-			if (Date.now().getDay() == 5)
-				NGio.unlockMedal(61034);
-			#end*/
-
 			titleText.animation.play('press');
 
 			FlxG.camera.flash(FlxColor.WHITE, 1);
@@ -337,7 +315,6 @@ class TitleState extends MusicBeatState
 					http.request();
 	
 				});
-				// FlxG.sound.play(Paths.music('titleShoot'), 0.7);
 			}
 
 		if (pressedEnter && !skippedIntro)

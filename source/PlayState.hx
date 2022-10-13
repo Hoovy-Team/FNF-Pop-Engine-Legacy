@@ -1311,9 +1311,6 @@ class PlayState extends MusicBeatState
 			daBeats += 1;
 		}
 
-		// trace(unspawnNotes.length);
-		// playerCounter += 1;
-
 		unspawnNotes.sort(sortByShit);
 
 		generatedMusic = true;
@@ -1328,7 +1325,6 @@ class PlayState extends MusicBeatState
 	{
 		for (i in 0...4)
 		{
-			// FlxG.log.add(i);
 			var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
 
 			switch (curStage)
@@ -1538,11 +1534,8 @@ class PlayState extends MusicBeatState
 	{
 		totalPlayed += 1;
 		accuracy = totalNotesHit / totalPlayed * 100;
-		//trace(totalNotesHit + '/' + totalPlayed + '* 100 = ' + accuracy);
 		if (accuracy >= 100.00)
-		{
-				accuracy = 100;
-		}
+			accuracy = 100;
 	
 	}
 
@@ -1698,15 +1691,6 @@ class PlayState extends MusicBeatState
 				maxNPS = nps;
 		}
 
-		/*if (save.data.options.contains("Old BF Icon"))
-		{
-			iconP1.animation.play('bf-old');
-		}
-		else
-		{
-			iconP1.animation.play(SONG.player1);
-		}*/
-
 		switch (curStage)
 		{
 			case 'philly':
@@ -1720,7 +1704,6 @@ class PlayState extends MusicBeatState
 						trainFrameTiming = 0;
 					}
 				}
-				// phillyCityLights.members[curLight].alpha -= (Conductor.crochet / 1000) * FlxG.elapsed;
 		}
 
 		super.update(elapsed);
@@ -1731,7 +1714,6 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			// scoreTxt.visible = true;
 			scoreTxt.text = "Score: " + songScore;
 		}
 
@@ -1792,9 +1774,6 @@ class PlayState extends MusicBeatState
 			#end
 		}
 
-		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
-		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
-
 		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
 		iconP1.scale.set(mult, mult);
 		iconP1.updateHitbox();
@@ -1852,8 +1831,6 @@ class PlayState extends MusicBeatState
 				{
 					songTime = (songTime + Conductor.songPosition) / 2;
 					Conductor.lastSongPos = Conductor.songPosition;
-					// Conductor.songPosition += FlxG.elapsed * 1000;
-					// trace('MISSED FRAME');
 				}
 
 				if(updateTime) {

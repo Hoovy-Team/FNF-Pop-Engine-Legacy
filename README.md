@@ -6,7 +6,7 @@
 
 - I might have try install discord
 
-# Thank
+# Thank You
 
 - Thank for [MemeHoovy](https://twitter.com/meme_hoovy) for working with me!
 

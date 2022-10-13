@@ -2098,8 +2098,6 @@ class PlayState extends MusicBeatState
 				{
 					var daRating:String = "sick";
 
-					BOTPLAY_pressed_anything = true;
-
 					if (daNote.y > FlxG.height)
 					{
 						daNote.active = false;

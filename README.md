@@ -4,7 +4,11 @@
 
 - It you want working this with me, just make issus and upload some code here!
 
-- I dont have discord and i dont want to using discord because it not working for me
+- I might have try install discord
+
+# Thank
+
+- Thank for MemeHoovy for working with me!
 
 # FNF Pop Engine
 

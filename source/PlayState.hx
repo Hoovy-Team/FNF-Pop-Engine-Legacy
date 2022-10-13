@@ -196,13 +196,11 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		// keyShit();
 		FlxG.mouse.visible = false;
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
-		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
@@ -2121,8 +2119,7 @@ class PlayState extends MusicBeatState
 
 				if (daNote.mustPress && daNote.canBeHit && save.data.options.contains("Botplay"))
 				{
-					var daRating:String = "good";
-					// var note:Note;
+					var daRating:String = "sick";
 
 					if (daNote.y > FlxG.height)
 					{

@@ -2,9 +2,11 @@
 
 - This FNF Pop Engine just a normall engine and working only one person! (But now is 2 people)
 
-- It you want working this with me, just make issus and upload some code here!
+- It you want working this with me, just join the discord
 
-- I might have try install discord
+# Discord Sever!
+
+- Join [Discord Server](https://discord.gg/qJMrAQ4d) Now!
 
 # Thank You
 

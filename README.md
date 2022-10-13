@@ -8,7 +8,7 @@
 
 # Thank
 
-- Thank for MemeHoovy for working with me!
+- Thank for [MemeHoovy](https://twitter.com/meme_hoovy) for working with me!
 
 # FNF Pop Engine
 

@@ -194,8 +194,6 @@ class PlayState extends MusicBeatState
 	public static final evilSchoolSongs = ["thorns"];
 	public static final pixelSongs = ["senpai", "roses", "thorns"];
 
-	private var BOTPLAY_pressed_anything:Bool = false;
-
 	override public function create()
 	{
 		FlxG.mouse.visible = false;
@@ -2224,7 +2222,7 @@ class PlayState extends MusicBeatState
 			});
 		}
 
-		if (!inCutscene)
+		if (!inCutscene && !save.data.options.contains("Botplay"))
 			keyShit();
 
 		#if debug
@@ -2553,7 +2551,6 @@ class PlayState extends MusicBeatState
 		var leftR = controls.LEFT_R;
 
 		var controlArray:Array<Bool> = [leftP, downP, upP, rightP];
-		var releaseArray:Array<Bool> = [leftR, downR, upR, rightR];
 
 		// FlxG.watch.addQuick('asdfa', upP);
 		if ((upP || rightP || downP || leftP) && !boyfriend.stunned && generatedMusic)
@@ -2664,14 +2661,29 @@ class PlayState extends MusicBeatState
 
 		playerStrums.forEach(function(spr:FlxSprite)
 		{
-			if (controlArray[spr.ID] && spr.animation.curAnim.name != 'confirm')
+			switch (spr.ID)
 			{
-				spr.animation.play('pressed');
-			}
-			if (releaseArray[spr.ID])
-			{
-				spr.animation.play('static');
-			}
+				case 0:
+					if (leftP && spr.animation.curAnim.name != 'confirm')
+						spr.animation.play('pressed');
+					if (leftR)
+						spr.animation.play('static');
+				case 1:
+					if (downP && spr.animation.curAnim.name != 'confirm')
+						spr.animation.play('pressed');
+					if (downR)
+						spr.animation.play('static');
+				case 2:
+					if (upP && spr.animation.curAnim.name != 'confirm')
+						spr.animation.play('pressed');
+					if (upR)
+						spr.animation.play('static');
+				case 3:
+					if (rightP && spr.animation.curAnim.name != 'confirm')
+						spr.animation.play('pressed');
+					if (rightR)
+						spr.animation.play('static');
+			}		
 
 			if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
 			{
@@ -2682,10 +2694,6 @@ class PlayState extends MusicBeatState
 			else
 				spr.centerOffsets();
 		});
-		if (!BOTPLAY_pressed_anything)
-		{
-			releaseArray = [true, true, true, true];
-		}
 	}
 
 	function noteMiss(direction:Int = 1):Void

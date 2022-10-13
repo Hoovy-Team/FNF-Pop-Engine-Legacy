@@ -194,6 +194,8 @@ class PlayState extends MusicBeatState
 	public static final evilSchoolSongs = ["thorns"];
 	public static final pixelSongs = ["senpai", "roses", "thorns"];
 
+	private var BOTPLAY_pressed_anything:Bool = false;
+
 	override public function create()
 	{
 		FlxG.mouse.visible = false;
@@ -1540,126 +1542,126 @@ class PlayState extends MusicBeatState
 	}
 
 	function generateRanking():String //Code From Kade Engine 1.3.1
+	{
+		var ranking:String = "N/A";
+
+		if (misses == 0 && bads == 0 && shits == 0 && goods == 0) // Marvelous (SICK) Full Combo
+			ranking = "(MFC)";
+		else if (misses == 0 && bads == 0 && shits == 0 && goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
+			ranking = "(GFC)";
+		else if ((shits < 0 && shits != 0 || bads < 10 && bads != 0) && misses == 0) // Single Digit Combo Breaks
+			ranking = "(SDCB)";
+		else if (misses == 0 && (shits >= 0 || bads >= 0)) // Regular FC
+			ranking = "(FC)";
+		else if (misses >= 10 || (shits >= 10 || bads >= 10)) // Combo Breaks
+			ranking = "(CB)";
+		// else if (save.data.options.contains("Botplay"))
+		// 	ranking = "";
+		else
+			ranking = "(Clear)";
+
+		// WIFE TIME :)))) (based on Wife3)
+
+		var wifeConditions:Array<Bool> = [
+			accuracy >= 99.9935, // AAAAA
+			accuracy >= 99.980, // AAAA:
+			accuracy >= 99.970, // AAAA.
+			accuracy >= 99.955, // AAAA
+			accuracy >= 99.90, // AAA:
+			accuracy >= 99.80, // AAA.
+			accuracy >= 99.70, // AAA
+			accuracy >= 99, // AA:
+			accuracy >= 96.50, // AA.
+			accuracy >= 93, // AA
+			accuracy >= 90, // A:
+			accuracy >= 85, // A.
+			accuracy >= 80, // A
+			accuracy >= 70, // B
+			accuracy >= 60, // C
+			accuracy < 60 // D
+		];
+
+		for(i in 0...wifeConditions.length)
 		{
-			var ranking:String = "N/A";
-	
-			if (misses == 0 && bads == 0 && shits == 0 && goods == 0) // Marvelous (SICK) Full Combo
-				ranking = "(MFC)";
-			else if (misses == 0 && bads == 0 && shits == 0 && goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
-				ranking = "(GFC)";
-			else if ((shits < 0 && shits != 0 || bads < 10 && bads != 0) && misses == 0) // Single Digit Combo Breaks
-				ranking = "(SDCB)";
-			else if (misses == 0 && (shits >= 0 || bads >= 0)) // Regular FC
-				ranking = "(FC)";
-			else if (misses >= 10 || (shits >= 10 || bads >= 10)) // Combo Breaks
-				ranking = "(CB)";
-			// else if (save.data.options.contains("Botplay"))
-			// 	ranking = "";
-			else
-				ranking = "(Clear)";
-	
-			// WIFE TIME :)))) (based on Wife3)
-	
-			var wifeConditions:Array<Bool> = [
-				accuracy >= 99.9935, // AAAAA
-				accuracy >= 99.980, // AAAA:
-				accuracy >= 99.970, // AAAA.
-				accuracy >= 99.955, // AAAA
-				accuracy >= 99.90, // AAA:
-				accuracy >= 99.80, // AAA.
-				accuracy >= 99.70, // AAA
-				accuracy >= 99, // AA:
-				accuracy >= 96.50, // AA.
-				accuracy >= 93, // AA
-				accuracy >= 90, // A:
-				accuracy >= 85, // A.
-				accuracy >= 80, // A
-				accuracy >= 70, // B
-				accuracy >= 60, // C
-				accuracy < 60 // D
-			];
-	
-			for(i in 0...wifeConditions.length)
+			var b = wifeConditions[i];
+			if (b)
 			{
-				var b = wifeConditions[i];
-				if (b)
+				switch(i)
 				{
-					switch(i)
-					{
-						case 0:
-							ranking += " AAAAA";
-						case 1:
-							ranking += " AAAA:";
-						case 2:
-							ranking += " AAAA.";
-						case 3:
-							ranking += " AAAA";
-						case 4:
-							ranking += " AAA:";
-						case 5:
-							ranking += " AAA.";
-						case 6:
-							ranking += " AAA";
-						case 7:
-							ranking += " AA:";
-						case 8:
-							ranking += " AA.";
-						case 9:
-							ranking += " AA";
-						case 10:
-							ranking += " A:";
-						case 11:
-							ranking += " A.";
-						case 12:
-							ranking += " A";
-						case 13:
-							ranking += " B";
-						case 14:
-							ranking += " C";
-						case 15:
-							ranking += " D";
-					}
-					break;
+					case 0:
+						ranking += " AAAAA";
+					case 1:
+						ranking += " AAAA:";
+					case 2:
+						ranking += " AAAA.";
+					case 3:
+						ranking += " AAAA";
+					case 4:
+						ranking += " AAA:";
+					case 5:
+						ranking += " AAA.";
+					case 6:
+						ranking += " AAA";
+					case 7:
+						ranking += " AA:";
+					case 8:
+						ranking += " AA.";
+					case 9:
+						ranking += " AA";
+					case 10:
+						ranking += " A:";
+					case 11:
+						ranking += " A.";
+					case 12:
+						ranking += " A";
+					case 13:
+						ranking += " B";
+					case 14:
+						ranking += " C";
+					case 15:
+						ranking += " D";
 				}
+				break;
 			}
-			if (save.data.options.contains("Botplay")){
-				ranking = "Botplay";
-			}
-			else if (accuracy == 0)
-				ranking = "N/A";
-	
-			return ranking;
 		}
+		if (save.data.options.contains("Botplay")){
+			ranking = "Botplay";
+		}
+		else if (accuracy == 0)
+			ranking = "N/A";
+
+		return ranking;
+	}
 	private var strumming2:Array<Bool> = [false, false, false, false];
 
 	function sustain2(strum:Int, spr:FlxSprite, note:Note):Void
+	{
+		var length:Float = note.sustainLength;
+
+		if (length > 0)
 		{
-			var length:Float = note.sustainLength;
-	
-			if (length > 0)
-			{
-				strumming2[strum] = true;
-			}
-	
-			var bps:Float = Conductor.bpm / 60;
-			var spb:Float = 1 / bps;
-	
-			if (!note.isSustainNote)
-			{
-				new FlxTimer().start(length == 0 ? 0.2 : (length / Conductor.crochet * spb) + 0.1, function(tmr:FlxTimer)
-				{
-					if (!strumming2[strum])
-					{
-						spr.animation.play("static", true);
-					}
-					else if (length > 0)
-					{
-						strumming2[strum] = false;
-						spr.animation.play("static", true);
-					}
-				});
-			}
+			strumming2[strum] = true;
 		}
+
+		var bps:Float = Conductor.bpm / 60;
+		var spb:Float = 1 / bps;
+
+		if (!note.isSustainNote)
+		{
+			new FlxTimer().start(length == 0 ? 0.2 : (length / Conductor.crochet * spb) + 0.1, function(tmr:FlxTimer)
+			{
+				if (!strumming2[strum])
+				{
+					spr.animation.play("static", true);
+				}
+				else if (length > 0)
+				{
+					strumming2[strum] = false;
+					spr.animation.play("static", true);
+				}
+			});
+		}
+	}
 
 	override public function update(elapsed:Float)
 	{
@@ -2075,13 +2077,13 @@ class PlayState extends MusicBeatState
 					}
 					if (save.data.options.contains("Note Glow")){
 						player2Strums.forEach(function(spr:FlxSprite)
+						{
+							if (Math.abs(daNote.noteData) == spr.ID)
 							{
-								if (Math.abs(daNote.noteData) == spr.ID)
-								{
-									spr.animation.play('confirm');
-									sustain2(spr.ID, spr, daNote);
-								}
-							});
+								spr.animation.play('confirm');
+								sustain2(spr.ID, spr, daNote);
+							}
+						});
 					}
 
 					dad.holdTimer = 0;
@@ -2097,6 +2099,8 @@ class PlayState extends MusicBeatState
 				if (daNote.mustPress && daNote.canBeHit && save.data.options.contains("Botplay"))
 				{
 					var daRating:String = "sick";
+
+					BOTPLAY_pressed_anything = true;
 
 					if (daNote.y > FlxG.height)
 					{
@@ -2142,7 +2146,7 @@ class PlayState extends MusicBeatState
 						if (save.data.options.contains("Count down note")){
 							countDownNote += 1;
 						}
-						if (daRating == 'good'){
+						if (daRating == 'sick'){
 							totalNotesHit += 1;
 						}
 						notesHitArray.unshift(Date.now());
@@ -2549,6 +2553,7 @@ class PlayState extends MusicBeatState
 		var leftR = controls.LEFT_R;
 
 		var controlArray:Array<Bool> = [leftP, downP, upP, rightP];
+		var releaseArray:Array<Bool> = [leftR, downR, upR, rightR];
 
 		// FlxG.watch.addQuick('asdfa', upP);
 		if ((upP || rightP || downP || leftP) && !boyfriend.stunned && generatedMusic)
@@ -2659,28 +2664,13 @@ class PlayState extends MusicBeatState
 
 		playerStrums.forEach(function(spr:FlxSprite)
 		{
-			switch (spr.ID)
+			if (controlArray[spr.ID] && spr.animation.curAnim.name != 'confirm')
 			{
-				case 0:
-					if (leftP && spr.animation.curAnim.name != 'confirm')
-						spr.animation.play('pressed');
-					if (leftR)
-						spr.animation.play('static');
-				case 1:
-					if (downP && spr.animation.curAnim.name != 'confirm')
-						spr.animation.play('pressed');
-					if (downR)
-						spr.animation.play('static');
-				case 2:
-					if (upP && spr.animation.curAnim.name != 'confirm')
-						spr.animation.play('pressed');
-					if (upR)
-						spr.animation.play('static');
-				case 3:
-					if (rightP && spr.animation.curAnim.name != 'confirm')
-						spr.animation.play('pressed');
-					if (rightR)
-						spr.animation.play('static');
+				spr.animation.play('pressed');
+			}
+			if (releaseArray[spr.ID])
+			{
+				spr.animation.play('static');
 			}
 
 			if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
@@ -2692,6 +2682,10 @@ class PlayState extends MusicBeatState
 			else
 				spr.centerOffsets();
 		});
+		if (!BOTPLAY_pressed_anything)
+		{
+			releaseArray = [true, true, true, true];
+		}
 	}
 
 	function noteMiss(direction:Int = 1):Void

@@ -2109,7 +2109,7 @@ class PlayState extends MusicBeatState
 
 					dad.holdTimer = 0;
 
-					if (SONG.needsVoices)
+					if (SONG.needsVoices && vocals != null)
 						vocals.volume = 1;
 
 					daNote.kill();

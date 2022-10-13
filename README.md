@@ -52,7 +52,7 @@ Using [Setup.bat](https://gamebanana.com/tuts/13798)
 - [Twingamerdudes](https://www.youtube.com/c/Twingamerdudes) - The guy who teach how to make a options using substate
 
 ### OG Develop of FNF
-- [ninjamuffin99)](https://twitter.com/ninja_muffin99) - Programmer
+- [ninjamuffin99](https://twitter.com/ninja_muffin99) - Programmer
 - [PhantomArcade3K](https://twitter.com/phantomarcade3k) and [Evilsk8r](https://twitter.com/evilsk8r) - Art
 - [Kawaisprite](https://twitter.com/kawaisprite) - Musician
 

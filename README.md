@@ -7,6 +7,7 @@
 # Discord Sever!
 
 - Join [Discord Server](https://discord.gg/qJMrAQ4d) Now!
+- Sometime i not check the discord server
 
 # Thank You
 

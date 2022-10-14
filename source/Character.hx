@@ -422,11 +422,12 @@ class Character extends FlxSprite
 				//sparrow
 				//packer
 				//texture
+				@:privateAccess
 				if (Assets.exists(Paths.getPath('images/' + json.image + '.txt', TEXT)))
 				{
 					spriteType = "packer";
 				}
-
+				@:privateAccess
 				if (Assets.exists(Paths.getPath('images/' + json.image + '/Animation.json', TEXT)))
 				{
 					spriteType = "texture";
@@ -653,5 +654,10 @@ class Character extends FlxSprite
 	public function addOffset(name:String, x:Float = 0, y:Float = 0)
 	{
 		animOffsets[name] = [x, y];
+	}
+
+	public function quickAnimAdd(name:String, anim:String)
+	{
+		animation.addByPrefix(name, anim, 24, false);
 	}
 }

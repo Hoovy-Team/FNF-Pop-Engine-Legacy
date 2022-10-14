@@ -2,9 +2,16 @@
 
 - This FNF Pop Engine just a normall engine and working only one person! (But now is 2 people)
 
-- It you want working this with me, just make issus and upload some code here!
+- It you want working this with me, just join the discord
 
-- I dont have discord and i dont want to using discord because it not working for me
+# Discord Sever!
+
+- Join [Discord Server](https://discord.gg/qJMrAQ4d) Now!
+- Sometime i not check the discord server
+
+# Thank You
+
+- Thank for [MemeHoovy](https://twitter.com/meme_hoovy) for fixed the botplay (but i need to edit something on botplay too)
 
 # FNF Pop Engine
 
@@ -45,7 +52,7 @@ Using [Setup.bat](https://gamebanana.com/tuts/13798)
 - [Twingamerdudes](https://www.youtube.com/c/Twingamerdudes) - The guy who teach how to make a options using substate
 
 ### OG Develop of FNF
-- [ninjamuffin99)](https://twitter.com/ninja_muffin99) - Programmer
+- [ninjamuffin99](https://twitter.com/ninja_muffin99) - Programmer
 - [PhantomArcade3K](https://twitter.com/phantomarcade3k) and [Evilsk8r](https://twitter.com/evilsk8r) - Art
 - [Kawaisprite](https://twitter.com/kawaisprite) - Musician
 

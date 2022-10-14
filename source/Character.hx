@@ -6,8 +6,33 @@ import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 import lime.utils.Assets;
 import haxe.Json;
+import flixel.tweens.FlxTween;
 
 using StringTools;
+
+typedef CharacterFile = {
+	var animations:Array<AnimArray>;
+	var image:String;
+	var scale:Float;
+	var sing_duration:Float;
+	var healthicon:String;
+
+	var position:Array<Float>;
+	var camera_position:Array<Float>;
+
+	var flip_x:Bool;
+	var no_antialiasing:Bool;
+	var healthbar_colors:Array<Int>;
+}
+
+typedef AnimArray = {
+	var anim:String;
+	var name:String;
+	var fps:Int;
+	var loop:Bool;
+	var indices:Array<Int>;
+	var offsets:Array<Int>;
+}
 
 class Character extends FlxSprite
 {
@@ -17,7 +42,30 @@ class Character extends FlxSprite
 	public var isPlayer:Bool = false;
 	public var curCharacter:String = 'bf';
 
+	public var colorTween:FlxTween;
 	public var holdTimer:Float = 0;
+	public var heyTimer:Float = 0;
+	public var specialAnim:Bool = false;
+	public var animationNotes:Array<Dynamic> = [];
+	public var singDuration:Float = 4; //Multiplier of how long a character holds the sing pose
+	public var idleSuffix:String = '';
+	public var danceIdle:Bool = false; //Character use "danceLeft" and "danceRight" instead of "idle"
+	public var skipDance:Bool = false;
+
+	public var healthIcon:String = 'face';
+	public var animationsArray:Array<AnimArray> = [];
+
+	public var positionArray:Array<Float> = [0, 0];
+	public var cameraPosition:Array<Float> = [0, 0];
+
+	public var hasMissAnimations:Bool = false;
+
+	//Used on Character Editor
+	public var imageFile:String = '';
+	public var jsonScale:Float = 1;
+	public var noAntialiasing:Bool = false;
+	public var originalFlipX:Bool = false;
+	public var healthColorArray:Array<Int> = [255, 0, 0];	
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
@@ -208,32 +256,6 @@ class Character extends FlxSprite
 
 				flipX = true;
 
-			case 'bf':
-				var tex = Paths.getSparrowAtlas('BOYFRIEND');
-				frames = tex;
-				animation.addByPrefix('idle', 'BF idle dance', 24, false);
-				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
-				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
-				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
-				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
-				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
-				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
-				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
-				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
-				animation.addByPrefix('hey', 'BF HEY', 24, false);
-
-				animation.addByPrefix('firstDeath', "BF dies", 24, false);
-				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, true);
-				animation.addByPrefix('deathConfirm', "BF Dead confirm", 24, false);
-
-				animation.addByPrefix('scared', 'BF idle shaking', 24);
-
-				loadOffsetFile(curCharacter);
-
-				playAnim('idle');
-
-				flipX = true;
-
 			case 'bf-christmas':
 				var tex = Paths.getSparrowAtlas('christmas/bfChristmas');
 				frames = tex;
@@ -377,8 +399,93 @@ class Character extends FlxSprite
 				loadOffsetFile(curCharacter);
 
 				playAnim('idle');
-		}
 
+			//case 'your character name in case you want to hardcode them instead':
+
+			default:
+				var characterPath:String = 'characters/' + curCharacter + '.json';
+
+				@:privateAccess {
+					var path:String = Paths.getPreloadPath(characterPath);
+					if (!Assets.exists(path))
+					{
+						path = Paths.getPreloadPath('characters/' + DEFAULT_CHARACTER + '.json'); //If a character couldn't be found, change him to BF just to prevent a crash
+					}
+				}
+
+				var rawJson = Assets.getText(path);
+
+				var json:CharacterFile = cast Json.parse(rawJson);
+				var spriteType = "sparrow";
+				//sparrow
+				//packer
+				//texture
+				if (Assets.exists(Paths.getPath('images/' + json.image + '.txt', TEXT)))
+				{
+					spriteType = "packer";
+				}
+
+				if (Assets.exists(Paths.getPath('images/' + json.image + '/Animation.json', TEXT)))
+				{
+					spriteType = "texture";
+				}
+
+				switch (spriteType){
+					case "packer":
+						frames = Paths.getPackerAtlas(json.image);
+					case "sparrow":
+						frames = Paths.getSparrowAtlas(json.image);
+					// case "texture":
+					// 	frames = AtlasFrameMaker.construct(json.image);
+				}
+				imageFile = json.image;
+
+				if(json.scale != 1) {
+					jsonScale = json.scale;
+					setGraphicSize(Std.int(width * jsonScale));
+					updateHitbox();
+				}
+
+				positionArray = json.position;
+				cameraPosition = json.camera_position;
+
+				healthIcon = json.healthicon;
+				singDuration = json.sing_duration;
+				flipX = !!json.flip_x;
+				if(json.no_antialiasing) {
+					antialiasing = false;
+					noAntialiasing = true;
+				}
+
+				if(json.healthbar_colors != null && json.healthbar_colors.length > 2)
+					healthColorArray = json.healthbar_colors;
+
+				antialiasing = !noAntialiasing;
+				// if(!ClientPrefs.globalAntialiasing) antialiasing = false;
+
+				animationsArray = json.animations;
+				if(animationsArray != null && animationsArray.length > 0) {
+					for (anim in animationsArray) {
+						var animAnim:String = '' + anim.anim;
+						var animName:String = '' + anim.name;
+						var animFps:Int = anim.fps;
+						var animLoop:Bool = !!anim.loop; //Bruh
+						var animIndices:Array<Int> = anim.indices;
+						if(animIndices != null && animIndices.length > 0) {
+							animation.addByIndices(animAnim, animName, animIndices, "", animFps, animLoop);
+						} else {
+							animation.addByPrefix(animAnim, animName, animFps, animLoop);
+						}
+
+						if(anim.offsets != null && anim.offsets.length > 1) {
+							addOffset(anim.anim, anim.offsets[0], anim.offsets[1]);
+						}
+					}
+				} else {
+					quickAnimAdd('idle', 'BF idle dance');
+				}
+				//trace('Loaded file to character ' + curCharacter);				
+		}
 		dance();
 
 		if (isPlayer)

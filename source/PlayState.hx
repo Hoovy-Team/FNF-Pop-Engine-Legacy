@@ -2147,8 +2147,6 @@ class PlayState extends MusicBeatState
 						}
 						notesHitArray.unshift(Date.now());
 					}
-					// var backToStatic:Bool = false;
-					// var timer = new FlxTimer();
 
 					playerStrums.forEach(function(spr:FlxSprite)
 					{
@@ -2175,9 +2173,6 @@ class PlayState extends MusicBeatState
 				else{
 					daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed, 2)));
 				}
-
-				// WIP interpolation shit? Need to fix the pause issue
-				// daNote.y = (strumLine.y - (songTime - daNote.strumTime) * (0.45 * PlayState.SONG.speed));
 
 				if (daNote.y < -daNote.height && !save.data.options.contains("Downscroll") || daNote.y >= strumLine.y + 106 && save.data.options.contains("Downscroll"))
 				{
@@ -2495,7 +2490,7 @@ class PlayState extends MusicBeatState
 			numScore.velocity.y -= FlxG.random.int(140, 160);
 			numScore.velocity.x = FlxG.random.float(-5, 5);
 
-			if (combo >= 10 || combo == 0)
+			if (combo >= 10)
 				add(numScore);
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
@@ -2510,7 +2505,6 @@ class PlayState extends MusicBeatState
 		}
 
 		coolText.text = Std.string(seperatedScore);
-		// add(coolText);
 
 		FlxTween.tween(rating, {alpha: 0}, 0.2, {
 			startDelay: Conductor.crochet * 0.001

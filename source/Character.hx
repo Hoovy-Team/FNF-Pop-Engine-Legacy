@@ -40,7 +40,7 @@ class Character extends FlxSprite
 	public var debugMode:Bool = false;
 
 	public var isPlayer:Bool = false;
-	public var curCharacter:String = 'bf';
+	public var curCharacter:String = DEFAULT_CHARACTER;
 
 	public var colorTween:FlxTween;
 	public var holdTimer:Float = 0;
@@ -66,6 +66,8 @@ class Character extends FlxSprite
 	public var noAntialiasing:Bool = false;
 	public var originalFlipX:Bool = false;
 	public var healthColorArray:Array<Int> = [255, 0, 0];	
+
+	public static final DEFAULT_CHARACTER:String = 'bf'; //In case a character is missing, it will use BF on its place
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{

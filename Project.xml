@@ -37,7 +37,7 @@
 	<set name="BUILD_DIR" value="export/allowServer" if="allowServer" />
 
 	<define name="hack_power" if="debug"/> <!--Wow, this engine come with hacker power-->
-	<define name="x86_system" if="desktop"/> <!-- For x86 computer-->
+	<define name="x86_system" if="desktop 32bit"/> <!-- For x86 computer-->
 
 	<classpath name="source" />
 

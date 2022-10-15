@@ -7,6 +7,9 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.Assets;
 import haxe.Json;
 import flixel.tweens.FlxTween;
+#if sys
+import sys.io.File;
+#end
 
 using StringTools;
 
@@ -407,12 +410,10 @@ class Character extends FlxSprite
 			default:
 				var characterPath:String = 'characters/' + curCharacter + '.json';
 
-				@:privateAccess {
-					var path:String = Paths.getPreloadPath(characterPath);
-					if (!Assets.exists(path))
-					{
-						path = Paths.getPreloadPath('characters/' + DEFAULT_CHARACTER + '.json'); //If a character couldn't be found, change him to BF just to prevent a crash
-					}
+				var path:String = Paths.getPreloadPath(characterPath);
+				if (!Assets.exists(path))
+				{
+					path = Paths.getPreloadPath('characters/' + DEFAULT_CHARACTER + '.json'); //If a character couldn't be found, change him to BF just to prevent a crash
 				}
 
 				var rawJson = Assets.getText(path);
@@ -487,7 +488,7 @@ class Character extends FlxSprite
 				} else {
 					quickAnimAdd('idle', 'BF idle dance');
 				}
-				//trace('Loaded file to character ' + curCharacter);				
+				//trace('Loaded file to character ' + curCharacter);
 		}
 		dance();
 

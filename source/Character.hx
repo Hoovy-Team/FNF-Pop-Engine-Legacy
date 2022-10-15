@@ -7,9 +7,6 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.Assets;
 import haxe.Json;
 import flixel.tweens.FlxTween;
-#if sys
-import sys.io.File;
-#end
 
 using StringTools;
 

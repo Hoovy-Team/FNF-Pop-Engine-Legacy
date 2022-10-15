@@ -4,7 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
-import lime.utils.Assets;
+import openfl.utils.Assets;
 import haxe.Json;
 import flixel.tweens.FlxTween;
 

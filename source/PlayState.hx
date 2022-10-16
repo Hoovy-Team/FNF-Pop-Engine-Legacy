@@ -110,6 +110,8 @@ class PlayState extends MusicBeatState
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
+	var grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
+
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 
 	var halloweenBG:FlxSprite;
@@ -217,6 +219,10 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
 
+		var tempNoteSplash = new NoteSplash(0, 0, 0);
+		grpNoteSplashes.add(tempNoteSplash);
+		tempNoteSplash.alpha = 0.1;
+
 		FlxCamera.defaultCameras = [camGame];
 
 		persistentUpdate = true;
@@ -230,23 +236,6 @@ class PlayState extends MusicBeatState
 
 		switch (SONG.song.toLowerCase())
 		{
-			case 'tutorial':
-				dialogue = ["Hey you're pretty cute.", 'Use the arrow keys to keep up \nwith me singing.'];
-			case 'bopeebo':
-				dialogue = [
-					'HEY!',
-					"You think you can just sing\nwith my daughter like that?",
-					"If you want to date her...",
-					"You're going to have to go \nthrough ME first!"
-				];
-			case 'fresh':
-				dialogue = ["Not too shabby boy.", ""];
-			case 'dadbattle':
-				dialogue = [
-					"gah you think you're hot stuff?",
-					"If you can beat me here...",
-					"Only then I will even CONSIDER letting you\ndate my daughter!"
-				];
 			case 'senpai':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('senpai/senpaiDialogue'));
 			case 'roses':
@@ -569,44 +558,6 @@ class PlayState extends MusicBeatState
 				bg.scrollFactor.set(0.8, 0.9);
 				bg.scale.set(6, 6);
 				add(bg);
-
-				/* 
-					var bg:FlxSprite = new FlxSprite(posX, posY).loadGraphic(Paths.images("weeb/evilSchoolBG"));
-					bg.scale.set(6, 6);
-					// bg.setGraphicSize(Std.int(bg.width * 6));
-					// bg.updateHitbox();
-					add(bg);
-					var fg:FlxSprite = new FlxSprite(posX, posY).loadGraphic(Paths.images("weeb/evilSchoolFG"));
-					fg.scale.set(6, 6);
-					// fg.setGraphicSize(Std.int(fg.width * 6));
-					// fg.updateHitbox();
-					add(fg);
-					wiggleShit.effectType = WiggleEffectType.DREAMY;
-					wiggleShit.waveAmplitude = 0.01;
-					wiggleShit.waveFrequency = 60;
-					wiggleShit.waveSpeed = 0.8;
-				 */
-
-				// bg.shader = wiggleShit.shader;
-				// fg.shader = wiggleShit.shader;
-
-				/* 
-					var waveSprite = new FlxEffectSprite(bg, [waveEffectBG]);
-					var waveSpriteFG = new FlxEffectSprite(fg, [waveEffectFG]);
-					// Using scale since setGraphicSize() doesnt work???
-					waveSprite.scale.set(6, 6);
-					waveSpriteFG.scale.set(6, 6);
-					waveSprite.setPosition(posX, posY);
-					waveSpriteFG.setPosition(posX, posY);
-					waveSprite.scrollFactor.set(0.7, 0.8);
-					waveSpriteFG.scrollFactor.set(0.9, 0.8);
-					// waveSprite.setGraphicSize(Std.int(waveSprite.width * 6));
-					// waveSprite.updateHitbox();
-					// waveSpriteFG.setGraphicSize(Std.int(fg.width * 6));
-					// waveSpriteFG.updateHitbox();
-					add(waveSprite);
-					add(waveSpriteFG);
-				 */
 			}
 		else
 			{
@@ -773,14 +724,12 @@ class PlayState extends MusicBeatState
 		strumLineNotes = new FlxTypedGroup<FlxSprite>();
 		add(strumLineNotes);
 
+		add(grpNoteSplashes);
+
 		playerStrums = new FlxTypedGroup<FlxSprite>();
 		player2Strums = new FlxTypedGroup<FlxSprite>();
 
-		// startCountdown();
-
 		generateSong(SONG.song);
-
-		// add(strumLine);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 
@@ -916,6 +865,7 @@ class PlayState extends MusicBeatState
 			add(healthTxt);
 		}
 
+		grpNoteSplashes.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
@@ -1528,7 +1478,7 @@ class PlayState extends MusicBeatState
 		num = num * Math.pow(10, precision);
 		num = Math.round( num ) / Math.pow(10, precision);
 		return num;
-		}
+	}
 
 	function updateAccuracy()
 	{
@@ -2403,7 +2353,12 @@ class PlayState extends MusicBeatState
 					goods++;
 				}
 			}
-		if (daRating == 'sick')
+		if (daRating == 'sick') {
+			// notesplashes
+			var daNoteSplash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
+			daNoteSplash.setupNoteSplash(daNote.x, strumLine.y, daNote.noteData);
+			grpNoteSplashes.add(daNoteSplash);
+
 			totalNotesHit += 1;
 			score = 500;
 			if (save.data.options.contains("Botplay")){
@@ -2411,6 +2366,7 @@ class PlayState extends MusicBeatState
 			}else{
 				sicks++;
 			}
+		}
 
 		songScore += score;
 

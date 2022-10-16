@@ -14,6 +14,10 @@
 - Thank for [MemeHoovy](https://twitter.com/meme_hoovy) for fixed the botplay (but i need to edit something on botplay too)
 # FNF Pop Engine
 
+# Version
+
+Were are build version 0.0.7 update, so this soucre are show this 0.0.7 added and delete
+
 A very normall engine made by me!
 
 this engine have:

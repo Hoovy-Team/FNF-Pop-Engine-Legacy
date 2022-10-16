@@ -8,11 +8,6 @@
 
 - Join [Discord Server](https://discord.gg/qJMrAQ4d) Now!
 - Sometime i not check the discord server
-
-# Thank You
-
-- Thank for [MemeHoovy](https://twitter.com/meme_hoovy) for fixed the botplay (but i need to edit something on botplay too)
-
 # FNF Pop Engine
 
 A very normall engine made by me!

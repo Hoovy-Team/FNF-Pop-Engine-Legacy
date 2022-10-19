@@ -16,7 +16,7 @@
 
 ### Version
 
-Were are build version 0.0.7 update, so this soucre are show this 0.0.7 added and delete
+Were are build version 0.0.7 update, so this source are show this 0.0.7 added and delete
 
 
 ### Details

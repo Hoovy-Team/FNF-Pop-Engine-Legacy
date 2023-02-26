@@ -8,7 +8,7 @@ this engine have:
 - Downscroll
 - Accuracy
 - Controls change
-- FPS Cap (Cap to 240 FPS)
+- FPS Cap
 - Game setting
 - Watermark
 

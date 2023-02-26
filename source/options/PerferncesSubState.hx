@@ -12,7 +12,7 @@ import OptionsMenu;
 
 class PerferncesSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Ghost tap', 'Downscroll', 'Accuracy', 'Time Bar', 'NPS Display', 'Note Glow', 'More GUI', 'Exit'];
+	var textMenuItems:Array<String> = ['Ghost tap', 'Downscroll', 'Accuracy', 'Time Bar', 'NPS Display', 'Note Glow', 'More GUI', 'Note Splash', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -153,6 +153,13 @@ class PerferncesSubState extends MusicBeatSubstate
 						save.data.options.remove("More GUI");
 					}
 					trace("More GUI change");
+				case "Note Splash":
+					if(!save.data.options.contains("Note Splash")){
+						save.data.options.push("Note Splash");
+					}else{
+						save.data.options.remove("Note Splash");
+					}
+					trace("Note Splash change");
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new OptionsSubState());
@@ -180,7 +187,7 @@ class PerferncesSubState extends MusicBeatSubstate
 			case "Downscroll":
 				textOptions.text = "Change the layout from up to down";
 			case "Accuracy":
-				textOptions.text = "MUST ENABLE THIS\nAdd the accuracy system and more";
+				textOptions.text = "Add the accuracy system and more";
 			case "Time Bar":
 				textOptions.text = "See how long the songs will play";
 			case "NPS Display":
@@ -189,6 +196,8 @@ class PerferncesSubState extends MusicBeatSubstate
 				textOptions.text = "Add note glow for player 2 note";
 			case "More GUI":
 				textOptions.text = "Add sicks, goods, bads and shits on display";
+			case "Note Splash":
+				textOptions.text = "Enable it, when hit sicks, the splash will show";
 			case "Exit":
 				textOptions.text = "Return Options Menu";
 		}

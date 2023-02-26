@@ -37,7 +37,7 @@ class MainMenuState extends MusicBeatState
 
 	var save = new FlxSave();
 
-	public static var engineVer:String = "0.0.6";
+	public static var engineVer:String = "0.0.6.5";
 
 	var updateList:FlxText;
 	var creditsText:FlxText;
@@ -129,16 +129,16 @@ class MainMenuState extends MusicBeatState
 
 	function textShow()
 	{
-		var language:FlxText = new FlxText(5, FlxG.height - 36, 0, "" + if (save.data.options.contains("Vietnamese"))
-		{
-			"Ngôn ngữ: Việt";
-		} else
-		{
-			"";
-		}, 12);
-		language.scrollFactor.set();
-		language.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(language);
+		// var language:FlxText = new FlxText(5, FlxG.height - 36, 0, "" + if (save.data.options.contains("Vietnamese"))
+		// {
+		// 	"Ngôn ngữ: Việt";
+		// } else
+		// {
+		// 	"";
+		// }, 12);
+		// language.scrollFactor.set();
+		// language.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		// add(language);
 
 		#if debug
 		updateList = new FlxText(5, FlxG.height - 36, 0, "Press U to see the Update List", 12);

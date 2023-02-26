@@ -12,7 +12,7 @@ import OptionsMenu;
 
 class MiscSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Watermark', 'Count down note', 'Health text', 'Botplay', 'Reset Key', 'Exit'];
+	var textMenuItems:Array<String> = ['Watermark', 'Count down note', 'Health text', 'Botplay', 'Reset Key', 'Light Note', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -29,9 +29,6 @@ class MiscSubState extends MusicBeatSubstate
 		grpOptionsTexts = new FlxTypedGroup<Alphabet>();
 		add(grpOptionsTexts);
 
-		// selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
-		// add(selector);
-
 		save.bind("Options");
 		try{
 			if(save.data.options == null)
@@ -41,9 +38,14 @@ class MiscSubState extends MusicBeatSubstate
 			trace("not work");
 		}
 
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Misc State" + " | " + "Press Enter to enable setting", 12);
+		versionShit.scrollFactor.set();
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
+
 		for (i in 0...textMenuItems.length)
 		{
-			var optionText:Alphabet = new Alphabet(20, 50 + (i * 100), textMenuItems[i], true, false);
+			var optionText:Alphabet = new Alphabet(0, 50 + (i * 100), textMenuItems[i], true, false);
 			optionText.ID = i;
 			optionText.isMenuItem = true;
 			optionText.targetY = i;
@@ -56,21 +58,12 @@ class MiscSubState extends MusicBeatSubstate
 		// 			txt.alpha = 0.6;
 		// 	});
 
-		textHint();
-		changeSelection();
-
 		textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "Disable or Enable\nPop Engine Watermark", 35);
 		textOptions.scrollFactor.set();
 		textOptions.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(textOptions);	
-	}
+		add(textOptions);
 
-	function textHint() 
-	{
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Misc State" + " | " + "Press Enter to enable setting", 12);
-		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(versionShit);
+		changeSelection();
 	}
 
 	override function update(elapsed:Float)
@@ -146,7 +139,12 @@ class MiscSubState extends MusicBeatSubstate
 					}else{
 						save.data.options.remove("Reset Key");
 					}
-					// trace("Botplay change");
+				case "Light Note":
+					if(!save.data.options.contains("Light Note")){
+						save.data.options.push("Light Note");
+					}else{
+						save.data.options.remove("Light Note");
+					}
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new OptionsSubState());
@@ -179,6 +177,8 @@ class MiscSubState extends MusicBeatSubstate
 					textOptions.text = "Press reset key to\nquick dead";
 				case "Exit":
 					textOptions.text = "Return Options Menu";
+				case "Light Note":
+					textOptions.text = "Make the graphic of the note light than normall\n(NOTE: THAT OPTIONS CAN HURT YOUR EYE!)";
 			}
 
 			var stuff:Int = 0;

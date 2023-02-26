@@ -45,14 +45,13 @@ class ControlsSubState extends MusicBeatSubstate
 
 		for (i in 0...textMenuItems.length)
 		{
-			var optionText:Alphabet = new Alphabet(20, 20 + (i * 100), textMenuItems[i], true, false);
+			var optionText:Alphabet = new Alphabet(0, 50 + (i * 100), textMenuItems[i], true, false);
 			optionText.ID = i;
-
 			optionText.isMenuItem = true;
 			optionText.targetY = i;
-
 			grpOptionsTexts.add(optionText);
 		}
+		
 		BG = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width / 4), Std.int(FlxG.height / 2) + 500, 0xFF000000);
 		BG.x = FlxG.width - BG.width;
 		BG.alpha = 0.25;

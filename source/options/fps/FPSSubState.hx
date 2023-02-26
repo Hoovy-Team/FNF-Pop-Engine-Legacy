@@ -15,7 +15,7 @@ import Options;
 
 class FPSSubState extends FlxSubState
 {
-	var textMenuItems:Array<String> = ['FPS', 'Exit'];
+	var textMenuItems:Array<String> = ['Type A', 'Type B', 'Type C', 'Type D', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -32,6 +32,7 @@ class FPSSubState extends FlxSubState
 	var fpsText:FlxText;
 
 	public static var MUSICBEATSTATE:MusicBeatState;
+	var textOptions:FlxText;
 	
 	public function new()
 	{
@@ -47,7 +48,7 @@ class FPSSubState extends FlxSubState
 
 		for (i in 0...textMenuItems.length)
 		{
-			var optionText:Alphabet = new Alphabet(20, 20 + (i * 100), textMenuItems[i], true, false);
+			var optionText:Alphabet = new Alphabet(0, 20 + (i * 100), textMenuItems[i], true, false);
 			optionText.ID = i;
 			optionText.isMenuItem = true;
 			optionText.targetY = i;
@@ -59,66 +60,82 @@ class FPSSubState extends FlxSubState
 		fpsText.scrollFactor.set();
 		add(fpsText);
 
+		textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "FPS Cap to 60", 35);
+		textOptions.scrollFactor.set();
+		textOptions.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(textOptions);
+
 		changeSelection();
 	}
-	override function update(elapsed:Float)
-		{
-			super.update(elapsed);
-	
-			if (MUSICBEATSTATE.controls.UP_P)
-				changeSelection(-1);
-				//curSelected -= 1;
-	
-			if (MUSICBEATSTATE.controls.DOWN_P)
-				changeSelection(1);
-				//curSelected += 1;
 
-			if(MUSICBEATSTATE.controls.BACK){
-				FlxG.state.openSubState(new OptionsSubState());
-			}	
-			if (curSelected < 0)
-				curSelected = textMenuItems.length - 1;
-	
-			if (curSelected >= textMenuItems.length)
-				curSelected = 0;
-	
-			grpOptionsTexts.forEach(function(txt:Alphabet)
-			{
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		if (MUSICBEATSTATE.controls.UP_P)
+			changeSelection(-1);
+			//curSelected -= 1;
+
+		if (MUSICBEATSTATE.controls.DOWN_P)
+			changeSelection(1);
+			//curSelected += 1;
+
+		if(MUSICBEATSTATE.controls.BACK){
+			FlxG.state.openSubState(new OptionsSubState());
+		}	
+
+		fpsText.text = "FPS: " + Std.string(FPS);
+
+		if (curSelected < 0)
+			curSelected = textMenuItems.length - 1;
+
+		if (curSelected >= textMenuItems.length)
+			curSelected = 0;
+
+		grpOptionsTexts.forEach(function(txt:Alphabet)
+		{
+			txt.color = FlxColor.WHITE;
+			if (txt.ID == curSelected)
+				txt.color = FlxColor.YELLOW;
+			else {
 				txt.color = FlxColor.WHITE;
-				if (txt.ID == curSelected)
-					txt.color = FlxColor.YELLOW;
-				else {
-					txt.color = FlxColor.WHITE;
-				}
-			});	
-			if (MUSICBEATSTATE.controls.ACCEPT)
-			{
-				switch (textMenuItems[curSelected])
-				{	
-					case "Exit":
-						//FlxG.sound.play(Paths.sound('confirmMenu'));
-						FlxG.state.openSubState(new OptionsSubState());
-				}
 			}
-			fpsText.text = "FPS: " + Std.string(FPS);
-			if(MUSICBEATSTATE.controls.LEFT){
-				if(textMenuItems[curSelected] == "FPS" && FPS >= 61){
-					FPS -= 1;
+		});	
+
+		if (MUSICBEATSTATE.controls.ACCEPT)
+		{
+			switch (textMenuItems[curSelected])
+			{	
+				case "Exit":
+					FlxG.state.openSubState(new OptionsSubState());
+
+				case "Type A":
+					FPS = 60;
 					sys.io.File.saveContent(Paths.txt('options/fps'), Std.string(FPS));
 					FlxG.updateFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
 					FlxG.drawFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
-					
-				}
-			}
-			if(MUSICBEATSTATE.controls.RIGHT){
-				if(textMenuItems[curSelected] == "FPS" && FPS <= 359){
-					FPS += 1;
+
+				case "Type B":
+					FPS = 120;
 					sys.io.File.saveContent(Paths.txt('options/fps'), Std.string(FPS));
 					FlxG.updateFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
 					FlxG.drawFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
-				}
+
+				case "Type C":
+					FPS = 140;
+					sys.io.File.saveContent(Paths.txt('options/fps'), Std.string(FPS));
+					FlxG.updateFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
+					FlxG.drawFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
+
+				case "Type D":
+					FPS = 160;
+					sys.io.File.saveContent(Paths.txt('options/fps'), Std.string(FPS));
+					FlxG.updateFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
+					FlxG.drawFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
 			}
 		}
+	}
+
 	function changeSelection(change:Int = 0)
 	{
 		if (change != 0)
@@ -132,6 +149,19 @@ class FPSSubState extends FlxSubState
 			curSelected = 0;
 
 		var stuff:Int = 0;
+
+		switch(textMenuItems[curSelected]){
+			case "Type A":
+				textOptions.text = "Cap to 60 FPS";
+			case "Type B":
+				textOptions.text = "Cap to 120 FPS";
+			case "Type C":
+				textOptions.text = "Cap to 140 FPS";
+			case "Type D":
+				textOptions.text = "Cap to 160 FPS";
+			case "Exit":
+				textOptions.text = "Return Options Menu";
+		}
 
 		for (item in grpOptionsTexts.members)
 		{

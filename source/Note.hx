@@ -94,50 +94,46 @@ class Note extends FlxSprite
 				updateHitbox();
 
 			default:
-				if (save.data.options.contains("Light")){
-					frames = Paths.getSparrowAtlas('NOTE_assets_LIGHT');
+				//if (save.data.options.contains("Light Note")){
+				//	frames = Paths.getSparrowAtlas('NOTE_assets_LIGHT');
+				//	animation.addByPrefix('greenScroll', 'green0');
+				//	animation.addByPrefix('redScroll', 'red0');
+				//	animation.addByPrefix('blueScroll', 'blue0');
+				//	animation.addByPrefix('purpleScroll', 'purple0');
+				//	animation.addByPrefix('purpleholdend', 'pruple end hold');
+				//	animation.addByPrefix('greenholdend', 'green hold end');
+				//	animation.addByPrefix('redholdend', 'red hold end');
+				//	animation.addByPrefix('blueholdend', 'blue hold end');
+				//	animation.addByPrefix('purplehold', 'purple hold piece');
+				//	animation.addByPrefix('greenhold', 'green hold piece');
+				//	animation.addByPrefix('redhold', 'red hold piece');
+				//	animation.addByPrefix('bluehold', 'blue hold piece');
+				//	setGraphicSize(Std.int(width * 0.7));
+				//	updateHitbox();
+				//	antialiasing = true;
+				//}
+				// else{
+				frames = Paths.getSparrowAtlas('NOTE_assets');
 
-					animation.addByPrefix('greenScroll', 'green0');
-					animation.addByPrefix('redScroll', 'red0');
-					animation.addByPrefix('blueScroll', 'blue0');
-					animation.addByPrefix('purpleScroll', 'purple0');
+				animation.addByPrefix('greenScroll', 'green0');
+				animation.addByPrefix('redScroll', 'red0');
+				animation.addByPrefix('blueScroll', 'blue0');
+				animation.addByPrefix('purpleScroll', 'purple0');
 	
-					animation.addByPrefix('purpleholdend', 'pruple end hold');
-					animation.addByPrefix('greenholdend', 'green hold end');
-					animation.addByPrefix('redholdend', 'red hold end');
-					animation.addByPrefix('blueholdend', 'blue hold end');
+				animation.addByPrefix('purpleholdend', 'pruple end hold');
+				animation.addByPrefix('greenholdend', 'green hold end');
+				animation.addByPrefix('redholdend', 'red hold end');
+				animation.addByPrefix('blueholdend', 'blue hold end');
 	
-					animation.addByPrefix('purplehold', 'purple hold piece');
-					animation.addByPrefix('greenhold', 'green hold piece');
-					animation.addByPrefix('redhold', 'red hold piece');
-					animation.addByPrefix('bluehold', 'blue hold piece');
+				animation.addByPrefix('purplehold', 'purple hold piece');
+				animation.addByPrefix('greenhold', 'green hold piece');
+				animation.addByPrefix('redhold', 'red hold piece');
+				animation.addByPrefix('bluehold', 'blue hold piece');
 	
-					setGraphicSize(Std.int(width * 0.7));
-					updateHitbox();
-					antialiasing = true;
-				}
-				else{
-					frames = Paths.getSparrowAtlas('NOTE_assets');
-
-					animation.addByPrefix('greenScroll', 'green0');
-					animation.addByPrefix('redScroll', 'red0');
-					animation.addByPrefix('blueScroll', 'blue0');
-					animation.addByPrefix('purpleScroll', 'purple0');
-	
-					animation.addByPrefix('purpleholdend', 'pruple end hold');
-					animation.addByPrefix('greenholdend', 'green hold end');
-					animation.addByPrefix('redholdend', 'red hold end');
-					animation.addByPrefix('blueholdend', 'blue hold end');
-	
-					animation.addByPrefix('purplehold', 'purple hold piece');
-					animation.addByPrefix('greenhold', 'green hold piece');
-					animation.addByPrefix('redhold', 'red hold piece');
-					animation.addByPrefix('bluehold', 'blue hold piece');
-	
-					setGraphicSize(Std.int(width * 0.7));
-					updateHitbox();
-					antialiasing = true;
-				}
+				setGraphicSize(Std.int(width * 0.7));
+				updateHitbox();
+				antialiasing = true;
+				// }
 		}
 
 		switch (noteData)
@@ -191,6 +187,9 @@ class Note extends FlxSprite
 
 			if (save.data.options.contains("Downscroll"))
 				angle = 180;
+
+			if (save.data.options.contains("Light Note"))
+				color = 0xFFFFFF;
 
 			if (prevNote.isSustainNote)
 			{

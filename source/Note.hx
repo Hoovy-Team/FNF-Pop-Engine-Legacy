@@ -189,6 +189,9 @@ class Note extends FlxSprite
 			if (PlayState.curStage.startsWith('school'))
 				x += 30;
 
+			if (save.data.options.contains("Downscroll"))
+				angle = 180;
+
 			if (prevNote.isSustainNote)
 			{
 				switch (prevNote.noteData)

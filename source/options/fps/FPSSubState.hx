@@ -40,10 +40,6 @@ class FPSSubState extends FlxSubState
 		grpOptionsTexts = new FlxTypedGroup<Alphabet>();
 		add(grpOptionsTexts);
 
-
-		selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
-		add(selector);
-
 		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "FPS State" + " | " + "Press Left or Right in fps Selected will be +1 or -1 fps", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -53,17 +49,17 @@ class FPSSubState extends FlxSubState
 		{
 			var optionText:Alphabet = new Alphabet(20, 20 + (i * 100), textMenuItems[i], true, false);
 			optionText.ID = i;
-
 			optionText.isMenuItem = true;
 			optionText.targetY = i;
-			
-            trace(optionText.text);
 			grpOptionsTexts.add(optionText);
 		}
+
 		fpsText = new FlxText(800, 30, 0, Std.string(FPS), 80);
 		fpsText.setFormat(Paths.font("vcr.ttf"), 80, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		fpsText.scrollFactor.set();
 		add(fpsText);
+
+		changeSelection();
 	}
 	override function update(elapsed:Float)
 		{

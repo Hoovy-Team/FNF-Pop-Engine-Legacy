@@ -57,11 +57,12 @@ class GameSettingSubState extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptionsTexts.add(optionText);
 		}
-		grpOptionsTexts.forEach(function(txt:Alphabet)
-			{				
-				if (txt.ID != 0)
-					txt.alpha = 0.6;
-			});
+		// grpOptionsTexts.forEach(function(txt:Alphabet)
+		// 	{				
+		// 		if (txt.ID != 0)
+		// 			txt.alpha = 0.6;
+		// 	});
+		changeSelection();
 	}
 
 	override function update(elapsed:Float)

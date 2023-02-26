@@ -52,15 +52,17 @@ class PerferncesSubState extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptionsTexts.add(optionText);
 		}
-		grpOptionsTexts.forEach(function(txt:Alphabet)
-			{				
-				if (txt.ID != 0)
-					txt.alpha = 0.6;
-			});
+		// grpOptionsTexts.forEach(function(txt:Alphabet)
+		// {				
+		// 	if (txt.ID != 0)
+		// 		txt.alpha = 0.6;
+		// });
 		textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "Help you play less miss", 35);
 		textOptions.scrollFactor.set();
 		textOptions.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(textOptions);	
+
+		changeSelection();
 	}
 
 	override function update(elapsed:Float)
@@ -159,48 +161,48 @@ class PerferncesSubState extends MusicBeatSubstate
 	}
 
 	function changeSelection(change:Int = 0)
-		{
-			if (change != 0)
-				FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
-	
-			curSelected += change;
-	
-			if (curSelected < 0)
-				curSelected = textMenuItems.length - 1;
-			else if (curSelected >= textMenuItems.length)
-				curSelected = 0;
-	
-			var stuff:Int = 0;
+	{
+		if (change != 0)
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
-			switch (textMenuItems[curSelected]){
-				case "Ghost tap":
-					textOptions.text = "Help you play less miss";
-				case "Downscroll":
-					textOptions.text = "Change the layout from up to down";
-				case "Accuracy":
-					textOptions.text = "MUST ENABLE THIS\nAdd the accuracy system and more";
-				case "Time Bar":
-					textOptions.text = "See how long the songs will play";
-				case "NPS Display":
-					textOptions.text = "Like KPS, NPS working like this";
-				case "Note Glow":
-					textOptions.text = "Add note glow for player 2 note";
-				case "More GUI":
-					textOptions.text = "Add sicks, goods, bads and shits on display";
-				case "Exit":
-					textOptions.text = "Return Options Menu";
-			}
-	
-			for (item in grpOptionsTexts.members)
-			{
-				item.targetY = stuff - curSelected;
-				stuff ++;
-	
-				item.alpha = 0.6;
-	
-				if (item.targetY == 0)
-					item.alpha = 1;
-			}
-	
+		curSelected += change;
+
+		if (curSelected < 0)
+			curSelected = textMenuItems.length - 1;
+		else if (curSelected >= textMenuItems.length)
+			curSelected = 0;
+
+		var stuff:Int = 0;
+
+		switch (textMenuItems[curSelected]){
+			case "Ghost tap":
+				textOptions.text = "Help you play less miss";
+			case "Downscroll":
+				textOptions.text = "Change the layout from up to down";
+			case "Accuracy":
+				textOptions.text = "MUST ENABLE THIS\nAdd the accuracy system and more";
+			case "Time Bar":
+				textOptions.text = "See how long the songs will play";
+			case "NPS Display":
+				textOptions.text = "Like KPS, NPS working like this";
+			case "Note Glow":
+				textOptions.text = "Add note glow for player 2 note";
+			case "More GUI":
+				textOptions.text = "Add sicks, goods, bads and shits on display";
+			case "Exit":
+				textOptions.text = "Return Options Menu";
 		}
+
+		for (item in grpOptionsTexts.members)
+		{
+			item.targetY = stuff - curSelected;
+			stuff ++;
+
+			item.alpha = 0.6;
+
+			if (item.targetY == 0)
+				item.alpha = 1;
+		}
+
+	}
 }

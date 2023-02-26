@@ -49,13 +49,15 @@ class MiscSubState extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptionsTexts.add(optionText);
 		}
-		grpOptionsTexts.forEach(function(txt:Alphabet)
-			{				
-				if (txt.ID != 0)
-					txt.alpha = 0.6;
-			});
+
+		// grpOptionsTexts.forEach(function(txt:Alphabet)
+		// 	{				
+		// 		if (txt.ID != 0)
+		// 			txt.alpha = 0.6;
+		// 	});
 
 		textHint();
+		changeSelection();
 
 		textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "Disable or Enable\nPop Engine Watermark", 35);
 		textOptions.scrollFactor.set();

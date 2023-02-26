@@ -7,6 +7,8 @@ import openfl.Lib;
 
 class Options
 {
+	public static var masterVolume:Float = 1;
+
 	public static var save = new FlxSave();
 
 	static public function optionsLoad()
@@ -19,5 +21,9 @@ class Options
 		}catch(e){
 			trace("not work");
 		}
+
+		// (cast (Lib.current.getChildAt(0), Main)).toggleFPS(save.data.options.contains("FPS Counter"));
+
+		// (cast (Lib.current.getChildAt(0), Main)).toggleMem(save.data.options.contains("Memory Counter"));
 	}
 }

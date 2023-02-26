@@ -1,6 +1,4 @@
 Add Note Skin (light skin)
-Add note glow options: Done
-Add the sicks, goods, bad and shit gui: Done
+Add note glow options
+Add the sicks, goods, bad and shit gui
 Edit Chart State
-
-Add MiddleScroll

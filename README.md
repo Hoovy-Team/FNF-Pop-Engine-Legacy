@@ -1,25 +1,5 @@
-# Something
-
-- This FNF Pop Engine just a normall engine and working only one person! (But now is 2 people)
-
-- It you want working this with me, just join the discord
-
-# Discord Sever!
-
-- Join [Discord Server](https://discord.gg/qJMrAQ4d) Now!
-- Sometime i not check the discord server
-
-# Thank You
-
-- Thank for [MemeHoovy](https://twitter.com/meme_hoovy) for fixed the botplay (but i need to edit something on botplay too)
 # FNF Pop Engine
 
-### Version
-
-Were are build version 0.0.7 update, so this source are show this 0.0.7 added and delete
-
-
-### Details
 A very normall engine made by me!
 
 this engine have:
@@ -43,13 +23,11 @@ Engine need to using source to mod!
 1. `8` Key For player 2 offset
 2. `9` Key For player 1 offset
 
-- Chart State have new stuff, please check it out!
+- Chart State have new stuff, please check it out! (Srr but there no)
 - Note glow from [ProjectFNF](https://github.com/aflacc/ProjectFNF)
 - Botplay its from [Xgen Engine](https://github.com/Twingamerdudes/XGen) (i change some stuff lol)
 
 # Build
-
-**UPDATE HAXE 4.2.4 NOW!!!**
 
 Using [Setup.bat](https://gamebanana.com/tuts/13798)
 
@@ -59,7 +37,7 @@ Using [Setup.bat](https://gamebanana.com/tuts/13798)
 - [Twingamerdudes](https://www.youtube.com/c/Twingamerdudes) - The guy who teach how to make a options using substate
 
 ### OG Develop of FNF
-- [ninjamuffin99](https://twitter.com/ninja_muffin99) - Programmer
+- [ninjamuffin99)](https://twitter.com/ninja_muffin99) - Programmer
 - [PhantomArcade3K](https://twitter.com/phantomarcade3k) and [Evilsk8r](https://twitter.com/evilsk8r) - Art
 - [Kawaisprite](https://twitter.com/kawaisprite) - Musician
 

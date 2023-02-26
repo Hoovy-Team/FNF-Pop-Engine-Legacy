@@ -15,11 +15,11 @@ class Main extends Sprite
 {
 	var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
 	var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
-	final initialState:Class<FlxState> = TitleState; // The FlxState the game starts with.
+	var initialState:Class<FlxState> = TitleState; // The FlxState the game starts with.
 	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
-	final framerate:Int = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps'))); // How many frames per second the game should run at.
-	final skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
-	final startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
+	var framerate:Int = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps'))); // How many frames per second the game should run at.
+	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
+	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 	public static var memoryCounter:MemoryCounter; // See how much the game using MB
 	public static var fpsCounter:FPS; // See per frame in the game
 
@@ -56,23 +56,30 @@ class Main extends Sprite
 
 	private function setupGame():Void
 	{
-		final stageWidth:Int = Lib.current.stage.stageWidth;
-		final stageHeight:Int = Lib.current.stage.stageHeight;
+		var stageWidth:Int = Lib.current.stage.stageWidth;
+		var stageHeight:Int = Lib.current.stage.stageHeight;
 
 		if (zoom == -1)
 		{
-			final ratioX:Float = stageWidth / gameWidth;
-			final ratioY:Float = stageHeight / gameHeight;
+			var ratioX:Float = stageWidth / gameWidth;
+			var ratioY:Float = stageHeight / gameHeight;
 			zoom = Math.min(ratioX, ratioY);
 			gameWidth = Math.ceil(stageWidth / zoom);
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
+		#if !debug
+		initialState = TitleState;
+		#end
+
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 
+		#if !mobile
 		memoryCounter = new MemoryCounter(10, 3, 0xffffff);
 		addChild(memoryCounter);
 		addChild(new FPS(10, 3, 0xFFFFFF));
+		// addChild(new memoryCounter(10, 3, 0xffffff));
+		#end
 	}
 
 	public function toggleFPS(fpsEnabled:Bool):Void {

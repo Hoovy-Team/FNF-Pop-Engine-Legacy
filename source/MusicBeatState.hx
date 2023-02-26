@@ -49,11 +49,11 @@ class MusicBeatState extends FlxUIState
 	
 	public function fancyOpenURL(schmancy:String)
 	{
-		#if linux
-		Sys.command('/usr/bin/xdg-open', [schmancy, "&"]);
-		#else
-		FlxG.openURL(schmancy);
-		#end
+			#if linux
+			Sys.command('/usr/bin/xdg-open', [schmancy, "&"]);
+			#else
+			FlxG.openURL(schmancy);
+			#end
 	}
 
 	private function updateCurStep():Void

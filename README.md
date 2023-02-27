@@ -25,7 +25,7 @@ Engine need to using source to mod!
 
 - Chart State have new stuff, please check it out!
 - Note glow from [ProjectFNF](https://github.com/aflacc/ProjectFNF)
-- Botplay its from [Xgen Engine](https://github.com/Twingamerdudes/XGen) (i change some stuff lol)
+- Botplay from [Xgen Engine](https://github.com/Twingamerdudes/XGen) (i change some stuff lol)
 
 # Build
 

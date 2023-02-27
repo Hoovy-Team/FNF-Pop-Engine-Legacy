@@ -125,7 +125,7 @@ class Paths
 
 	inline static public function json(key:String, ?library:String)
 	{
-		return getPath('data/$key.json', TEXT, library);
+		return getPath('data/chart/$key.json', TEXT, library);
 	}
 
 	static public function sound(key:String, ?library:String)

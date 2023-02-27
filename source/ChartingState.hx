@@ -158,7 +158,7 @@ class ChartingState extends MusicBeatState
 		add(dummyArrow);
 
 		var tabs = [
-			{name: "Stuff (!IT JUST A TESTER PART!)", label: 'Stuff (!IT JUST A TESTER PART!)'},
+			{name: "Stuff", label: 'Stuff'},
 			{name: "Song", label: 'Song'},
 			{name: "Section", label: 'Section'},
 			{name: "Note", label: 'Note'}
@@ -182,8 +182,8 @@ class ChartingState extends MusicBeatState
 			+ "\nHold Shift to place outline of grid"
 			+ "\nHold Shift + LEFT OR RIGHT Arrow \nto move x4 Section"
 			+ "\nThis Chart state is now in progress! (Beta " + betaVersion + ")"
-			/*+ "\nPlayer 1 Section: " + player1Sec*/, 14);
-		textHint.setFormat(Paths.font("vcr.ttf"), 14, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			/*+ "\nPlayer 1 Section: " + player1Sec*/, 18);
+		textHint.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		textHint.scrollFactor.set();
 		add(textHint);
 
@@ -215,18 +215,18 @@ class ChartingState extends MusicBeatState
 		typingShit = UI_songTitle;
 
 		var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt('list/characterList'));
-		var gfVersion:Array<String> = CoolUtil.coolTextFile(Paths.txt('list/gfVersion'));
-		var stage:Array<String> = CoolUtil.coolTextFile(Paths.txt('list/stageList'));
+		var gfVersions:Array<String> = CoolUtil.coolTextFile(Paths.txt('list/gfVersion'));
+		var stages:Array<String> = CoolUtil.coolTextFile(Paths.txt('list/stageList'));
 
-		var gfVersionDropDown = new FlxUIDropDownMenu(140, 140, FlxUIDropDownMenu.makeStrIdLabelArray(gfVersion, true), function(gfVersion:String)
+		var gfVersionDropDown = new FlxUIDropDownMenu(10, 200, FlxUIDropDownMenu.makeStrIdLabelArray(gfVersions, true), function(gfVersion:String)
 		{
-			_song.gfVersion = characters[Std.parseInt(gfVersion)];
+			_song.gfVersion = gfVersions[Std.parseInt(gfVersion)];
 		});
 		gfVersionDropDown.selectedLabel = _song.gfVersion;
-	
-		var stageDropDown = new FlxUIDropDownMenu(10, 140, FlxUIDropDownMenu.makeStrIdLabelArray(stage, true), function(stage:String)
+
+		var stageDropDown = new FlxUIDropDownMenu(140, 200, FlxUIDropDownMenu.makeStrIdLabelArray(stages, true), function(stage:String)
 		{
-			_song.stage = characters[Std.parseInt(stage)];
+			_song.stage = stages[Std.parseInt(stage)];
 		});
 		stageDropDown.selectedLabel = _song.stage;
 
@@ -243,7 +243,7 @@ class ChartingState extends MusicBeatState
 		player2DropDown.selectedLabel = _song.player2;
 
 		var tab_group_song = new FlxUI(null, UI_box);
-		tab_group_song.name = "Stuff (!IT JUST A TESTER PART!)";
+		tab_group_song.name = "Stuff";
 		tab_group_song.add(UI_songTitle);
 
 		tab_group_song.add(gfVersionDropDown);

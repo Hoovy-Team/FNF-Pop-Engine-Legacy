@@ -26,8 +26,8 @@ class MemoryCounter extends TextField
 		defaultTextFormat = new TextFormat("_sans", 14, inCol);
 
 		addEventListener(Event.ENTER_FRAME, onEnter);
-		width = 150;
-		height = 70;
+		width = 1280;
+		height = 720;
 	}
 
 	private function onEnter(_)

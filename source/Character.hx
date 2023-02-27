@@ -377,6 +377,20 @@ class Character extends FlxSprite
 				loadOffsetFile(curCharacter);
 
 				playAnim('idle');
+
+			default: // i set default characters is dad
+				// DAD ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('DADDY_DEAREST');
+				frames = tex;
+				animation.addByPrefix('idle', 'Dad idle dance', 24);
+				animation.addByPrefix('singUP', 'Dad Sing Note UP', 24);
+				animation.addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24);
+				animation.addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24);
+				animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24);
+			
+				loadOffsetFile(curCharacter);
+			
+				playAnim('idle');
 		}
 
 		dance();

@@ -715,7 +715,7 @@ class PlayState extends MusicBeatState
 
 		add(grpNoteSplashes);
 
-		generateSong(SONG.song);
+		generateSong();
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 

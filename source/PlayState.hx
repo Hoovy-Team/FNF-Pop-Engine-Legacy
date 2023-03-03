@@ -80,7 +80,6 @@ class PlayState extends MusicBeatState
 	private var unspawnNotes:Array<Note> = [];
 
 	private var strumLine:FlxSprite;
-	private var curSection:Int = 0;
 
 	private var camFollow:FlxObject;
 
@@ -2443,8 +2442,6 @@ class PlayState extends MusicBeatState
 			},
 			startDelay: Conductor.crochet * 0.001
 		});
-
-		curSection += 1;
 	}
 
 	private function keyShit():Void

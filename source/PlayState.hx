@@ -1442,12 +1442,12 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 
-	function truncateFloat( number : Float, precision : Int): Float {
+	function truncateFloat(number:Float, precision:Int):Float {
 		var num = number;
 		num = num * Math.pow(10, precision);
 		num = Math.round( num ) / Math.pow(10, precision);
 		return num;
-		}
+	}
 
 	function updateAccuracy()
 	{
@@ -1455,9 +1455,7 @@ class PlayState extends MusicBeatState
 		accuracy = totalNotesHit / totalPlayed * 100;
 		//trace(totalNotesHit + '/' + totalPlayed + '* 100 = ' + accuracy);
 		if (accuracy >= 100.00)
-		{
-				accuracy = 100;
-		}
+			accuracy = 100;
 	
 	}
 

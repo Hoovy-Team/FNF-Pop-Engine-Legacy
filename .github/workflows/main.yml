@@ -37,6 +37,8 @@ jobs:
           haxelib install flixel-ui
           haxelib install flixel-addons
           haxelib install flixel-tools
+          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
+          haxelib install linc_luajit
           haxelib list
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -69,6 +71,8 @@ jobs:
           haxelib install flixel-ui
           haxelib install flixel-addons
           haxelib install flixel-tools
+          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
+          haxelib install linc_luajit
           haxelib list
         shell: cmd
       - name: Create Version Tag
@@ -103,6 +107,8 @@ jobs:
           haxelib install flixel-ui
           haxelib install flixel-addons
           haxelib install flixel-tools
+          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
+          haxelib install linc_luajit
           haxelib list
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION

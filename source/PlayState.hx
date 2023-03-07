@@ -52,11 +52,17 @@ import openfl.filters.ShaderFilter;
 import Note;
 import MusicBeatState;
 import flixel.system.FlxAssets;
+import llua.Convert;
+import llua.Lua;
+import llua.State;
+import llua.LuaL;
 
 using StringTools;
 
 class PlayState extends MusicBeatState
 {
+	public static var instance:PlayState = null;
+
 	public static var STRUM_X = 42;
 
 	public static var curStage:String = '';
@@ -72,9 +78,9 @@ class PlayState extends MusicBeatState
 
 	private var vocals:FlxSound;
 
-	private var dad:Character;
-	private var gf:Character;
-	private var boyfriend:Boyfriend;
+	public static var dad:Character;
+	public static var gf:Character;
+	public static var boyfriend:Boyfriend;
 
 	private var notes:FlxTypedGroup<Note>;
 	private var unspawnNotes:Array<Note> = [];
@@ -103,8 +109,9 @@ class PlayState extends MusicBeatState
 	private var generatedMusic:Bool = false;
 	private var startingSong:Bool = false;
 
-	private var iconP1:HealthIcon;
-	private var iconP2:HealthIcon;
+	public var iconP1:HealthIcon;
+	public var iconP2:HealthIcon;
+
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
@@ -192,6 +199,12 @@ class PlayState extends MusicBeatState
 	public static final evilSchoolSongs = ["thorns"];
 	public static final pixelSongs = ["senpai", "roses", "thorns"];
 
+	var lua_runner:LuaCode = null;
+
+	// Kade Engine Code
+	public function addObject(object:FlxBasic) { add(object); }
+	public function removeObject(object:FlxBasic) { remove(object); }
+
 	override public function create()
 	{
 		FlxG.mouse.visible = false;
@@ -211,6 +224,8 @@ class PlayState extends MusicBeatState
 		}catch(e){
 			trace('$e');
 		}
+
+		FileSystem.exists(Paths.lua(SONG.song.toLowerCase() + "/lua"));
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
@@ -1035,6 +1050,9 @@ class PlayState extends MusicBeatState
 	function startCountdown():Void
 	{
 		inCutscene = false;
+
+		LuaCode.runLuaCode();
+		Lua.tostring(LuaCode.lua, LuaCode.callLua('start', [SONG.song]));
 
 		generateStaticArrows(0);
 		generateStaticArrows(1);

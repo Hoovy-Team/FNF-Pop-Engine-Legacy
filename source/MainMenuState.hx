@@ -32,7 +32,7 @@ class MainMenuState extends MusicBeatState
 
 	var save = new FlxSave();
 
-	public static var engineVer:String = "0.0.6.5";
+	public static var engineVer:String = "0.0.6.8";
 
 	var updateList:FlxText;
 	var creditsText:FlxText;

@@ -105,7 +105,7 @@
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
 	<haxelib name="openfl"/>
-	<!--<haxelib name="polymod"/>--> <!--Decide to none using polymod, mods will i using psych Mods System Instead-->
+	<haxelib name="linc_luajit"/>
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="hxcpp-debug-server" if="allowServer"/>
 

@@ -12,7 +12,7 @@ import OptionsMenu;
 
 class MiscSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Watermark', 'Count down note', 'Health text', 'Botplay', 'Reset Key', /*'Light Note',*/ 'Exit'];
+	var textMenuItems:Array<String> = ['Watermark', 'Count down note', 'Health text', 'Botplay', 'Reset Key', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -139,12 +139,6 @@ class MiscSubState extends MusicBeatSubstate
 					}else{
 						save.data.options.remove("Reset Key");
 					}
-				// case "Light Note":
-				// 	if(!save.data.options.contains("Light Note")){
-				// 		save.data.options.push("Light Note");
-				// 	}else{
-				// 		save.data.options.remove("Light Note");
-				// 	}
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new OptionsSubState());
@@ -177,8 +171,6 @@ class MiscSubState extends MusicBeatSubstate
 					textOptions.text = "Press reset key to\nquick dead";
 				case "Exit":
 					textOptions.text = "Return Options Menu";
-				// case "Light Note":
-				// 	textOptions.text = "Make the graphic of the note light than normall\n(NOTE: THAT OPTIONS CAN HURT YOUR EYE!)";
 			}
 
 			var stuff:Int = 0;

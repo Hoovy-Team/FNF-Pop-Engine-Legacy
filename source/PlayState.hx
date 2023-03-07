@@ -194,7 +194,6 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		// keyShit();
 		FlxG.mouse.visible = false;
 
 		if (FlxG.sound.music != null)
@@ -298,6 +297,7 @@ class PlayState extends MusicBeatState
 
 				isHalloween = true;
 			}
+
 			case 'philly': 
 			{
 				curStage = 'philly';
@@ -338,6 +338,7 @@ class PlayState extends MusicBeatState
 				var street:FlxSprite = new FlxSprite(-40, streetBehind.y).loadGraphic(Paths.image('philly/street','week3'));
 				add(street);
 			}
+
 			case 'limo':
 			{
 				curStage = 'limo';
@@ -374,6 +375,7 @@ class PlayState extends MusicBeatState
 
 				fastCar = new FlxSprite(-300, 160).loadGraphic(Paths.image('limo/fastCarLol','week4'));
 			}
+
 			case 'mall':
 			{
 				curStage = 'mall';
@@ -431,6 +433,7 @@ class PlayState extends MusicBeatState
 				santa.antialiasing = true;
 				add(santa);
 			}
+
 			case 'mallEvil':
 			{
 				curStage = 'mallEvil';
@@ -451,6 +454,7 @@ class PlayState extends MusicBeatState
 					evilSnow.antialiasing = true;
 				add(evilSnow);
 			}
+
 			case 'school':
 			{
 				curStage = 'school';
@@ -512,6 +516,7 @@ class PlayState extends MusicBeatState
 				bgGirls.updateHitbox();
 				add(bgGirls);
 			}
+
 			case 'schoolEvil':
 			{
 				curStage = 'schoolEvil';
@@ -530,6 +535,7 @@ class PlayState extends MusicBeatState
 				bg.scale.set(6, 6);
 				add(bg);
 			}
+
 			case 'stage':
 			{
 				defaultCamZoom = 0.9;
@@ -557,6 +563,7 @@ class PlayState extends MusicBeatState
 
 				add(stageCurtains);
 			}
+
 			default:
 			{
 				defaultCamZoom = 0.9;
@@ -688,8 +695,6 @@ class PlayState extends MusicBeatState
 		add(boyfriend);
 
 		var doof:DialogueBox = new DialogueBox(false, dialogue);
-		// doof.x += 70;
-		// doof.y = FlxG.height * 0.5;
 		doof.scrollFactor.set();
 		doof.finishThing = startCountdown;
 

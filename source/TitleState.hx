@@ -51,7 +51,7 @@ class TitleState extends MusicBeatState
 	override public function create():Void
 	{
 		PlayerSettings.init();
-		Options.optionsLoad();
+		// Options.optionsLoad();
 
 		save.bind("Options");
 		try{
@@ -61,6 +61,10 @@ class TitleState extends MusicBeatState
 		}catch(e){
 			trace("not work");
 		}
+
+		// if (save.data.options.contains("Cache All sound and song")){
+		FlxG.sound.cacheAll();
+		// }
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
@@ -268,11 +272,11 @@ class TitleState extends MusicBeatState
 					}
 
 					#if x86_system
-					if (WarmVar.warmFirst == true){
-						trace('x86 computer, go to warm');
+					if (WarmVar.warmFirst){
+						// trace('x86 computer, go to warm');
 						FlxG.switchState(new WarmSubState());
 					}
-					else if (WarmVar.warmFirst == false){
+					else if (!WarmVar.warmFirst){
 						FlxG.switchState(new MainMenuState());							
 					}
 					else{

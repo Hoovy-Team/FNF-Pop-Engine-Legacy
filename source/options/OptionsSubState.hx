@@ -11,7 +11,7 @@ import OptionsMenu;
 
 class OptionsSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Controls', 'Perfernces', 'Misc', 'FPS', 'Exit'];
+	var textMenuItems:Array<String> = ['Controls', 'Perfernces', /*'System',*/ 'Misc', 'FPS', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -26,9 +26,6 @@ class OptionsSubState extends MusicBeatSubstate
 
 		grpOptionsTexts = new FlxTypedGroup<Alphabet>();
 		add(grpOptionsTexts);
-
-		// selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
-		// add(selector);
 
 		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Options State" + " | " + "Press Enter to go this setting", 12);
 		versionShit.scrollFactor.set();
@@ -106,9 +103,9 @@ class OptionsSubState extends MusicBeatSubstate
 				case "Misc":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new options.MiscSubState());
-				/*case "EARSE":
-					FlxG.state.closeSubState();
-					FlxG.state.openSubState(new options.game.EarseDataSubState());*/
+				// case "System":
+				/*	FlxG.state.closeSubState();
+					FlxG.state.openSubState(new options.SystemSubState());			*/		
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.switchState(new MainMenuState());
@@ -133,6 +130,8 @@ class OptionsSubState extends MusicBeatSubstate
 					textOptions.text = "Edit your keybinds";
 				case "Perfernces":
 					textOptions.text = "Disable or Enable\nthe main setting";
+				// case "System":
+				// 	textOptions.text = "Disable or Enable\nthe system setting";
 				case "FPS":
 					textOptions.text = "Change FPS Cap";
 				case "Misc":

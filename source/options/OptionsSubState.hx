@@ -27,7 +27,7 @@ class OptionsSubState extends MusicBeatSubstate
 		grpOptionsTexts = new FlxTypedGroup<Alphabet>();
 		add(grpOptionsTexts);
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Options State" + " | " + "Press Enter to go this setting", 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Options State" + " | Press Enter to go this setting", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);

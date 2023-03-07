@@ -32,16 +32,13 @@ class ControlsSubState extends MusicBeatSubstate
 	{
 		super();
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Controls State" + "" + "", 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Controls State", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 		
 		grpOptionsTexts = new FlxTypedGroup<Alphabet>();
 		add(grpOptionsTexts);
-
-		// selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
-		// add(selector);
 
 		for (i in 0...textMenuItems.length)
 		{

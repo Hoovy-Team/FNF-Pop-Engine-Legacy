@@ -52,11 +52,7 @@ class PerferncesSubState extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptionsTexts.add(optionText);
 		}
-		// grpOptionsTexts.forEach(function(txt:Alphabet)
-		// {				
-		// 	if (txt.ID != 0)
-		// 		txt.alpha = 0.6;
-		// });
+
 		textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "Help you play less miss", 35);
 		textOptions.scrollFactor.set();
 		textOptions.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);

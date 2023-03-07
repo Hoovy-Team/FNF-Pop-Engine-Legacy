@@ -12,10 +12,11 @@ import lime.utils.Assets;
 import flixel.FlxSubState;
 import flixel.util.FlxSave;
 import Options;
+import openfl.Lib;
 
 class FPSSubState extends FlxSubState
 {
-	var textMenuItems:Array<String> = ['Type A', 'Type B', 'Type C', 'Type D', 'Exit'];
+	var textMenuItems:Array<String> = ['Type A', 'Type B', 'Type C', 'Type D', 'Maximum Type', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -132,6 +133,10 @@ class FPSSubState extends FlxSubState
 					sys.io.File.saveContent(Paths.txt('options/fps'), Std.string(FPS));
 					FlxG.updateFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
 					FlxG.drawFramerate = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps')));
+			
+				case "Maximum Type":
+					Lib.current.stage.frameRate = 800;
+
 			}
 		}
 	}
@@ -159,6 +164,8 @@ class FPSSubState extends FlxSubState
 				textOptions.text = "Cap to 140 FPS";
 			case "Type D":
 				textOptions.text = "Cap to 160 FPS";
+			case "Maximum Type":
+				textOptions.text = "Cap to 800 FPS (I Dont wanna crash game though)";
 			case "Exit":
 				textOptions.text = "Return Options Menu";
 		}

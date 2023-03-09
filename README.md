@@ -29,7 +29,19 @@ Engine need to using source to mod!
 
 # Build
 
+## OUTDATE:
+
 Using [Setup.bat](https://gamebanana.com/tuts/13798)
+
+## New One:
+1. Install some main [lib here](https://haxeflixel.com/documentation/install-haxeflixel/)
+2. Open the command app and:
+```
+haxelib git polymod https://github.com/larsiusprime/polymod.git
+haxelib git flixel-addons https://github.com/HaxeFlixel/flixel-addons
+haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
+haxelib git linc_luajit  https://github.com/AndreiRudenko/linc_luajit.git
+```
 
 ## Credits
 

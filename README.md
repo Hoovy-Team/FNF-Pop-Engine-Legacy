@@ -8,7 +8,7 @@ FNF Pop Engine is a custom FNF Engine come with:
 > Controls, Perfernces, Misc, FPS and Gameplay Setting
 
 + New Charting State Display!
-> With Text hint and Stuff Tab!
+> With Text hint and Stuff Tab!, you can now easy change characters, gf and stage!
 
 and more...
 

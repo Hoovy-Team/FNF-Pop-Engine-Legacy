@@ -1,20 +1,16 @@
 # FNF Pop Engine
 
-A very normall engine made by me!
+FNF Pop Engine is a custom FNF Engine come with:
++ A new FPS and Memory Counter Look!
+> Pixel Font with Memory Counter
 
-this engine have:
++ Options Stuff!
+> Controls, Perfernces, Misc, FPS and Gameplay Setting
 
-- Ghost tap
-- Downscroll
-- Accuracy
-- Controls change
-- FPS Cap
-- Game setting
-- Watermark
++ New Charting State Display!
+> With Text hint and Stuff Tab!
 
 and more...
-
-Engine need to using source to mod!
 
 ## A little of stuff
 

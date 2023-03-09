@@ -1,4 +1,4 @@
-package openfl.display;
+package game.fpsCounter;
 
 import haxe.Timer;
 import openfl.events.Event;
@@ -12,6 +12,7 @@ import openfl.display._internal.stats.DrawCallContext;
 import openfl.Lib;
 #end
 import flixel.text.FlxText;
+import flixel.system.FlxAssets;
 
 /**
 	The FPS class provides an easy-to-use monitor to display
@@ -21,7 +22,7 @@ import flixel.text.FlxText;
 @:fileXml('tags="haxe,release"')
 @:noDebug
 #end
-class FPS extends TextField
+class FPSCounter extends TextField
 {
 	/**
 		The current frame rate, expressed using frames-per-second
@@ -42,7 +43,7 @@ class FPS extends TextField
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("_sans", 14, color);
+		defaultTextFormat = new TextFormat(FlxAssets.FONT_DEFAULT, 13, color);
 		// defaultTextFormat.setFormat(Paths.font("vcr.ttf"), 12, color);
 		text = "FPS: ";
 

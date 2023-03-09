@@ -36,7 +36,6 @@ class MainMenuState extends MusicBeatState
 
 	var updateList:FlxText;
 	var creditsText:FlxText;
-	// var textItem:FlxText;
 
 	override function create()
 	{

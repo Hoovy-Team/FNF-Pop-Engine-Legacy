@@ -6,6 +6,7 @@ import openfl.system.System;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.Memory;
+import flixel.system.FlxAssets;
 
 /**
  * FPS class extension to display memory usage.
@@ -23,7 +24,8 @@ class MemoryCounter extends TextField
 		x = inX;
 		y = inY;
 		selectable = false;
-		defaultTextFormat = new TextFormat("_sans", 14, inCol);
+		defaultTextFormat = new TextFormat(FlxAssets.FONT_DEFAULT, 13, inCol);
+		// defaultTextFormat = new TextFormat("_sans", 14, inCol);
 
 		addEventListener(Event.ENTER_FRAME, onEnter);
 		width = 1280;

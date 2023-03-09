@@ -9,6 +9,7 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import lime.utils.Assets;
 import game.memoryCounter.MemoryCounter;
+import game.fpsCounter.FPSCounter;
 import Options;
 
 class Main extends Sprite
@@ -20,8 +21,8 @@ class Main extends Sprite
 	var framerate:Int = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/fps'))); // How many frames per second the game should run at.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
-	public static var memoryCounter:MemoryCounter; // See how much the game using MB
-	public static var fpsCounter:FPS; // See per frame in the game
+	public static var memoryCounter:MemoryCounter; // See how much the game using Memory game
+	public static var fpsCounter:FPSCounter; // See per frame in the game
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -79,8 +80,7 @@ class Main extends Sprite
 		#if !mobile
 		memoryCounter = new MemoryCounter(10, 3, 0xffffff);
 		addChild(memoryCounter);
-		addChild(new FPS(10, 3, 0xFFFFFF));
-		// addChild(new memoryCounter(10, 3, 0xffffff));
+		addChild(new FPSCounter(10, 3, 0xFFFFFF));
 		#end
 	}
 
@@ -88,8 +88,7 @@ class Main extends Sprite
 		fpsCounter.visible = fpsEnabled;
 	}
 
-	public static function toggleMem(memEnabled:Bool):Void
-	{
+	public static function toggleMem(memEnabled:Bool):Void {
 		memoryCounter.visible = memEnabled;
 	}
 }

@@ -1051,8 +1051,8 @@ class PlayState extends MusicBeatState
 	{
 		inCutscene = false;
 
-		LuaCode.runLuaCode();
-		Lua.tostring(LuaCode.lua, LuaCode.callLua('start', [SONG.song]));
+		// LuaCode.runLuaCode();
+		// Lua.tostring(LuaCode.lua, LuaCode.callLua('start', [SONG.song]));
 
 		generateStaticArrows(0);
 		generateStaticArrows(1);

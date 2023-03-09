@@ -121,17 +121,6 @@ class MainMenuState extends MusicBeatState
 
 	function textShow()
 	{
-		// var language:FlxText = new FlxText(5, FlxG.height - 36, 0, "" + if (save.data.options.contains("Vietnamese"))
-		// {
-		// 	"Ngôn ngữ: Việt";
-		// } else
-		// {
-		// 	"";
-		// }, 12);
-		// language.scrollFactor.set();
-		// language.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		// add(language);
-
 		#if debug
 		updateList = new FlxText(5, FlxG.height - 36, 0, "Press U to see the Update List", 12);
 		updateList.scrollFactor.set();
@@ -156,11 +145,6 @@ class MainMenuState extends MusicBeatState
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-
-		// textItem = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "", 35);
-		// textItem.scrollFactor.set();
-		// textItem.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		// add(textItem);
 	}
 
 	override function update(elapsed:Float)

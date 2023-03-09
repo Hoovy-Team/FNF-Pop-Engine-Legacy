@@ -49,7 +49,7 @@ class ChartingState extends MusicBeatState
 	var bpmTxt:FlxText;
 
 	var strumLine:FlxSprite;
-	var curSong:String = 'Dadbattle';
+	var curSong:String = 'Tutorial';
 	var amountSteps:Int = 0;
 	var bullshitUI:FlxGroup;
 
@@ -81,7 +81,6 @@ class ChartingState extends MusicBeatState
 
 	/*var player1Section:FlxText;
 	var player1Sec:FlxText;*/
-	var betaVersion:String = "0.01";
 
 	var autoSaveTimer:FlxTimer;
 
@@ -176,9 +175,7 @@ class ChartingState extends MusicBeatState
 		textHint = new FlxText(60, 10, 0, 
 			"Hold Ctrl to place 2 section in 1 time"
 			+ "\nHold Shift to place outline of grid"
-			+ "\nHold Shift + LEFT OR RIGHT Arrow \nto move x4 Section"
-			+ "\nThis Chart state is now in progress! (Beta " + betaVersion + ")"
-			/*+ "\nPlayer 1 Section: " + player1Sec*/, 18);
+			+ "\nHold Shift + LEFT OR RIGHT Arrow \nto move x4 Section", 18);
 		textHint.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		textHint.scrollFactor.set();
 		add(textHint);
@@ -209,12 +206,6 @@ class ChartingState extends MusicBeatState
 	}*/
 	function addStuffUI():Void
 	{
-		// var title:FlxText = new FlxText(UI_box.x + 20, UI_box.y + 20, '!IT JUST A TESTER PART!', 0);
-		// bullshitUI.add(title);
-
-		// textHint = new FlxText(10, 10, 100, "!IT JUST A TESTER PART!", 8);
-		// add(textHint);
-		
 		var UI_songTitle = new FlxUIInputText(10, 10, 70, _song.song, 8);
 		typingShit = UI_songTitle;
 

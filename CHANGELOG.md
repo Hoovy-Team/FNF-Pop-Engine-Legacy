@@ -3,6 +3,11 @@ FOR POP ENGINE
 
 Start on v0.0.4 to today
 
+## 0.0.6.8 - A Little Update:
+- New FPS and MemoryCounter Look!
+- Fixed Note Glow Crash
+- Added Maximum Type on FPS Setting (It not save for you!)
+
 ## 0.0.6.5:
 - Remake FPS Setting
 - Fix Options text

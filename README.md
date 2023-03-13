@@ -23,7 +23,7 @@ For Download other build, please go to [Action](https://github.com/Hoovy-Team/FN
 
 - Chart State have new stuff, please check it out!
 - Note glow from [ProjectFNF](https://github.com/aflacc/ProjectFNF)
-- Botplay from [Xgen Engine](https://github.com/Twingamerdudes/XGen) (i change some stuff lol)
+- Botplay from [Psych Engine](https://github.com/ShadowMario/FNF-PsychEngine/)
 
 # Build
 

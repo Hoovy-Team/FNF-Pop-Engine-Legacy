@@ -46,7 +46,7 @@ class TitleState extends MusicBeatState
 
 	var wackyImage:FlxSprite;
 
-	public static var save = new FlxSave();
+	var save = new FlxSave();
 
 	override public function create():Void
 	{

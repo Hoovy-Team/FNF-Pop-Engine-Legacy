@@ -3,12 +3,38 @@ package;
 import Conductor.BPMChangeEvent;
 import flixel.FlxG;
 import flixel.FlxSubState;
+import flixel.util.FlxSave;
 
 class MusicBeatSubstate extends FlxSubState
 {
+	public static var save = new FlxSave();
+
 	public function new()
 	{
 		super();
+
+		save.bind("Options");
+		try{
+			if(save.data.options == null)
+				save.data.options = new Array<String>();
+				save.data.options[0] = "";
+		}catch(e){
+			trace("not work");
+		}
+	}
+
+	override function create() 
+	{
+		super.create();
+		
+		save.bind("Options");
+		try{
+			if(save.data.options == null)
+				save.data.options = new Array<String>();
+				save.data.options[0] = "";
+		}catch(e){
+			trace("not work");
+		}
 	}
 
 	private var lastBeat:Float = 0;

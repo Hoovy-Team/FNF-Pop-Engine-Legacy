@@ -27,7 +27,10 @@ class ControlsSubState extends MusicBeatSubstate
 
 	var label:FlxText;
 
+	var textOptions:FlxText;
+
 	public static var MUSICBEATSTATE:MusicBeatState;
+
 	public function new()
 	{
 		super();
@@ -64,74 +67,76 @@ class ControlsSubState extends MusicBeatSubstate
 		label.scrollFactor.set();
 		add(label);
 
-		// grpOptionsTexts.forEach(function(txt:Alphabet)
-		// {				
-		// 	if (txt.ID != 0)
-		// 		txt.alpha = 0.6;
-		// });
+		textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "", 35);
+		textOptions.scrollFactor.set();
+		textOptions.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(textOptions);	
+
 		changeSelection();
 	}
+	
 	override function update(elapsed:Float)
-		{
-			super.update(elapsed);
-	
-			if (MUSICBEATSTATE.controls.UP_P)
-				changeSelection(-1);
-				//curSelected -= 1;
-	
-			if (MUSICBEATSTATE.controls.DOWN_P)
-				changeSelection(1);
-				//curSelected += 1;
+	{
+		super.update(elapsed);
 
-			if(MUSICBEATSTATE.controls.BACK){
-				FlxG.state.openSubState(new OptionsSubState());
-			}	
-			if (curSelected < 0)
-				curSelected = textMenuItems.length - 1;
-	
-			if (curSelected >= textMenuItems.length)
-				curSelected = 0;
-	
-			grpOptionsTexts.forEach(function(txt:Alphabet)
+		if (controls.UP_P)
+			changeSelection(-1);
+			//curSelected -= 1;
+
+		if (controls.DOWN_P)
+			changeSelection(1);
+			//curSelected += 1;
+
+		if(controls.BACK){
+			FlxG.state.openSubState(new OptionsSubState());
+		}	
+		if (curSelected < 0)
+			curSelected = textMenuItems.length - 1;
+
+		if (curSelected >= textMenuItems.length)
+			curSelected = 0;
+
+		grpOptionsTexts.forEach(function(txt:Alphabet)
+		{
+			txt.color = FlxColor.WHITE;
+
+			if (txt.ID == curSelected)
+				txt.color = FlxColor.YELLOW;
+		});
+		if(textMenuItems[curSelected] != "Exit"){
+			keyBind.text = CoolUtil.coolTextFileString(Paths.txt('options/keybinds/' + textMenuItems[curSelected].toLowerCase()));
+		}else{
+			keyBind.text = "";
+		}
+		if (MUSICBEATSTATE.controls.ACCEPT)
+		{
+			switch (textMenuItems[curSelected])
 			{
-				txt.color = FlxColor.WHITE;
-	
-				if (txt.ID == curSelected)
-					txt.color = FlxColor.YELLOW;
-			});
-			if(textMenuItems[curSelected] != "Exit"){
-				keyBind.text = CoolUtil.coolTextFileString(Paths.txt('options/keybinds/' + textMenuItems[curSelected].toLowerCase()));
-			}else{
-				keyBind.text = "";
-			}
-			if (MUSICBEATSTATE.controls.ACCEPT)
-			{
-				switch (textMenuItems[curSelected])
-				{
-					case "Exit":
-						FlxG.state.openSubState(new OptionsSubState());
-				}
-			}
-			if(FlxG.keys.justPressed.ANY && !controls.ACCEPT && !controls.RIGHT && !controls.LEFT && !controls.UP && !controls.DOWN && !controls.BACK && !controls.PAUSE){
-				switch (textMenuItems[curSelected]){
-					case "Left":
-						sys.io.File.saveContent(Paths.txt('options/keybinds/left'), FlxG.keys.getIsDown()[0].ID.toString());
-						controls.setKeyboardScheme(Solo);
-					case "Down":
-						sys.io.File.saveContent(Paths.txt('options/keybinds/down'), FlxG.keys.getIsDown()[0].ID.toString());
-						controls.setKeyboardScheme(Solo);
-					case "Up":
-						sys.io.File.saveContent(Paths.txt('options/keybinds/up'), FlxG.keys.getIsDown()[0].ID.toString());
-						controls.setKeyboardScheme(Solo);
-					case "Right":
-						sys.io.File.saveContent(Paths.txt('options/keybinds/right'), FlxG.keys.getIsDown()[0].ID.toString());
-						controls.setKeyboardScheme(Solo);
-					case "Reset":
-						sys.io.File.saveContent(Paths.txt('options/keybinds/reset'), FlxG.keys.getIsDown()[0].ID.toString());
-						controls.setKeyboardScheme(Solo);
-				}
+				case "Exit":
+					FlxG.state.openSubState(new OptionsSubState());
 			}
 		}
+		if(FlxG.keys.justPressed.ANY && !controls.ACCEPT && !controls.RIGHT && !controls.LEFT && !controls.UP && !controls.DOWN && !controls.BACK && !controls.PAUSE){
+			switch (textMenuItems[curSelected]){
+				case "Left":
+					sys.io.File.saveContent(Paths.txt('options/keybinds/left'), FlxG.keys.getIsDown()[0].ID.toString());
+					controls.setKeyboardScheme(Solo);
+				case "Down":
+					sys.io.File.saveContent(Paths.txt('options/keybinds/down'), FlxG.keys.getIsDown()[0].ID.toString());
+					controls.setKeyboardScheme(Solo);
+				case "Up":
+					sys.io.File.saveContent(Paths.txt('options/keybinds/up'), FlxG.keys.getIsDown()[0].ID.toString());
+					controls.setKeyboardScheme(Solo);
+				case "Right":
+					sys.io.File.saveContent(Paths.txt('options/keybinds/right'), FlxG.keys.getIsDown()[0].ID.toString());
+					controls.setKeyboardScheme(Solo);
+				case "Reset":
+					sys.io.File.saveContent(Paths.txt('options/keybinds/reset'), FlxG.keys.getIsDown()[0].ID.toString());
+					controls.setKeyboardScheme(Solo);
+			}
+		}
+	}
+
 	function changeSelection(change:Int = 0)
 	{
 		if (change != 0)
@@ -145,6 +150,24 @@ class ControlsSubState extends MusicBeatSubstate
 			curSelected = 0;
 
 		var stuff:Int = 0;
+
+		switch(textMenuItems[curSelected])
+		{
+			case "Left":
+				textOptions.text = "Change Left Key";
+
+			case "Down":
+				textOptions.text = "Change Down Key";
+
+			case "Up":
+				textOptions.text = "Change Up Key";
+
+			case "Right":
+				textOptions.text = "Change Right Key";
+
+			case "Exit":
+				textOptions.text = "Return Options Menu";
+		}
 
 		for (item in grpOptionsTexts.members)
 		{

@@ -12,22 +12,20 @@ import OptionsMenu;
 
 class MiscSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Watermark', 'Count down note', 'Health text', 'Botplay', 'Reset Key', 'Exit'];
+	var textMenuItems:Array<String> = ['Size', 'Watermark', 'Count down note', 'Health text', 'Botplay', 'Reset Key', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
 
 	var grpOptionsTexts:FlxTypedGroup<Alphabet>;
 
-	var save = new FlxSave();
 	var textOptions:FlxText;
+
+	var save = new FlxSave();
 
 	public function new()
 	{
 		super();
-
-		grpOptionsTexts = new FlxTypedGroup<Alphabet>();
-		add(grpOptionsTexts);
 
 		save.bind("Options");
 		try{
@@ -37,6 +35,9 @@ class MiscSubState extends MusicBeatSubstate
 		}catch(e){
 			trace("not work");
 		}
+
+		grpOptionsTexts = new FlxTypedGroup<Alphabet>();
+		add(grpOptionsTexts);
 
 		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Misc State" + " | " + "Press Enter to enable setting", 12);
 		versionShit.scrollFactor.set();
@@ -98,7 +99,10 @@ class MiscSubState extends MusicBeatSubstate
 		if (controls.ACCEPT)
 		{
 			switch (textMenuItems[curSelected])
-			{
+			{				
+				case "Size":
+					FlxG.state.closeSubState();
+					FlxG.state.openSubState(new SizeSubState());					
 				case "Watermark":
 					if(!save.data.options.contains("Watermark")){
 						save.data.options.push("Watermark");

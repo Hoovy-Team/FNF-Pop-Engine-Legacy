@@ -10,6 +10,7 @@ import openfl.events.Event;
 import lime.utils.Assets;
 import game.memoryCounter.MemoryCounter;
 import game.fpsCounter.FPSCounter;
+import game.debugCounter.DebugCounter;
 import Options;
 
 class Main extends Sprite
@@ -77,11 +78,12 @@ class Main extends Sprite
 
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen));
 
-		#if !mobile
 		memoryCounter = new MemoryCounter(10, 3, 0xffffff);
 		addChild(memoryCounter);
 		addChild(new FPSCounter(10, 3, 0xFFFFFF));
-		#end
+		// #if debug
+		addChild(new DebugCounter(10, 3, 0x00ff15));
+		// #end
 	}
 
 	public function toggleFPS(fpsEnabled:Bool):Void {

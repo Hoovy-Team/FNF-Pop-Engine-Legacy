@@ -7,6 +7,7 @@ import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxRect;
 import flixel.util.FlxTimer;
 import flixel.FlxBasic;
+import flixel.util.FlxSave;
 
 class MusicBeatState extends FlxUIState
 {
@@ -21,12 +22,23 @@ class MusicBeatState extends FlxUIState
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
 
+	public static var save = new FlxSave();
+
 	override function create()
 	{
 		if (transIn != null)
 			trace('reg ' + transIn.region);
 
 		super.create();
+
+		save.bind("Options");
+		try{
+			if(save.data.options == null)
+				save.data.options = new Array<String>();
+				save.data.options[0] = "";
+		}catch(e){
+			trace("not work");
+		}
 	}
 
 	override function update(elapsed:Float)

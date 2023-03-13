@@ -52,6 +52,12 @@ class TitleState extends MusicBeatState
 	{
 		PlayerSettings.init();
 		// Options.optionsLoad();
+		if (FlxG.save.data.firstPlay){
+			FlxG.save.data.firstPlay = false;
+		}else{
+			FlxG.save.data.firstPlay = true;
+		}
+		Called.firstPlay(); // a checker first play
 
 		save.bind("Options");
 		try{

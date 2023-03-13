@@ -1606,13 +1606,17 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	var healthDrain:Bool = false;
+	var drain:Bool = false;
 
 	override public function update(elapsed:Float)
 	{
 		#if !debug
 		perfectMode = false;
 		#end
+
+		if (save.data.options.contains("Health Drain")){
+			drain = true;
+		}
 
 		if (FlxG.keys.justPressed.NINE)
 		{
@@ -1637,15 +1641,6 @@ class PlayState extends MusicBeatState
 			if (nps > maxNPS)
 				maxNPS = nps;
 		}
-
-		/*if (save.data.options.contains("Old BF Icon"))
-		{
-			iconP1.animation.play('bf-old');
-		}
-		else
-		{
-			iconP1.animation.play(SONG.player1);
-		}*/
 
 		switch (curStage)
 		{
@@ -1741,10 +1736,14 @@ class PlayState extends MusicBeatState
 		if (health > 2)
 			health = 2;
 
-		if (healthBar.percent < 20)
+		if (healthBar.percent < 20){
+			drain = false;
 			iconP1.animation.curAnim.curFrame = 1;
-		else
+		}
+		else{
+			drain = true;
 			iconP1.animation.curAnim.curFrame = 0;
+		}
 
 		if (healthBar.percent > 80)
 			iconP2.animation.curAnim.curFrame = 1;
@@ -1895,11 +1894,13 @@ class PlayState extends MusicBeatState
 		}
 
 		#if hack_power //ww
+		#if debug
 		if (FlxG.keys.justPressed.H){
 			// trace('why user');
 			trace('user is cheating!');
 			health += 1;
 		}
+		#end
 		#end
 
 		if (health <= 0)
@@ -1988,28 +1989,28 @@ class PlayState extends MusicBeatState
 					{
 						case 0:
 							dad.playAnim('singLEFT' + altAnim, true);
-							if (save.data.options.contains("Health Drain")){
+							if (save.data.options.contains("Health Drain") && drain){
 								health -= 0.00475;
 							}else{
 								health -= 0;
 							}
 						case 1:
 							dad.playAnim('singDOWN' + altAnim, true);
-							if (save.data.options.contains("Health Drain")){
+							if (save.data.options.contains("Health Drain") && drain){
 								health -= 0.00475;
 							}else{
 								health -= 0;
 							}
 						case 2:
 							dad.playAnim('singUP' + altAnim, true);
-							if (save.data.options.contains("Health Drain")){
+							if (save.data.options.contains("Health Drain") && drain){
 								health -= 0.00475;
 							}else{
 								health -= 0;
 							}
 						case 3:
 							dad.playAnim('singRIGHT' + altAnim, true);
-							if (save.data.options.contains("Health Drain")){
+							if (save.data.options.contains("Health Drain") && drain){
 								health -= 0.00475;
 							}else{
 								health -= 0;
@@ -2323,9 +2324,6 @@ class PlayState extends MusicBeatState
 		rating.screenCenter();
 		rating.x = coolText.x - 40;
 		rating.y -= 60;
-		if (save.data.options.contains("Botplay")){
-			rating.visible = false;
-		}
 		rating.acceleration.y = 550;
 		rating.velocity.y -= FlxG.random.int(140, 175);
 		rating.velocity.x -= FlxG.random.int(0, 10);
@@ -2333,12 +2331,10 @@ class PlayState extends MusicBeatState
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
 		comboSpr.screenCenter();
 		comboSpr.x = coolText.x;
-		if (save.data.options.contains("Botplay")){
-			comboSpr.visible = false;
-		}
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
+		add(comboSpr);
 		add(rating);
 
 		if (!curStage.startsWith('school'))
@@ -2723,10 +2719,12 @@ class PlayState extends MusicBeatState
 					note.destroy();
 				}
 
-				new FlxTimer().start(8 / 60, function(tmr:FlxTimer)
-				{
-					boyfriend.playAnim('idle', true);
-				});
+				Called.recoverAnimation(bf);
+
+				// new FlxTimer().start(8 / 60, function(tmr:FlxTimer)
+				// {
+				// 	boyfriend.playAnim('idle', true);
+				// });
 
 				return;
 			}

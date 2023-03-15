@@ -12,7 +12,7 @@ import OptionsMenu;
 
 class PerferncesSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Ghost tap', 'Downscroll', 'Accuracy', 'Time Bar', 'NPS Display', 'Note Glow', 'More GUI', 'Note Splash', 'Exit'];
+	var textMenuItems:Array<String> = ['Optimized', 'Ghost tap', 'Downscroll', 'Accuracy', 'Time Bar', 'NPS Display', 'Note Glow', 'More GUI', 'Note Splash', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -100,6 +100,9 @@ class PerferncesSubState extends MusicBeatSubstate
 		{
 			switch (textMenuItems[curSelected])
 			{
+				case "Optimized":
+					FlxG.state.closeSubState();
+					FlxG.state.openSubState(new OptimizedSubState());					
 				case "Ghost tap":
 					if(!save.data.options.contains("Ghost tap")){
 						save.data.options.push("Ghost tap");

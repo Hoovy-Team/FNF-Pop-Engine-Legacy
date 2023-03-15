@@ -1485,10 +1485,10 @@ class PlayState extends MusicBeatState
 
 	function generateRanking():String //Code From Kade Engine 1.3.1
 	{
-		var ranking:String = "N/A";
+		var ranking:String = "?";
 
 		if (misses == 0 && bads == 0 && shits == 0 && goods == 0) // Marvelous (SICK) Full Combo
-			ranking = "(MFC)";
+			ranking = "(SFC)";
 		else if (misses == 0 && bads == 0 && shits == 0 && goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
 			ranking = "(GFC)";
 		else if ((shits < 0 && shits != 0 || bads < 10 && bads != 0) && misses == 0) // Single Digit Combo Breaks
@@ -1505,22 +1505,13 @@ class PlayState extends MusicBeatState
 		// WIFE TIME :)))) (based on Wife3)
 
 		var wifeConditions:Array<Bool> = [
-			accuracy >= 99.9935, // AAAAA
-			accuracy >= 99.980, // AAAA:
-			accuracy >= 99.970, // AAAA.
-			accuracy >= 99.955, // AAAA
-			accuracy >= 99.90, // AAA:
-			accuracy >= 99.80, // AAA.
-			accuracy >= 99.70, // AAA
-			accuracy >= 99, // AA:
-			accuracy >= 96.50, // AA.
-			accuracy >= 93, // AA
-			accuracy >= 90, // A:
-			accuracy >= 85, // A.
-			accuracy >= 80, // A
-			accuracy >= 70, // B
-			accuracy >= 60, // C
-			accuracy < 60 // D
+			accuracy >= 100, // S
+			accuracy >= 90, // A
+			accuracy >= 80, // B
+			accuracy >= 70, // C
+			accuracy >= 60, // D
+			accuracy >= 50, // E
+			accuracy >= 20, // F
 		];
 
 		for(i in 0...wifeConditions.length)
@@ -1531,37 +1522,19 @@ class PlayState extends MusicBeatState
 				switch(i)
 				{
 					case 0:
-						ranking += " AAAAA";
+						ranking += "S";
 					case 1:
-						ranking += " AAAA:";
+						ranking += "A";
 					case 2:
-						ranking += " AAAA.";
+						ranking += "B";
 					case 3:
-						ranking += " AAAA";
+						ranking += "C";
 					case 4:
-						ranking += " AAA:";
+						ranking += "D";
 					case 5:
-						ranking += " AAA.";
+						ranking += "E";
 					case 6:
-						ranking += " AAA";
-					case 7:
-						ranking += " AA:";
-					case 8:
-						ranking += " AA.";
-					case 9:
-						ranking += " AA";
-					case 10:
-						ranking += " A:";
-					case 11:
-						ranking += " A.";
-					case 12:
-						ranking += " A";
-					case 13:
-						ranking += " B";
-					case 14:
-						ranking += " C";
-					case 15:
-						ranking += " D";
+						ranking += "F";
 				}
 				break;
 			}
@@ -1570,7 +1543,7 @@ class PlayState extends MusicBeatState
 			ranking = "Botplay";
 		}
 		else if (accuracy == 0)
-			ranking = "N/A";
+			ranking = "?";
 
 		return ranking;
 	}
@@ -2582,7 +2555,7 @@ class PlayState extends MusicBeatState
 	{
 		if (!boyfriend.stunned)
 		{
-			health -= 0.04;
+			health -= 0.04 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
 			if (combo > 5 && gf.animOffsets.exists('sad'))
 			{
 				gf.playAnim('sad');
@@ -2660,6 +2633,8 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	var doneIdle:Bool = false;
+
 	function goodNoteHit(note:Note):Void
 	{
 		if(!note.isSustainNote){
@@ -2668,6 +2643,11 @@ class PlayState extends MusicBeatState
 
 		if (!note.wasGoodHit)
 		{
+			var length:Float = note.sustainLength;
+	
+			var bps:Float = Conductor.bpm / 60;
+			var spb:Float = 1 / bps;
+
 			if (save.data.options.contains("Botplay") && (!note.ignoreNote || !note.hitCausesMiss))
 			{
 				if (!note.isSustainNote)
@@ -2684,16 +2664,16 @@ class PlayState extends MusicBeatState
 				note.wasGoodHit = true;
 				
 				if (note.noteData >= 0)
-					health += 0.023;
+					health += 0.023 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
 				else
-					health += 0.004;
+					health += 0.004 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
 
 				playerStrums.forEach(function(spr:FlxSprite)
 				{
 					if (Math.abs(note.noteData) == spr.ID)
 					{
 						spr.animation.play('confirm', true);
-						new FlxTimer().start(8 / 60, function(tmr:FlxTimer)
+						new FlxTimer().start(10 / 60 + 0.1, function(tmr:FlxTimer)
 						{
 							spr.animation.play('static', true);
 						});
@@ -2719,12 +2699,18 @@ class PlayState extends MusicBeatState
 					note.destroy();
 				}
 
-				Called.recoverAnimation(bf);
-
-				// new FlxTimer().start(8 / 60, function(tmr:FlxTimer)
-				// {
-				// 	boyfriend.playAnim('idle', true);
-				// });
+				if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !controls.UP && !controls.DOWN && !controls.RIGHT && !controls.LEFT)
+				{
+					if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
+					{
+						doneIdle = true;
+						boyfriend.playAnim('idle');
+					}
+				}
+				else
+				{
+					doneIdle = false;
+				}
 
 				return;
 			}
@@ -2741,9 +2727,9 @@ class PlayState extends MusicBeatState
 				totalNotesHit += 1;
 
 			if (note.noteData >= 0)
-				health += 0.023;
+				health += 0.023 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
 			else
-				health += 0.004;
+				health += 0.004 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
 
 			switch (note.noteData)
 			{

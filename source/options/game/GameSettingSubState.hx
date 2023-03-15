@@ -8,6 +8,8 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxSave;
 import flixel.FlxSubState;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 
 class GameSettingSubState extends MusicBeatSubstate
 {
@@ -32,9 +34,6 @@ class GameSettingSubState extends MusicBeatSubstate
 		grpOptionsTexts = new FlxTypedGroup<Alphabet>();
 		add(grpOptionsTexts);
 
-		selector = new FlxSprite().makeGraphic(5, 5, FlxColor.RED);
-		add(selector);
-
 		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Game Setting State" + " | " + "Press Enter to enable setting", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -57,11 +56,9 @@ class GameSettingSubState extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptionsTexts.add(optionText);
 		}
-		// grpOptionsTexts.forEach(function(txt:Alphabet)
-		// 	{				
-		// 		if (txt.ID != 0)
-		// 			txt.alpha = 0.6;
-		// 	});
+
+		FlxTween.tween(bg, {alpha: 0.6}, 0.4, {ease: FlxEase.quartInOut});
+
 		changeSelection();
 	}
 
@@ -96,14 +93,16 @@ class GameSettingSubState extends MusicBeatSubstate
 
 		if(controls.BACK)
 		{
-			FlxG.state.closeSubState();
-			FlxG.state.openSubState(new OptionsSubState());
+			close();
 		}
 
 		if (controls.ACCEPT)
 		{
 			switch (textMenuItems[curSelected])
 			{
+				// case "Int Change":
+				// 	FlxG.state.closeSubState();
+				// 	FlxG.switchState(new IntChangeSubState());
 				case "Kill One Miss":
 					if(!save.data.options.contains("Kill One Miss")){
 						save.data.options.push("Kill One Miss");
@@ -133,36 +132,35 @@ class GameSettingSubState extends MusicBeatSubstate
 					}
 					trace("Health Drain change");
 				case "Exit":
-					FlxG.state.closeSubState();
-					FlxG.switchState(new FreeplayState());
+					close();
 			}
 		}
 	}
 
 	function changeSelection(change:Int = 0)
+	{
+		if (change != 0)
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+	
+		curSelected += change;
+	
+		if (curSelected < 0)
+			curSelected = textMenuItems.length - 1;
+		else if (curSelected >= textMenuItems.length)
+			curSelected = 0;
+	
+		var stuff:Int = 0;
+	
+		for (item in grpOptionsTexts.members)
 		{
-			if (change != 0)
-				FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+			item.targetY = stuff - curSelected;
+			stuff ++;
 	
-			curSelected += change;
+			item.alpha = 0.6;
 	
-			if (curSelected < 0)
-				curSelected = textMenuItems.length - 1;
-			else if (curSelected >= textMenuItems.length)
-				curSelected = 0;
-	
-			var stuff:Int = 0;
-	
-			for (item in grpOptionsTexts.members)
-			{
-				item.targetY = stuff - curSelected;
-				stuff ++;
-	
-				item.alpha = 0.6;
-	
-				if (item.targetY == 0)
-					item.alpha = 1;
-			}
-	
+			if (item.targetY == 0)
+				item.alpha = 1;
 		}
+	
+	}
 }

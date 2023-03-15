@@ -64,8 +64,8 @@
 		<library name="week6"    preload="false" />
 	</section>
 
-	<assets path="plugins/"             rename=''               if="windows" />
-	<assets path="dlls/"                rename=''               if="windows" />
+	<assets path="plugins/" rename='' if="windows" />
+	<assets path="dlls/" rename='' if="windows" />
 	
 	<assets path="assets/songs"    library="songs"    exclude="*.ogg" if="web"/>
 	<assets path="assets/songs"    library="songs"    exclude="*.mp3" unless="web"/>
@@ -130,5 +130,4 @@
 	<icon path="art/iconOG.png" />
 
 	<haxedef name="FILE_LOAD" if="desktop"/>
-	
 </project>

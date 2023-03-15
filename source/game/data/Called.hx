@@ -2,12 +2,13 @@ package game.data;
 
 import flixel.util.FlxSave;
 import flixel.FlxG;
-
+// global file
 class Called
 {
-    var save = new FlxSave();
+    public static var save = new FlxSave();
+    public var firstChecker:Bool = true;
 
-    function saveOpt()
+    public static function saveOpt()
     {
         save.bind("Options");
 		try{
@@ -17,14 +18,6 @@ class Called
 		}catch(e){
 			trace("not work");
 		}
-    }
-
-    public static function recoverAnimation(obj:String)
-    {
-        if (obj == "bf")
-        {
-            PlayState.boyfriend.playAnim('idle', true);
-        }
     }
 
     public static function firstPlay()
@@ -42,4 +35,8 @@ class Called
             save.data.options.push("Note Splash");
         }
     }
+
+    // all some var
+    // public static var healthGain:Float = Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+    // public static var healthDrain:Float = Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
 }

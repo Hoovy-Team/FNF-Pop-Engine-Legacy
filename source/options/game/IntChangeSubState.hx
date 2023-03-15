@@ -1,4 +1,4 @@
-package options;
+package options.game;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -8,17 +8,17 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
 
-class SizeSubState extends MusicBeatSubstate
+class IntChangeSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Score text', 'Time text', 'Exit'];
+	var textMenuItems:Array<String> = ['Health Gain', 'Health Drain', 'Exit'];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
 
 	var grpOptionsTexts:FlxTypedGroup<Alphabet>;
 
-	var scoreTxt:Int = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/scoreTxt')));
-    var timeTxt:Int = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt('options/timeTxt')));
+	var healthG:Float = Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt('options/data/healthGain')));
+    var healthD:Float = Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt('options/data/healthDrain')));
 
     var text:FlxText;
     var textOptions:FlxText;
@@ -39,7 +39,7 @@ class SizeSubState extends MusicBeatSubstate
 			grpOptionsTexts.add(optionText);
 		}
 
-		text = new FlxText(800, 30, 0, "", 80);
+        text = new FlxText(800, 30, 0, "", 80);
 		text.setFormat(Paths.font("vcr.ttf"), 80, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		text.scrollFactor.set();
 		add(text);
@@ -65,7 +65,7 @@ class SizeSubState extends MusicBeatSubstate
 		if(controls.BACK)
         {
             FlxG.state.closeSubState();
-			FlxG.state.openSubState(new MiscSubState());
+			FlxG.state.openSubState(new GameSettingSubState());
         }
 
 		if (curSelected < 0)
@@ -90,43 +90,43 @@ class SizeSubState extends MusicBeatSubstate
 			{	
 				case "Exit":
                     FlxG.state.closeSubState();
-                    FlxG.state.openSubState(new MiscSubState());
+                    FlxG.state.openSubState(new GameSettingSubState());
 			}
 		}
 
         switch(textMenuItems[curSelected])
         {
-            case "Score text":
-                text.text = Std.string(scoreTxt);
+            case "Health Gain":
+                text.text = Std.string(healthG);
 
-            case "Time text":
-                text.text = Std.string(timeTxt);
+            case "Health Drain":
+                text.text = Std.string(healthD);
 
             case "Exit":
                 text.text = "";
         }
 
 		if(controls.LEFT){
-			if(textMenuItems[curSelected] == "Score text" && scoreTxt >= 11){
-				scoreTxt -= 1;
-				sys.io.File.saveContent(Paths.txt('options/scoreTxt'), Std.string(scoreTxt));
+			if(textMenuItems[curSelected] == "Health Gain" && healthG >= 0.01){
+				healthG -= 0.01;
+				sys.io.File.saveContent(Paths.txt('options/data/healthGain'), Std.string(healthG));
 			}
 
-            if(textMenuItems[curSelected] == "Time text" && timeTxt >= 11){
-				timeTxt -= 1;
-				sys.io.File.saveContent(Paths.txt('options/timeTxt'), Std.string(timeTxt));
+            if(textMenuItems[curSelected] == "Health Drain" && healthD >= 0.01){
+				healthD -= 0.01;
+				sys.io.File.saveContent(Paths.txt('options/data/healthDrain'), Std.string(healthD));
 			}
 		}
     
 		if(controls.RIGHT){
-			if(textMenuItems[curSelected] == "Score text" && scoreTxt <= 21){
-				scoreTxt += 1;
-				sys.io.File.saveContent(Paths.txt('options/scoreTxt'), Std.string(scoreTxt));
+			if(textMenuItems[curSelected] == "Health Gain" && healthG <= 1.00){
+				healthG += 0.01;
+				sys.io.File.saveContent(Paths.txt('options/data/healthGain'), Std.string(healthG));
 			}
 
-            if(textMenuItems[curSelected] == "Time text" && timeTxt <= 33){
-				timeTxt += 1;
-				sys.io.File.saveContent(Paths.txt('options/timeTxt'), Std.string(timeTxt));
+            if(textMenuItems[curSelected] == "Health Drain" && healthD <= 1.00){
+				healthD += 0.01;
+				sys.io.File.saveContent(Paths.txt('options/data/healthDrain'), Std.string(healthD));
 			}
 		}
 	}
@@ -138,27 +138,24 @@ class SizeSubState extends MusicBeatSubstate
 
 		curSelected += change;
 
-        switch(textMenuItems[curSelected])
-        {
-            case "Score text":
-                text.text = Std.string(scoreTxt);
-                textOptions.text = "Change Size of Score Text";
-
-            case "Time text":
-                text.text = Std.string(timeTxt);
-                textOptions.text = "Change Size of Time Text";
-
-            case "Exit":
-                text.text = "";
-                textOptions.text = "Return Misc Options";
-        }
-
 		if (curSelected < 0)
 			curSelected = textMenuItems.length - 1;
 		else if (curSelected >= textMenuItems.length)
 			curSelected = 0;
 
 		var stuff:Int = 0;
+
+        switch(textMenuItems[curSelected])
+        {
+            case "Health Gain":
+                text.text = Std.string(healthG);
+
+            case "Health Drain":
+                text.text = Std.string(healthD);
+
+            case "Exit":
+                text.text = "";
+        }
 
 		for (item in grpOptionsTexts.members)
 		{

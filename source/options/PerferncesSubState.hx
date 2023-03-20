@@ -12,7 +12,17 @@ import OptionsMenu;
 
 class PerferncesSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Optimized', 'Ghost tap', 'Downscroll', 'Accuracy', 'Time Bar', 'NPS Display', 'Note Glow', 'More GUI', 'Note Splash', 'Exit'];
+	var textMenuItems:Array<String> = [/*'Optimized', */
+		'Ghost tap', 
+		'Downscroll', 
+		'Accuracy', 
+		'Time Bar', 
+		'NPS Display', 
+		'Note Glow', 
+		'More GUI', 
+		'Note Splash', 
+		'Exit'
+	];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -81,7 +91,7 @@ class PerferncesSubState extends MusicBeatSubstate
 		{
 			txt.color = FlxColor.WHITE;
 
-			if (txt.ID == curSelected && save.data.options.contains(txt.text))
+			if (save.data.options.contains(txt.text))
 				txt.color = FlxColor.GREEN;
 			else if (txt.ID == curSelected)
 				txt.color = FlxColor.YELLOW;

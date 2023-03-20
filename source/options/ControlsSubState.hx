@@ -11,6 +11,7 @@ import MusicBeatState;
 import Controls;
 import flixel.FlxSubState;
 import OptionsMenu;
+import flixel.util.FlxSave;
 
 class ControlsSubState extends MusicBeatSubstate
 {
@@ -31,6 +32,8 @@ class ControlsSubState extends MusicBeatSubstate
 
 	public static var MUSICBEATSTATE:MusicBeatState;
 
+	var save = new FlxSave();
+
 	public function new()
 	{
 		super();
@@ -39,6 +42,15 @@ class ControlsSubState extends MusicBeatSubstate
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
+
+		save.bind("Options");
+		try{
+			if(save.data.options == null)
+				save.data.options = new Array<String>();
+				save.data.options[0] = "";
+		}catch(e){
+			trace("not work");
+		}
 		
 		grpOptionsTexts = new FlxTypedGroup<Alphabet>();
 		add(grpOptionsTexts);
@@ -51,6 +63,11 @@ class ControlsSubState extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptionsTexts.add(optionText);
 		}
+
+		if (save.data.options.contains("Enable CHEAT Key"))
+			textMenuItems.insert(7, "Cheat");
+		else
+			textMenuItems.remove("Cheat");
 		
 		BG = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width / 4), Std.int(FlxG.height / 2) + 500, 0xFF000000);
 		BG.x = FlxG.width - BG.width;
@@ -62,7 +79,7 @@ class ControlsSubState extends MusicBeatSubstate
 		keyBind.scrollFactor.set();
 		add(keyBind);
 
-		label = new FlxText(/*healthBarBG.x + healthBarBG.width - 130 */ 965, 100, "Keybind:", 30);
+		label = new FlxText(/*healthBarBG.x + healthBarBG.width - 130 */ 965, 100, "Keybind: ", 30);
 		label.setFormat(Paths.font("vcr.ttf"), 70, FlxColor.WHITE, RIGHT);
 		label.scrollFactor.set();
 		add(label);
@@ -102,12 +119,16 @@ class ControlsSubState extends MusicBeatSubstate
 
 			if (txt.ID == curSelected)
 				txt.color = FlxColor.YELLOW;
+			else
+				txt.color = FlxColor.WHITE;
 		});
+
 		if(textMenuItems[curSelected] != "Exit"){
 			keyBind.text = CoolUtil.coolTextFileString(Paths.txt('options/keybinds/' + textMenuItems[curSelected].toLowerCase()));
 		}else{
 			keyBind.text = "";
 		}
+
 		if (MUSICBEATSTATE.controls.ACCEPT)
 		{
 			switch (textMenuItems[curSelected])
@@ -116,6 +137,7 @@ class ControlsSubState extends MusicBeatSubstate
 					FlxG.state.openSubState(new OptionsSubState());
 			}
 		}
+		
 		if(FlxG.keys.justPressed.ANY && !controls.ACCEPT && !controls.RIGHT && !controls.LEFT && !controls.UP && !controls.DOWN && !controls.BACK && !controls.PAUSE){
 			switch (textMenuItems[curSelected]){
 				case "Left":
@@ -132,6 +154,9 @@ class ControlsSubState extends MusicBeatSubstate
 					controls.setKeyboardScheme(Solo);
 				case "Reset":
 					sys.io.File.saveContent(Paths.txt('options/keybinds/reset'), FlxG.keys.getIsDown()[0].ID.toString());
+					controls.setKeyboardScheme(Solo);
+				case "Cheat":
+					sys.io.File.saveContent(Paths.txt('options/keybinds/cheat'), FlxG.keys.getIsDown()[0].ID.toString());
 					controls.setKeyboardScheme(Solo);
 			}
 		}
@@ -165,8 +190,14 @@ class ControlsSubState extends MusicBeatSubstate
 			case "Right":
 				textOptions.text = "Change Right Key";
 
+			case "Reset":
+				textOptions.text = "Change Reset Key";
+
 			case "Exit":
 				textOptions.text = "Return Options Menu";
+
+			case "Cheat":
+				textOptions.text = "Change Cheat Key";
 		}
 
 		for (item in grpOptionsTexts.members)

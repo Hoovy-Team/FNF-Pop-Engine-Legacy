@@ -2,11 +2,15 @@ package game.data;
 
 import flixel.util.FlxSave;
 import flixel.FlxG;
+import flixel.input.keyboard.FlxKey;
 // global file
 class Called
 {
     public static var save = new FlxSave();
     public var firstChecker:Bool = true;
+
+    public static var _s:FlxSave;
+    public static var _k:FlxKey;
 
     public static function saveOpt()
     {

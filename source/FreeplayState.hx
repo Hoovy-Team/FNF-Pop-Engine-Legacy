@@ -83,10 +83,6 @@ class FreeplayState extends MusicBeatState
 		// textBG.alpha = 0.6;
 		// add(textBG);
 		// 
-		versionShit = new FlxText(5, FlxG.height - 18, 0, "", 12);
-		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(versionShit);
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
 		add(bg);
@@ -98,7 +94,9 @@ class FreeplayState extends MusicBeatState
 		{
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
 			songText.isMenuItem = true;
+			// songText.y += ((songText.height + 20) * i);
 			songText.targetY = i;
+			// songText.screenCenter(X);
 			grpSongs.add(songText);
 
 			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
@@ -125,6 +123,11 @@ class FreeplayState extends MusicBeatState
 		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
 		diffText.font = scoreText.font;
 		add(diffText);
+
+		versionShit = new FlxText(5, FlxG.height - 18, 0, "", 12);
+		versionShit.scrollFactor.set();
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
 
 		// timeText = new FlxText(scoreText.x, scoreText.y + 54, 0, "", 24);
 		// timeText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, RIGHT);
@@ -185,9 +188,7 @@ class FreeplayState extends MusicBeatState
 		var downP = controls.DOWN_P;
 		var accepted = controls.ACCEPT;
 		var playMusic = FlxG.keys.justPressed.P;
-		// var openGameSetting = 
-		// var cP = FlxG.keys.justPressed.C;
-
+		
 		if (upP)
 		{
 			changeSelection(-1);
@@ -283,15 +284,20 @@ class FreeplayState extends MusicBeatState
 			var poop:String = Highscore.formatSong(songHighscore, curDifficulty);
 
 			trace(poop);
-			
-			PlayState.SONG = Song.loadFromJson(poop, songLowercase);
-			PlayState.isStoryMode = false;
-			PlayState.storyDifficulty = curDifficulty;
-			PlayState.storyWeek = songs[curSelected].week;
-			trace('CUR WEEK' + PlayState.storyWeek);
-			LoadingState.loadAndSwitchState(new PlayState());
 
-			destroyFreeplayVocals();
+			new FlxTimer().start(1 / 60, function(tmr:FlxTimer)
+			{
+				FlxG.camera.flash(FlxColor.WHITE, 1 / 60);
+				FlxG.sound.destroy();
+				destroyFreeplayVocals();
+
+				PlayState.SONG = Song.loadFromJson(poop, songLowercase);
+				PlayState.isStoryMode = false;
+				PlayState.storyDifficulty = curDifficulty;
+				PlayState.storyWeek = songs[curSelected].week;
+				trace('CUR WEEK' + PlayState.storyWeek);
+				LoadingState.loadAndSwitchState(new PlayState());	
+			});
 		}
 	}
 
@@ -331,10 +337,13 @@ class FreeplayState extends MusicBeatState
 		{
 			case 0:
 				diffText.text = "EASY";
+				diffText.color = FlxColor.GREEN;
 			case 1:
 				diffText.text = 'NORMAL';
+				diffText.color = FlxColor.YELLOW;
 			case 2:
 				diffText.text = "HARD";
+				diffText.color = FlxColor.RED;
 		}
 	}
 
@@ -377,12 +386,12 @@ class FreeplayState extends MusicBeatState
 			bullShit++;
 
 			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
+			item.setGraphicSize(Std.int(item.width * 0.8));
 
 			if (item.targetY == 0)
 			{
 				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
+				item.setGraphicSize(Std.int(item.width));
 			}
 		}
 	}

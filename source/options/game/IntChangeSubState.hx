@@ -44,6 +44,11 @@ class IntChangeSubState extends MusicBeatSubstate
 		text.scrollFactor.set();
 		add(text);
 
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "Float Changer State" + " | " + "Hold LEFT or RIGHT to change Float Data", 12);
+		versionShit.scrollFactor.set();
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
+
         textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "", 35);
 		textOptions.scrollFactor.set();
 		textOptions.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -65,7 +70,7 @@ class IntChangeSubState extends MusicBeatSubstate
 		if(controls.BACK)
         {
             FlxG.state.closeSubState();
-			FlxG.state.openSubState(new GameSettingSubState());
+			FlxG.state.openSubState(new MiscSubState());
         }
 
 		if (curSelected < 0)
@@ -90,7 +95,7 @@ class IntChangeSubState extends MusicBeatSubstate
 			{	
 				case "Exit":
                     FlxG.state.closeSubState();
-                    FlxG.state.openSubState(new GameSettingSubState());
+                    FlxG.state.openSubState(new MiscSubState());
 			}
 		}
 
@@ -107,24 +112,24 @@ class IntChangeSubState extends MusicBeatSubstate
         }
 
 		if(controls.LEFT){
-			if(textMenuItems[curSelected] == "Health Gain" && healthG >= 0.01){
+			if(textMenuItems[curSelected] == "Health Gain" && healthG >= 0.51){
 				healthG -= 0.01;
 				sys.io.File.saveContent(Paths.txt('options/data/healthGain'), Std.string(healthG));
 			}
 
-            if(textMenuItems[curSelected] == "Health Drain" && healthD >= 0.01){
+            if(textMenuItems[curSelected] == "Health Drain" && healthD >= 0.51){
 				healthD -= 0.01;
 				sys.io.File.saveContent(Paths.txt('options/data/healthDrain'), Std.string(healthD));
 			}
 		}
     
 		if(controls.RIGHT){
-			if(textMenuItems[curSelected] == "Health Gain" && healthG <= 1.00){
+			if(textMenuItems[curSelected] == "Health Gain" && healthG <= 1.99){
 				healthG += 0.01;
 				sys.io.File.saveContent(Paths.txt('options/data/healthGain'), Std.string(healthG));
 			}
 
-            if(textMenuItems[curSelected] == "Health Drain" && healthD <= 1.00){
+            if(textMenuItems[curSelected] == "Health Drain" && healthD <= 1.99){
 				healthD += 0.01;
 				sys.io.File.saveContent(Paths.txt('options/data/healthDrain'), Std.string(healthD));
 			}

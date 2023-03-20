@@ -202,8 +202,13 @@ class PlayState extends MusicBeatState
 	var lua_runner:LuaCode = null;
 
 	// Kade Engine Code
-	public function addObject(object:FlxBasic) { add(object); }
-	public function removeObject(object:FlxBasic) { remove(object); }
+	public function addObject(object:FlxBasic) { 
+		add(object); 
+	}
+
+	public function removeObject(object:FlxBasic) { 
+		remove(object); 
+	}
 
 	// Tween Stuff
 	var tweens:FlxTween;
@@ -378,9 +383,9 @@ class PlayState extends MusicBeatState
 	
 				for (i in 0...5)
 				{
-						var dancer:BackgroundDancer = new BackgroundDancer((370 * i) + 130, bgLimo.y - 400);
-						dancer.scrollFactor.set(0.4, 0.4);
-						grpLimoDancers.add(dancer);
+					var dancer:BackgroundDancer = new BackgroundDancer((370 * i) + 130, bgLimo.y - 400);
+					dancer.scrollFactor.set(0.4, 0.4);
+					grpLimoDancers.add(dancer);
 				}
 
 				var limoTex = Paths.getSparrowAtlas('limo/limoDrive','week4');
@@ -439,7 +444,6 @@ class PlayState extends MusicBeatState
 				bottomBoppers.updateHitbox();
 				add(bottomBoppers);
 
-
 				var fgSnow:FlxSprite = new FlxSprite(-600, 700).loadGraphic(Paths.image('christmas/fgSnow','week5'));
 				fgSnow.active = false;
 				fgSnow.antialiasing = true;
@@ -469,7 +473,7 @@ class PlayState extends MusicBeatState
 				add(evilTree);
 
 				var evilSnow:FlxSprite = new FlxSprite(-200, 700).loadGraphic(Paths.image("christmas/evilSnow",'week5'));
-					evilSnow.antialiasing = true;
+				evilSnow.antialiasing = true;
 				add(evilSnow);
 			}
 
@@ -578,8 +582,7 @@ class PlayState extends MusicBeatState
 				stageCurtains.antialiasing = true;
 				stageCurtains.scrollFactor.set(1.3, 1.3);
 				stageCurtains.active = false;
-
-				add(stageCurtains);
+				add(stageCurtains);			
 			}
 
 			default:
@@ -606,7 +609,6 @@ class PlayState extends MusicBeatState
 				stageCurtains.antialiasing = true;
 				stageCurtains.scrollFactor.set(1.3, 1.3);
 				stageCurtains.active = false;
-
 				add(stageCurtains);
 			}
 		}
@@ -1488,19 +1490,19 @@ class PlayState extends MusicBeatState
 		var ranking:String = "?";
 
 		if (misses == 0 && bads == 0 && shits == 0 && goods == 0) // Marvelous (SICK) Full Combo
-			ranking = "(SFC)";
+			ranking = "(SFC) ";
 		else if (misses == 0 && bads == 0 && shits == 0 && goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
-			ranking = "(GFC)";
+			ranking = "(GFC) ";
 		else if ((shits < 0 && shits != 0 || bads < 10 && bads != 0) && misses == 0) // Single Digit Combo Breaks
-			ranking = "(SDCB)";
+			ranking = "(SDCB) ";
 		else if (misses == 0 && (shits >= 0 || bads >= 0)) // Regular FC
-			ranking = "(FC)";
+			ranking = "(FC) ";
 		else if (misses >= 10 || (shits >= 10 || bads >= 10)) // Combo Breaks
-			ranking = "(CB)";
+			ranking = "(CB) ";
 		else if (save.data.options.contains("Botplay"))
 			ranking = "";
 		else
-			ranking = "(Clear)";
+			ranking = "(Clear) ";
 
 		// WIFE TIME :)))) (based on Wife3)
 
@@ -1709,6 +1711,32 @@ class PlayState extends MusicBeatState
 		if (health > 2)
 			health = 2;
 
+		if (save.data.options.contains("Always Full Health"))
+		{
+			health = 2;
+			if (health > 1.99)
+			{
+				health = 2;
+			}
+			else
+			{
+				health = 2;
+			}
+		}
+
+		if (save.data.options.contains("Always Low Health"))
+		{
+			health = 0.23;
+			if (health < 0.24)
+			{
+				health = 0.23;
+			}
+			else
+			{
+				health = 0.23;
+			}
+		}		
+
 		if (healthBar.percent < 20){
 			drain = false;
 			iconP1.animation.curAnim.curFrame = 1;
@@ -1868,7 +1896,7 @@ class PlayState extends MusicBeatState
 
 		#if hack_power //ww
 		#if debug
-		if (FlxG.keys.justPressed.H){
+		if (controls.CHEAT){
 			// trace('why user');
 			trace('user is cheating!');
 			health += 1;
@@ -1963,28 +1991,40 @@ class PlayState extends MusicBeatState
 						case 0:
 							dad.playAnim('singLEFT' + altAnim, true);
 							if (save.data.options.contains("Health Drain") && drain){
-								health -= 0.00475;
+								if (save.data.options.contains("Disable Drain Health"))
+									health -= 0;
+								else
+									health -= 0.00475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
 							}else{
 								health -= 0;
 							}
 						case 1:
 							dad.playAnim('singDOWN' + altAnim, true);
 							if (save.data.options.contains("Health Drain") && drain){
-								health -= 0.00475;
+								if (save.data.options.contains("Disable Drain Health"))
+									health -= 0;
+								else
+									health -= 0.00475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
 							}else{
 								health -= 0;
 							}
 						case 2:
 							dad.playAnim('singUP' + altAnim, true);
 							if (save.data.options.contains("Health Drain") && drain){
-								health -= 0.00475;
+								if (save.data.options.contains("Disable Drain Health"))
+									health -= 0;
+								else
+									health -= 0.00475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
 							}else{
 								health -= 0;
 							}
 						case 3:
 							dad.playAnim('singRIGHT' + altAnim, true);
 							if (save.data.options.contains("Health Drain") && drain){
-								health -= 0.00475;
+								if (save.data.options.contains("Disable Drain Health"))
+									health -= 0;
+								else
+									health -= 0.00475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
 							}else{
 								health -= 0;
 							}
@@ -2040,11 +2080,17 @@ class PlayState extends MusicBeatState
 					if (daNote.tooLate || !daNote.wasGoodHit || daNote.mustPress && !save.data.options.contains("Botplay") && !daNote.ignoreNote && (daNote.tooLate || !daNote.wasGoodHit))
 					{
 						if (save.data.options.contains("Ghost tap")){
-							health -= 0.0475;
+							if (save.data.options.contains("Disable Drain Health"))
+								health -= 0;
+							else
+								health -= 0.0475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
 							vocals.volume = 0;
 							noteMiss(daNote.noteData);
 						}else{
-							health -= 0.0475;
+							if (save.data.options.contains("Disable Drain Health"))
+								health -= 0;
+							else
+								health -= 0.0475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
 							vocals.volume = 0;
 							misses += 1;
 						}
@@ -2204,7 +2250,7 @@ class PlayState extends MusicBeatState
 		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
 		vocals.volume = 1;
 
-		var placement:String = Std.string(combo);
+		var placement:String = Std.parseInt(combo);
 
 		var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
 		coolText.screenCenter();
@@ -2369,7 +2415,7 @@ class PlayState extends MusicBeatState
 			daLoop++;
 		}
 
-		coolText.text = Std.string(seperatedScore);
+		coolText.text = Std.parseInt(seperatedScore);
 
 		FlxTween.tween(rating, {alpha: 0}, 0.2, {
 			startDelay: Conductor.crochet * 0.001
@@ -2453,7 +2499,9 @@ class PlayState extends MusicBeatState
 										inIgnoreList = true;
 								}
 								if (!inIgnoreList && !save.data.options.contains("Ghost tap"))
+								{
 									badNoteCheck();
+								}
 							}
 						}
 					}
@@ -2555,7 +2603,11 @@ class PlayState extends MusicBeatState
 	{
 		if (!boyfriend.stunned)
 		{
-			health -= 0.04 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
+			if (save.data.options.contains("Disable Drain Health"))
+				health -= 0;
+			else
+				health -= 0.04 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
+			
 			if (combo > 5 && gf.animOffsets.exists('sad'))
 			{
 				gf.playAnim('sad');
@@ -2571,9 +2623,20 @@ class PlayState extends MusicBeatState
 			}
 
 			if (save.data.options.contains("Kill One Miss")){
-				health -= 2;
+				if (save.data.options.contains("Disable Drain Health"))
+					health -= 0;
+				else
+					health -= 2;
 			}else{
 				health -= 0;
+			}
+
+			if (save.data.options.contains("Color Text"))
+			{
+				scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/missColor")));
+				new FlxTimer().start(1, function(tmr:FlxTimer){
+					scoreTxt.color = FlxColor.WHITE;
+				});
 			}
 
 			//totalNotesHit -= 0.2;
@@ -2663,17 +2726,25 @@ class PlayState extends MusicBeatState
 
 				note.wasGoodHit = true;
 				
-				if (note.noteData >= 0)
-					health += 0.023 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
-				else
-					health += 0.004 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+				if (note.noteData >= 0){
+					if (save.data.options.contains("Disable Gain Health"))
+						health -= 0;
+					else
+						health += 0.023 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+				}
+				else{
+					if (save.data.options.contains("Disable Gain Health"))
+						health -= 0;
+					else
+						health += 0.004 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+				}
 
 				playerStrums.forEach(function(spr:FlxSprite)
 				{
 					if (Math.abs(note.noteData) == spr.ID)
 					{
 						spr.animation.play('confirm', true);
-						new FlxTimer().start(10 / 60 + 0.1, function(tmr:FlxTimer)
+						new FlxTimer().start(0.99, function(tmr:FlxTimer)
 						{
 							spr.animation.play('static', true);
 						});
@@ -2684,12 +2755,40 @@ class PlayState extends MusicBeatState
 				{
 					case 0:
 						boyfriend.playAnim('singLEFT', true);
+						if (save.data.options.contains("Color Text"))
+						{
+							scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_1")));
+							new FlxTimer().start(1, function(tmr:FlxTimer){
+								scoreTxt.color = FlxColor.WHITE;
+							});
+						}
 					case 1:
 						boyfriend.playAnim('singDOWN', true);
+						if (save.data.options.contains("Color Text"))
+						{
+							scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_2")));
+							new FlxTimer().start(1, function(tmr:FlxTimer){
+								scoreTxt.color = FlxColor.WHITE;
+							});
+						}
 					case 2:
 						boyfriend.playAnim('singUP', true);
+						if (save.data.options.contains("Color Text"))
+						{
+							scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_3")));
+							new FlxTimer().start(1, function(tmr:FlxTimer){
+								scoreTxt.color = FlxColor.WHITE;
+							});
+						}
 					case 3:
 						boyfriend.playAnim('singRIGHT', true);
+						if (save.data.options.contains("Color Text"))
+						{
+							scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_4")));
+							new FlxTimer().start(1, function(tmr:FlxTimer){
+								scoreTxt.color = FlxColor.WHITE;
+							});
+						}
 				}
 
 				if (!note.isSustainNote)
@@ -2699,17 +2798,17 @@ class PlayState extends MusicBeatState
 					note.destroy();
 				}
 
-				if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !controls.UP && !controls.DOWN && !controls.RIGHT && !controls.LEFT)
+				/*if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !controls.UP && !controls.DOWN && !controls.RIGHT && !controls.LEFT)
 				{
 					if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 					{
-						doneIdle = true;
 						boyfriend.playAnim('idle');
 					}
-				}
-				else
+				}*/
+
+				if (!boyfriend.animation.curAnim.name.startsWith("sing"))
 				{
-					doneIdle = false;
+					boyfriend.playAnim('idle');
 				}
 
 				return;
@@ -2726,21 +2825,57 @@ class PlayState extends MusicBeatState
 			else
 				totalNotesHit += 1;
 
-			if (note.noteData >= 0)
-				health += 0.023 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
-			else
-				health += 0.004 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+			if (note.noteData >= 0){
+				if (save.data.options.contains("Disable Gain Health"))
+					health -= 0;
+				else
+					health += 0.023 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+			}
+			else{
+				if (save.data.options.contains("Disable Gain Health"))
+					health -= 0;
+				else
+					health += 0.004 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+			}
 
 			switch (note.noteData)
 			{
 				case 0:
 					boyfriend.playAnim('singLEFT', true);
+					if (save.data.options.contains("Color Text"))
+					{
+						scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_1")));
+						new FlxTimer().start(1, function(tmr:FlxTimer){
+							scoreTxt.color = FlxColor.WHITE;
+						});
+					}
 				case 1:
 					boyfriend.playAnim('singDOWN', true);
+					if (save.data.options.contains("Color Text"))
+					{
+						scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_2")));
+						new FlxTimer().start(1, function(tmr:FlxTimer){
+							scoreTxt.color = FlxColor.WHITE;
+						});
+					}
 				case 2:
 					boyfriend.playAnim('singUP', true);
+					if (save.data.options.contains("Color Text"))
+					{
+						scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_3")));
+						new FlxTimer().start(1, function(tmr:FlxTimer){
+							scoreTxt.color = FlxColor.WHITE;
+						});
+					}
 				case 3:
 					boyfriend.playAnim('singRIGHT', true);
+					if (save.data.options.contains("Color Text"))
+					{
+						scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_4")));
+						new FlxTimer().start(1, function(tmr:FlxTimer){
+							scoreTxt.color = FlxColor.WHITE;
+						});
+					}
 			}
 
 			playerStrums.forEach(function(spr:FlxSprite)
@@ -2868,6 +3003,18 @@ class PlayState extends MusicBeatState
 	{
 		super.beatHit();
 
+		var curFile = Paths.txt("curBeat");
+
+		#if sys
+		sys.io.File.getContent(curFile);
+
+		sys.io.File.getBytes(curFile);
+
+		sys.io.File.read(curFile, false);
+		sys.io.File.write(curFile, false);
+		// trace(curFile);
+		#end
+
 		if (generatedMusic)
 		{
 			notes.sort(FlxSort.byY, FlxSort.DESCENDING);
@@ -2926,6 +3073,11 @@ class PlayState extends MusicBeatState
 			boyfriend.playAnim('hey', true);
 			dad.playAnim('cheer', true);
 		}
+
+		// if (curBeat % 4 == 0 && curSong == 'Blammed' && save.data.options.contains("Hey Animation"))
+		// {
+		// 	gf.playAnim('cheer', true);
+		// }
 
 		switch (curStage)
 		{

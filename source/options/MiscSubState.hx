@@ -12,7 +12,18 @@ import OptionsMenu;
 
 class MiscSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Size', 'Watermark', 'Count down note', 'Health text', 'Botplay', 'Reset Key', 'Exit'];
+	var textMenuItems:Array<String> = [
+		'Size', 
+		'Float Changer',
+		'Color Text',  
+		'Watermark', 
+		'Count down note', 
+		'Health text', 
+		'Botplay', 
+		'Reset Key',
+		// 'Hey Animation',
+		'Exit'
+	];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -53,7 +64,7 @@ class MiscSubState extends MusicBeatSubstate
 			grpOptionsTexts.add(optionText);
 		}
 
-		textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "Disable or Enable\nPop Engine Watermark", 35);
+		textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "", 35);
 		textOptions.scrollFactor.set();
 		textOptions.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(textOptions);
@@ -81,7 +92,7 @@ class MiscSubState extends MusicBeatSubstate
 		{
 			txt.color = FlxColor.WHITE;
 
-			if (txt.ID == curSelected && save.data.options.contains(txt.text))
+			if (save.data.options.contains(txt.text))
 				txt.color = FlxColor.GREEN;
 			else if (txt.ID == curSelected)
 				txt.color = FlxColor.YELLOW;
@@ -102,7 +113,17 @@ class MiscSubState extends MusicBeatSubstate
 			{				
 				case "Size":
 					FlxG.state.closeSubState();
-					FlxG.state.openSubState(new SizeSubState());					
+					FlxG.state.openSubState(new SizeSubState());	
+				case "Float Changer":
+					FlxG.state.closeSubState();
+					FlxG.state.openSubState(new options.game.IntChangeSubState());			
+				case "Color Text":
+					if(!save.data.options.contains("Color Text")){
+						save.data.options.push("Color Text");
+					}else{
+						save.data.options.remove("Color Text");
+					}
+					trace("Color Text change");		
 				case "Watermark":
 					if(!save.data.options.contains("Watermark")){
 						save.data.options.push("Watermark");
@@ -137,6 +158,12 @@ class MiscSubState extends MusicBeatSubstate
 					}else{
 						save.data.options.remove("Reset Key");
 					}
+				// case "Hey Animation":
+				// 	if(!save.data.options.contains("Hey Animation")){
+				// 		save.data.options.push("Hey Animation");
+				// 	}else{
+				// 		save.data.options.remove("Hey Animation");
+				// 	}					
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new OptionsSubState());
@@ -145,44 +172,52 @@ class MiscSubState extends MusicBeatSubstate
 	}
 
 	function changeSelection(change:Int = 0)
-		{
-			if (change != 0)
-				FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
-	
-			curSelected += change;
-	
-			if (curSelected < 0)
-				curSelected = textMenuItems.length - 1;
-			else if (curSelected >= textMenuItems.length)
-				curSelected = 0;
-	
-			switch (textMenuItems[curSelected]){
-				case "Watermark":
-					textOptions.text = "Disable or Enable\nPop Engine Watermark";
-				case "Count down note":
-					textOptions.text = "Display Count Down Note text";
-				case "Health text":
-					textOptions.text = "Display Health text";
-				case "Botplay":
-					textOptions.text = "This will help you\nshowcase your chart";
-				case "Reset Key":
-					textOptions.text = "Press reset key to\nquick dead";
-				case "Exit":
-					textOptions.text = "Return Options Menu";
-			}
+	{
+		if (change != 0)
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
-			var stuff:Int = 0;
-	
-			for (item in grpOptionsTexts.members)
-			{
-				item.targetY = stuff - curSelected;
-				stuff ++;
-	
-				item.alpha = 0.6;
-	
-				if (item.targetY == 0)
-					item.alpha = 1;
-			}
-	
+		curSelected += change;
+
+		if (curSelected < 0)
+			curSelected = textMenuItems.length - 1;
+		else if (curSelected >= textMenuItems.length)
+			curSelected = 0;
+
+		switch (textMenuItems[curSelected]){
+			case "Size":
+				textOptions.text = "Change Int of Text size\nIn Gameplay";
+			case "Float Changer":
+				textOptions.text = "Change Float of the game like gain health, drain health...";
+			case "Color Text":
+				textOptions.text = "When Hit a note, all the text on screen will change\nWhen Miss a note, all text in the screen will change";
+			case "Watermark":
+				textOptions.text = "Disable or Enable\nPop Engine Watermark";
+			case "Count down note":
+				textOptions.text = "Display Count Down Note text";
+			case "Health text":
+				textOptions.text = "Display Health text";
+			case "Botplay":
+				textOptions.text = "This will help you\nshowcase your chart";
+			case "Reset Key":
+				textOptions.text = "Press reset key to\nquick dead";
+			// case "Hey Animation":
+			// 	textOptions.text = "In Blammed Song, GF will do a cheer animation on hey sounds";
+			case "Exit":
+				textOptions.text = "Return Options Menu";
 		}
+
+		var stuff:Int = 0;
+
+		for (item in grpOptionsTexts.members)
+		{
+			item.targetY = stuff - curSelected;
+			stuff ++;
+
+			item.alpha = 0.6;
+
+			if (item.targetY == 0)
+				item.alpha = 1;
+		}
+
+	}
 }

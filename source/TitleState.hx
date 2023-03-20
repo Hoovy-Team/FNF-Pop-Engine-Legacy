@@ -28,6 +28,7 @@ import lime.app.Application;
 import flixel.util.FlxSave;
 import openfl.Assets;
 import Options;
+import sys.FileSystem;
 import WarmVar;
 
 using StringTools;
@@ -52,12 +53,12 @@ class TitleState extends MusicBeatState
 	{
 		PlayerSettings.init();
 		// Options.optionsLoad();
-		if (FlxG.save.data.firstPlay){
+		/*if (FlxG.save.data.firstPlay){
 			FlxG.save.data.firstPlay = false;
 		}else{
 			FlxG.save.data.firstPlay = true;
 		}
-		Called.firstPlay(); // a checker first play
+		Called.firstPlay(); // a checker first play*/
 
 		save.bind("Options");
 		try{
@@ -69,6 +70,7 @@ class TitleState extends MusicBeatState
 		}
 
 		// if (save.data.options.contains("Cache All sound and song")){
+		FileSystem.readDirectory("assets/");
 		FlxG.sound.cacheAll();
 		// }
 

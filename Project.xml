@@ -108,6 +108,8 @@
 	<haxelib name="linc_luajit"/>
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="hxcpp-debug-server" if="allowServer"/>
+	<haxelib name="format" />
+	<haxelib name="hxjava" if="java" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

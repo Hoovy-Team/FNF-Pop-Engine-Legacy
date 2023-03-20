@@ -8,7 +8,7 @@ import flixel.ui.FlxBar;
 import haxe.Exception;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-#if FILE_LOADs
+#if FILE_LOAD
 import sys.FileSystem;
 import sys.io.File;
 #end

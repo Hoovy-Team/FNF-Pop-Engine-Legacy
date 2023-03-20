@@ -41,6 +41,8 @@ class OptionsSubState extends MusicBeatSubstate
 			grpOptionsTexts.add(optionText);
 		}
 
+		textMenuItems.insert(6, "Development");
+
 	    textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "Edit your keybinds", 35);
 		textOptions.scrollFactor.set();
 		textOptions.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -77,8 +79,6 @@ class OptionsSubState extends MusicBeatSubstate
 
 			if (txt.ID == curSelected)
 				txt.color = FlxColor.YELLOW;
-			//else if (txt.ID == 4)
-			//	txt.color = FlxColor.RED;
 			else
 				txt.color = FlxColor.WHITE;
 		});
@@ -99,9 +99,9 @@ class OptionsSubState extends MusicBeatSubstate
 				case "Misc":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new options.MiscSubState());
-				// case "System":
-				/*	FlxG.state.closeSubState();
-					FlxG.state.openSubState(new options.SystemSubState());			*/		
+				case "Development":
+					FlxG.state.closeSubState();
+					FlxG.state.openSubState(new options.development.DevelopmentSubState());					
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.switchState(new MainMenuState());

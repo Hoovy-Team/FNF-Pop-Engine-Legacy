@@ -516,6 +516,7 @@ class Controls extends FlxActionSet
 		var downArrow:String = CoolUtil.coolTextFileString(Paths.txt('options/keybinds/down'));
 		var resetKey:String = CoolUtil.coolTextFileString(Paths.txt('options/keybinds/reset'));
 		var playMusicKey:String = CoolUtil.coolTextFileString(Paths.txt('options/keybinds/playMusic'));
+		var cheatStuff:String = CoolUtil.coolTextFileString(Paths.txt('options/keybinds/cheat'));
 		
 		#if (haxe >= "4.0.0")
 		switch (scheme)
@@ -530,6 +531,7 @@ class Controls extends FlxActionSet
 				inline bindKeys(Control.PAUSE, [P, ENTER, ESCAPE]);
 				inline bindKeys(Control.RESET, [resetKey, FlxKey.R]);
 				inline bindKeys(Control.PLAY, [playMusicKey, FlxKey.P]);
+				inline bindKeys(Control.CHEAT, [cheatStuff, FlxKey.H]);
 			case Duo(true):
 				inline bindKeys(Control.UP, [upArrow]);
 				inline bindKeys(Control.DOWN, [downArrow]);
@@ -540,6 +542,7 @@ class Controls extends FlxActionSet
 				inline bindKeys(Control.PAUSE, [ONE]);
 				inline bindKeys(Control.RESET, [resetKey]);
 				inline bindKeys(Control.PLAY, [playMusicKey]);
+				inline bindKeys(Control.CHEAT, [cheatStuff]);
 			case Duo(false):
 				inline bindKeys(Control.UP, [FlxKey.UP]);
 				inline bindKeys(Control.DOWN, [FlxKey.DOWN]);
@@ -550,6 +553,7 @@ class Controls extends FlxActionSet
 				inline bindKeys(Control.PAUSE, [ENTER]);
 				inline bindKeys(Control.RESET, [FlxKey.R]);
 				inline bindKeys(Control.PLAY, [FlxKey.P]);
+				inline bindKeys(Control.CHEAT, [FlxKey.H]);
 			case None: // nothing
 			case Custom: // nothing
 		}

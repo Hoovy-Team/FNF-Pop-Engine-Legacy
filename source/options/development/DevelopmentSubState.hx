@@ -10,11 +10,16 @@ import flixel.util.FlxSave;
 import flixel.FlxSubState;
 import OptionsMenu;
 
-// in progress
-
 class DevelopmentSubState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Always Full Health', 'Always Low Health', 'Disable Gain Health', 'Disable Drain Health', 'Enable CHEAT Key', 'Exit'];
+	var textMenuItems:Array<String> = [
+		'Always Full Health', 
+		'Always Low Health', 
+		'Disable Gain Health', 
+		'Disable Drain Health', 
+		'Enable CHEAT Key', 
+		'Exit'
+	];
 
 	var selector:FlxSprite;
 	var curSelected:Int = 0;
@@ -54,11 +59,7 @@ class DevelopmentSubState extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptionsTexts.add(optionText);
 		}
-		// grpOptionsTexts.forEach(function(txt:Alphabet)
-		// {				
-		// 	if (txt.ID != 0)
-		// 		txt.alpha = 0.6;
-		// });
+ 
 		textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "Help you play less miss", 35);
 		textOptions.scrollFactor.set();
 		textOptions.setFormat(Paths.ttffont("phantommuffin"), 35, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -87,7 +88,7 @@ class DevelopmentSubState extends MusicBeatSubstate
 		{
 			txt.color = FlxColor.WHITE;
 
-			if (txt.ID == curSelected && save.data.options.contains(txt.text))
+			if (save.data.options.contains(txt.text))
 				txt.color = FlxColor.GREEN;
 			else if (txt.ID == curSelected)
 				txt.color = FlxColor.YELLOW;
@@ -106,6 +107,40 @@ class DevelopmentSubState extends MusicBeatSubstate
 		{
 			switch (textMenuItems[curSelected])
 			{
+				case "Always Full Health":
+					if (!save.data.options.contains("Always Full Health")){
+						save.data.options.push("Always Full Health");
+					}else{
+						save.data.options.remove("Always Full Health");
+					}
+
+				case "Always Low Health":
+					if (!save.data.options.contains("Always Low Health")){
+						save.data.options.push("Always Low Health");
+					}else{
+						save.data.options.remove("Always Low Health");
+					}
+
+				case "Disable Gain Health":
+					if (!save.data.options.contains("Disable Gain Health")){
+						save.data.options.push("Disable Gain Health");
+					}else{
+						save.data.options.remove("Disable Gain Health");
+					}
+
+				case "Disable Drain Health":
+					if (!save.data.options.contains("Disable Drain Health")){
+						save.data.options.push("Disable Drain Health");
+					}else{
+						save.data.options.remove("Disable Drain Health");
+					}
+
+				case "Enable CHEAT Key":
+					if (!save.data.options.contains("Enable CHEAT Key")){
+						save.data.options.push("Enable CHEAT Key");
+					}else{
+						save.data.options.remove("Enable CHEAT Key");
+					}					
 
 				case "Exit":
 					FlxG.state.closeSubState();
@@ -129,9 +164,10 @@ class DevelopmentSubState extends MusicBeatSubstate
 		var stuff:Int = 0;
 
 		switch (textMenuItems[curSelected]){
-
 			case "Exit":
 				textOptions.text = "Return Options Menu";
+			default:
+				textOptions.text = "Development Setting";
 		}
 
 		for (item in grpOptionsTexts.members)

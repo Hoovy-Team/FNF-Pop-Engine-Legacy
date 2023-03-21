@@ -15,6 +15,7 @@ class MiscSubState extends MusicBeatSubstate
 	var textMenuItems:Array<String> = [
 		'Size', 
 		'Float Changer',
+		'Window Size',
 		'Color Text',  
 		'Watermark', 
 		'Count down note', 
@@ -116,7 +117,10 @@ class MiscSubState extends MusicBeatSubstate
 					FlxG.state.openSubState(new SizeSubState());	
 				case "Float Changer":
 					FlxG.state.closeSubState();
-					FlxG.state.openSubState(new options.game.IntChangeSubState());			
+					FlxG.state.openSubState(new options.game.IntChangeSubState());		
+				case "Window Size":
+					FlxG.state.closeSubState();
+					FlxG.state.openSubState(new options.game.WindowSizeSubState());			
 				case "Color Text":
 					if(!save.data.options.contains("Color Text")){
 						save.data.options.push("Color Text");
@@ -188,6 +192,8 @@ class MiscSubState extends MusicBeatSubstate
 				textOptions.text = "Change Int of Text size\nIn Gameplay";
 			case "Float Changer":
 				textOptions.text = "Change Float of the game like gain health, drain health...";
+			case "Window Size":
+				textOptions.text = "Change Window Size of Game";
 			case "Color Text":
 				textOptions.text = "When Hit a note, all the text on screen will change\nWhen Miss a note, all text in the screen will change";
 			case "Watermark":

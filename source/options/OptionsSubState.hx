@@ -41,7 +41,9 @@ class OptionsSubState extends MusicBeatSubstate
 			grpOptionsTexts.add(optionText);
 		}
 
+		#if debug
 		textMenuItems.insert(6, "Development");
+		#end
 
 	    textOptions = new FlxText(0, FlxG.height * 0.9 + 0, FlxG.width, "Edit your keybinds", 35);
 		textOptions.scrollFactor.set();

@@ -807,7 +807,6 @@ class PlayState extends MusicBeatState
 			'health', 0, 2);
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
-		// healthBar
 		if (save.data.options.contains("Hide Health Bar")){
 			healthBar.visible = false;
 		}
@@ -1490,15 +1489,15 @@ class PlayState extends MusicBeatState
 		var ranking:String = "?";
 
 		if (misses == 0 && bads == 0 && shits == 0 && goods == 0) // Marvelous (SICK) Full Combo
-			ranking = "(SFC) ";
+			ranking = "(SFC) - ";
 		else if (misses == 0 && bads == 0 && shits == 0 && goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
-			ranking = "(GFC) ";
+			ranking = "(GFC) - ";
 		else if ((shits < 0 && shits != 0 || bads < 10 && bads != 0) && misses == 0) // Single Digit Combo Breaks
-			ranking = "(SDCB) ";
+			ranking = "(SDCB) - ";
 		else if (misses == 0 && (shits >= 0 || bads >= 0)) // Regular FC
-			ranking = "(FC) ";
+			ranking = "(FC) - ";
 		else if (misses >= 10 || (shits >= 10 || bads >= 10)) // Combo Breaks
-			ranking = "(CB) ";
+			ranking = "(CB) - ";
 		else if (save.data.options.contains("Botplay"))
 			ranking = "";
 		else
@@ -1601,21 +1600,19 @@ class PlayState extends MusicBeatState
 				iconP1.animation.play('bf-old');
 		}
 
+		var balls = notesHitArray.length - 1;
+		while (balls >= 0)
 		{
-			var balls = notesHitArray.length - 1;
-			while (balls >= 0)
-			{
-				var cock:Date = notesHitArray[balls];
-				if (cock != null && cock.getTime() + 1000 < Date.now().getTime())
-					notesHitArray.remove(cock);
-				else
-					balls = 0;
-				balls--;
-			}
-			nps = notesHitArray.length;
-			if (nps > maxNPS)
-				maxNPS = nps;
+			var cock:Date = notesHitArray[balls];
+			if (cock != null && cock.getTime() + 1000 < Date.now().getTime())
+				notesHitArray.remove(cock);
+			else
+				balls = 0;
+			balls--;
 		}
+		nps = notesHitArray.length;
+		if (nps > maxNPS)
+			maxNPS = nps;
 
 		switch (curStage)
 		{
@@ -2250,7 +2247,7 @@ class PlayState extends MusicBeatState
 		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
 		vocals.volume = 1;
 
-		var placement:String = Std.parseInt(combo);
+		var placement:String = Std.string(combo);
 
 		var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
 		coolText.screenCenter();
@@ -2310,8 +2307,7 @@ class PlayState extends MusicBeatState
 				goods++;
 			}
 		}
-		
-		if (daRating == 'sick')
+		if(daRating == 'sick')
 		{
 			totalNotesHit += 1;
 			score = 500;
@@ -2343,6 +2339,9 @@ class PlayState extends MusicBeatState
 		rating.screenCenter();
 		rating.x = coolText.x - 40;
 		rating.y -= 60;
+		if (save.data.options.contains("Botplay")){
+			rating.visible = false;
+		}
 		rating.acceleration.y = 550;
 		rating.velocity.y -= FlxG.random.int(140, 175);
 		rating.velocity.x -= FlxG.random.int(0, 10);
@@ -2350,6 +2349,9 @@ class PlayState extends MusicBeatState
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
 		comboSpr.screenCenter();
 		comboSpr.x = coolText.x;
+		if (save.data.options.contains("Botplay")){
+			comboSpr.visible = false;
+		}
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
@@ -2415,7 +2417,7 @@ class PlayState extends MusicBeatState
 			daLoop++;
 		}
 
-		coolText.text = Std.parseInt(seperatedScore);
+		coolText.text = Std.string(seperatedScore);
 
 		FlxTween.tween(rating, {alpha: 0}, 0.2, {
 			startDelay: Conductor.crochet * 0.001
@@ -2633,7 +2635,7 @@ class PlayState extends MusicBeatState
 
 			if (save.data.options.contains("Color Text"))
 			{
-				scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/missColor")));
+				scoreTxt.color = FlxColor.RED; //Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/missColor")));
 				new FlxTimer().start(1, function(tmr:FlxTimer){
 					scoreTxt.color = FlxColor.WHITE;
 				});
@@ -2844,7 +2846,7 @@ class PlayState extends MusicBeatState
 					boyfriend.playAnim('singLEFT', true);
 					if (save.data.options.contains("Color Text"))
 					{
-						scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_1")));
+						scoreTxt.color = 0xA713A7; // Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_1")));
 						new FlxTimer().start(1, function(tmr:FlxTimer){
 							scoreTxt.color = FlxColor.WHITE;
 						});
@@ -2853,7 +2855,7 @@ class PlayState extends MusicBeatState
 					boyfriend.playAnim('singDOWN', true);
 					if (save.data.options.contains("Color Text"))
 					{
-						scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_2")));
+						scoreTxt.color = 0x0FC1E0; // Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_2")));
 						new FlxTimer().start(1, function(tmr:FlxTimer){
 							scoreTxt.color = FlxColor.WHITE;
 						});
@@ -2862,7 +2864,7 @@ class PlayState extends MusicBeatState
 					boyfriend.playAnim('singUP', true);
 					if (save.data.options.contains("Color Text"))
 					{
-						scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_3")));
+						scoreTxt.color = 0x4AE00F; // Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_3")));
 						new FlxTimer().start(1, function(tmr:FlxTimer){
 							scoreTxt.color = FlxColor.WHITE;
 						});
@@ -2871,7 +2873,7 @@ class PlayState extends MusicBeatState
 					boyfriend.playAnim('singRIGHT', true);
 					if (save.data.options.contains("Color Text"))
 					{
-						scoreTxt.color = Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_4")));
+						scoreTxt.color = 0xE00F0F; // Std.parseInt(CoolUtil.coolTextFileString(Paths.txt("options/data/HitColor_4")));
 						new FlxTimer().start(1, function(tmr:FlxTimer){
 							scoreTxt.color = FlxColor.WHITE;
 						});

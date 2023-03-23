@@ -1501,7 +1501,7 @@ class PlayState extends MusicBeatState
 		else if (save.data.options.contains("Botplay"))
 			ranking = "";
 		else
-			ranking = "(Clear) ";
+			ranking = "(Clear) - ";
 
 		// WIFE TIME :)))) (based on Wife3)
 

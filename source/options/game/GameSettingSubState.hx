@@ -109,28 +109,32 @@ class GameSettingSubState extends MusicBeatSubstate
 					}else{
 						save.data.options.remove("Kill One Miss");
 					}
-					trace("Kill One Miss change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Kill One Miss change");
 				case "Hide Health Bar":
 					if(!save.data.options.contains("Hide Health Bar")){
 						save.data.options.push("Hide Health Bar");
 					}else{
 						save.data.options.remove("Hide Health Bar");
 					}
-					trace("Hide Health Bar change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Hide Health Bar change");
 				case "Hide score info":
 					if(!save.data.options.contains("Hide score info")){
 						save.data.options.push("Hide score info");
 					}else{
 						save.data.options.remove("Hide score info");
 					}
-					trace("Hide score info change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Hide score info change");
 				case "Health Drain":
 					if(!save.data.options.contains("Health Drain")){
 						save.data.options.push("Health Drain");
 					}else{
 						save.data.options.remove("Health Drain");
 					}
-					trace("Health Drain change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Health Drain change");
 				case "Exit":
 					close();
 			}

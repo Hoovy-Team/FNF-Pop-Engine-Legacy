@@ -21,6 +21,14 @@ class MusicBeatSubstate extends FlxSubState
 		}catch(e){
 			trace("not work");
 		}
+
+		if (save.data.options.contains("Bigger Size")){
+			Main.gameWidth = 1600;
+			Main.gameHeight = 900;
+		}else if (save.data.options.contains("Normall Size")){
+			Main.gameWidth = 1280;
+			Main.gameHeight = 720;			
+		}
 	}
 
 	override function create() 
@@ -34,6 +42,14 @@ class MusicBeatSubstate extends FlxSubState
 				save.data.options[0] = "";
 		}catch(e){
 			trace("not work");
+		}
+
+		if (save.data.options.contains("Bigger Size")){
+			Main.gameWidth = 1600;
+			Main.gameHeight = 900;
+		}else if (save.data.options.contains("Normall Size")){
+			Main.gameWidth = 1280;
+			Main.gameHeight = 720;			
 		}
 	}
 

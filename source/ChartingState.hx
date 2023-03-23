@@ -29,6 +29,7 @@ import openfl.events.IOErrorEvent;
 import openfl.media.Sound;
 import openfl.net.FileReference;
 import flixel.util.FlxTimer;
+import flixel.util.FlxSave;
 
 using StringTools;
 
@@ -78,6 +79,7 @@ class ChartingState extends MusicBeatState
 	var rightIcon:HealthIcon;
 
 	var textHint:FlxText;
+	var save = new FlxSave();
 
 	/*var player1Section:FlxText;
 	var player1Sec:FlxText;*/
@@ -86,6 +88,15 @@ class ChartingState extends MusicBeatState
 
 	override function create()
 	{
+		save.bind("Options");
+		try{
+			if(save.data.options == null)
+				save.data.options = new Array<String>();
+				save.data.options[0] = "";
+		}catch(e){
+			trace("not work");
+		}
+
 		curSection = lastSection;
 
 		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 8, GRID_SIZE * 16);
@@ -263,7 +274,8 @@ class ChartingState extends MusicBeatState
 		check_voices.callback = function()
 		{
 			_song.needsVoices = check_voices.checked;
-			trace('CHECKED!');
+			if (!save.data.options.contains("Disable Trace Log"))
+				trace('CHECKED!');
 		};
 
 		var check_mute_inst = new FlxUICheckBox(10, 200, null, null, "Mute Instrumental (in editor)", 100);
@@ -519,9 +531,12 @@ class ChartingState extends MusicBeatState
 
 		if (curBeat % 4 == 0 && curStep >= 16 * (curSection + 1))
 		{
-			trace(curStep);
-			trace((_song.notes[curSection].lengthInSteps) * (curSection + 1));
-			trace('DUMBSHIT');
+			if (!save.data.options.contains("Disable Trace Log")){
+				trace(curStep);
+				trace((_song.notes[curSection].lengthInSteps) * (curSection + 1));
+				trace('DUMBSHIT');
+			}
+
 
 			if (_song.notes[curSection + 1] == null)
 			{
@@ -548,7 +563,8 @@ class ChartingState extends MusicBeatState
 						}
 						else
 						{
-							trace('tryin to delete note...');
+							if (!save.data.options.contains("Disable Trace Log"))
+								trace('tryin to delete note...');
 							deleteNote(note);
 						}
 					}
@@ -763,7 +779,8 @@ class ChartingState extends MusicBeatState
 
 	function changeSection(sec:Int = 0, ?updateMusic:Bool = true):Void
 	{
-		trace('changing section' + sec);
+		if (!save.data.options.contains("Disable Trace Log"))
+			trace('changing section' + sec);
 
 		if (_song.notes[sec] != null)
 		{
@@ -976,8 +993,10 @@ class ChartingState extends MusicBeatState
 			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus]);
 		}
 
-		trace(noteStrum);
-		trace(curSection);
+		if (!save.data.options.contains("Disable Trace Log")){
+			trace(noteStrum);
+			trace(curSection);
+		}
 
 		updateGrid();
 		updateNoteUI();
@@ -999,7 +1018,8 @@ class ChartingState extends MusicBeatState
 
 	function loadLevel():Void
 	{
-		trace(_song.notes);
+		if (!save.data.options.contains("Disable Trace Log"))
+			trace(_song.notes);
 	}
 
 	function getNotes():Array<Dynamic>

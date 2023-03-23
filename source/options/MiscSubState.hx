@@ -15,11 +15,12 @@ class MiscSubState extends MusicBeatSubstate
 	var textMenuItems:Array<String> = [
 		'Size', 
 		'Float Changer',
-		'Window Size',
+		// 'Window Size',
 		'Color Text',  
 		'Watermark', 
 		'Count down note', 
-		'Health text', 
+		'Health text',
+		'OG Icon Beat', 
 		'Botplay', 
 		'Reset Key',
 		// 'Hey Animation',
@@ -118,44 +119,57 @@ class MiscSubState extends MusicBeatSubstate
 				case "Float Changer":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new options.game.IntChangeSubState());		
-				case "Window Size":
-					FlxG.state.closeSubState();
-					FlxG.state.openSubState(new options.game.WindowSizeSubState());			
+				// case "Window Size":
+				// 	FlxG.state.closeSubState();
+				// 	FlxG.state.openSubState(new options.WindowSizeSubState());			
 				case "Color Text":
 					if(!save.data.options.contains("Color Text")){
 						save.data.options.push("Color Text");
 					}else{
 						save.data.options.remove("Color Text");
 					}
-					trace("Color Text change");		
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Color Text change");		
 				case "Watermark":
 					if(!save.data.options.contains("Watermark")){
 						save.data.options.push("Watermark");
 					}else{
 						save.data.options.remove("Watermark");
 					}
-					trace("Watermark change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Watermark change");
 				case "Count down note":
 					if(!save.data.options.contains("Count down note")){
 						save.data.options.push("Count down note");
 					}else{
 						save.data.options.remove("Count down note");
 					}
-					trace("Count down note change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Count down note change");
 				case "Health text":
 					if(!save.data.options.contains("Health text")){
 						save.data.options.push("Health text");
 					}else{
 						save.data.options.remove("Health text");
 					}
-					trace("Health text change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Health text change");
+				case "OG Icon Beat":
+					if(!save.data.options.contains("OG Icon Beat")){
+						save.data.options.push("OG Icon Beat");
+					}else{
+						save.data.options.remove("OG Icon Beat");
+					}
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("OG Icon Beat change");
 				case "Botplay":
 					if(!save.data.options.contains("Botplay")){
 						save.data.options.push("Botplay");
 					}else{
 						save.data.options.remove("Botplay");
 					}
-					trace("Botplay change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Botplay change");
 				case "Reset Key":
 					if(!save.data.options.contains("Reset Key")){
 						save.data.options.push("Reset Key");
@@ -192,8 +206,8 @@ class MiscSubState extends MusicBeatSubstate
 				textOptions.text = "Change Int of Text size\nIn Gameplay";
 			case "Float Changer":
 				textOptions.text = "Change Float of the game like gain health, drain health...";
-			case "Window Size":
-				textOptions.text = "Change Window Size of Game";
+			// case "Window Size":
+			// 	textOptions.text = "Change Window Size of Game";
 			case "Color Text":
 				textOptions.text = "When Hit a note, all the text on screen will change\nWhen Miss a note, all text in the screen will change";
 			case "Watermark":
@@ -204,6 +218,8 @@ class MiscSubState extends MusicBeatSubstate
 				textOptions.text = "Display Health text";
 			case "Botplay":
 				textOptions.text = "This will help you\nshowcase your chart";
+			case "OG Icon Beat":
+				textOptions.text = "Change from new icon beat to og one";
 			case "Reset Key":
 				textOptions.text = "Press reset key to\nquick dead";
 			// case "Hey Animation":

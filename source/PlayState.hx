@@ -1692,13 +1692,23 @@ class PlayState extends MusicBeatState
 			#end
 		}
 
-		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
-		iconP1.scale.set(mult, mult);
-		iconP1.updateHitbox();
+		if (save.data.options.contains("OG Icon Beat")){
+			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+			iconP1.scale.set(mult, mult);
+			iconP1.updateHitbox();
 
-		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
-		iconP2.scale.set(mult, mult);
-		iconP2.updateHitbox();
+			var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+			iconP2.scale.set(mult, mult);
+			iconP2.updateHitbox();
+		}else{
+			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+			iconP1.scale.set(mult, 1);
+			iconP1.updateHitbox();
+
+			var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+			iconP2.scale.set(mult, 1);
+			iconP2.updateHitbox();
+		}
 		
 		var iconOffset:Int = 26;
 
@@ -1991,7 +2001,7 @@ class PlayState extends MusicBeatState
 								if (save.data.options.contains("Disable Drain Health"))
 									health -= 0;
 								else
-									health -= 0.00475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
+									health -= 0.0475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
 							}else{
 								health -= 0;
 							}
@@ -2001,7 +2011,7 @@ class PlayState extends MusicBeatState
 								if (save.data.options.contains("Disable Drain Health"))
 									health -= 0;
 								else
-									health -= 0.00475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
+									health -= 0.0475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
 							}else{
 								health -= 0;
 							}
@@ -2011,7 +2021,7 @@ class PlayState extends MusicBeatState
 								if (save.data.options.contains("Disable Drain Health"))
 									health -= 0;
 								else
-									health -= 0.00475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
+									health -= 0.0475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
 							}else{
 								health -= 0;
 							}
@@ -2021,7 +2031,7 @@ class PlayState extends MusicBeatState
 								if (save.data.options.contains("Disable Drain Health"))
 									health -= 0;
 								else
-									health -= 0.00475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
+									health -= 0.0475 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthDrain")));
 							}else{
 								health -= 0;
 							}
@@ -2722,23 +2732,35 @@ class PlayState extends MusicBeatState
 					if (save.data.options.contains("Count down note")){
 						countDownNote += 1;
 					}	
+					if (save.data.options.contains("Gain Health Hit")){
+						if (note.noteData >= 0){
+							if (save.data.options.contains("Disable Gain Health"))
+								health -= 0;
+							else
+								health += 0.023 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+						}
+						else
+							health += 0.004 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+					}
 				}
 				else
 					totalNotesHit += 1;
 
 				note.wasGoodHit = true;
 				
-				if (note.noteData >= 0){
-					if (save.data.options.contains("Disable Gain Health"))
-						health -= 0;
-					else
-						health += 0.023 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
-				}
-				else{
-					if (save.data.options.contains("Disable Gain Health"))
-						health -= 0;
-					else
-						health += 0.004 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+				if (!save.data.options.contains("Gain Health Hit")){
+					if (note.noteData >= 0){
+						if (save.data.options.contains("Disable Gain Health"))
+							health -= 0;
+						else
+							health += 0.023 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+					}
+					else{
+						if (save.data.options.contains("Disable Gain Health"))
+							health -= 0;
+						else
+							health += 0.004 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+					}
 				}
 
 				playerStrums.forEach(function(spr:FlxSprite)
@@ -2823,21 +2845,33 @@ class PlayState extends MusicBeatState
 				if (save.data.options.contains("Count down note")){
 					countDownNote += 1;
 				}	
+				if (save.data.options.contains("Gain Health Hit")){
+					if (note.noteData >= 0){
+						if (save.data.options.contains("Disable Gain Health"))
+							health -= 0;
+						else
+							health += 0.023 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+					}
+					else
+						health += 0.004 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+				}
 			}
 			else
 				totalNotesHit += 1;
 
-			if (note.noteData >= 0){
-				if (save.data.options.contains("Disable Gain Health"))
-					health -= 0;
-				else
-					health += 0.023 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
-			}
-			else{
-				if (save.data.options.contains("Disable Gain Health"))
-					health -= 0;
-				else
-					health += 0.004 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+			if (!save.data.options.contains("Gain Health Hit")){
+				if (note.noteData >= 0){
+					if (save.data.options.contains("Disable Gain Health"))
+						health -= 0;
+					else
+						health += 0.023 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+				}
+				else{
+					if (save.data.options.contains("Disable Gain Health"))
+						health -= 0;
+					else
+						health += 0.004 * Std.parseFloat(CoolUtil.coolTextFileString(Paths.txt("options/data/healthGain")));
+				}
 			}
 
 			switch (note.noteData)

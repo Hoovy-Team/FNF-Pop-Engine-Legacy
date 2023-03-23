@@ -104,7 +104,18 @@ class WindowSizeSubState extends MusicBeatSubstate
 		{
 			switch (textMenuItems[curSelected])
 			{
-
+				case "Normall":
+					if (!save.data.options.contains("Normall Size")){
+						save.data.options.push("Normall Size");
+					}else{
+						save.data.options.remove("Normall Size");
+					}
+				case "Bigger":
+					if (!save.data.options.contains("Bigger Size")){
+						save.data.options.push("Bigger Size");
+					}else{
+						save.data.options.remove("Bigger Size");
+					}
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new MiscSubState());

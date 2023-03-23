@@ -16,11 +16,15 @@ class PerferncesSubState extends MusicBeatSubstate
 		'Ghost tap', 
 		'Downscroll', 
 		'Accuracy', 
+		'Gain Health Hit', 
 		'Time Bar', 
 		'NPS Display', 
 		'Note Glow', 
 		'More GUI', 
 		'Note Splash', 
+		#if debug
+		'Disable Trace Log',
+		#end 
 		'Exit'
 	];
 
@@ -126,42 +130,56 @@ class PerferncesSubState extends MusicBeatSubstate
 					}else{
 						save.data.options.remove("Downscroll");
 					}
-					trace("Downscroll change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Downscroll change");
 				case "Accuracy":
 					if(!save.data.options.contains("Accuracy")){
 						save.data.options.push("Accuracy");
 					}else{
 						save.data.options.remove("Accuracy");
 					}
-					trace("Accuracy change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Accuracy change");
+				case "Gain Health Hit":
+					if(!save.data.options.contains("Gain Health Hit")){
+						save.data.options.push("Gain Health Hit");
+					}else{
+						save.data.options.remove("Gain Health Hit");
+					}
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Gain Health Hit change");
 				case "Time Bar":
 					if(!save.data.options.contains("Time Bar")){
 						save.data.options.push("Time Bar");
 					}else{
 						save.data.options.remove("Time Bar");
 					}
-					trace("Time Bar change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Time Bar change");
 				case "NPS Display":
 					if(!save.data.options.contains("NPS Display")){
 						save.data.options.push("NPS Display");
 					}else{
 						save.data.options.remove("NPS Display");
 					}
-					trace("NPS Display change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("NPS Display change");
 				case "Note Glow":
 					if(!save.data.options.contains("Note Glow")){
 						save.data.options.push("Note Glow");
 					}else{
 						save.data.options.remove("Note Glow");
 					}
-					trace("Note Glow change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("Note Glow change");
 				case "More GUI":
 					if(!save.data.options.contains("More GUI")){
 						save.data.options.push("More GUI");
 					}else{
 						save.data.options.remove("More GUI");
 					}
-					trace("More GUI change");
+					if (!save.data.options.contains("Disable Trace Log"))
+						trace("More GUI change");
 				case "Note Splash":
 					if(!save.data.options.contains("Note Splash")){
 						save.data.options.push("Note Splash");
@@ -169,6 +187,13 @@ class PerferncesSubState extends MusicBeatSubstate
 						save.data.options.remove("Note Splash");
 					}
 					trace("Note Splash change");
+				case "Disable Trace Log":
+					if(!save.data.options.contains("Disable Trace Log")){
+						save.data.options.push("Disable Trace Log");
+					}else{
+						save.data.options.remove("Disable Trace Log");
+					}
+					trace("Disable Trace Log change");
 				case "Exit":
 					FlxG.state.closeSubState();
 					FlxG.state.openSubState(new OptionsSubState());
@@ -197,6 +222,8 @@ class PerferncesSubState extends MusicBeatSubstate
 				textOptions.text = "Change the layout from up to down";
 			case "Accuracy":
 				textOptions.text = "Add the accuracy system and more";
+			case "Gain Health Hit":
+				textOptions.text = "Only hit the note will gain the health";
 			case "Time Bar":
 				textOptions.text = "See how long the songs will play";
 			case "NPS Display":
@@ -207,6 +234,8 @@ class PerferncesSubState extends MusicBeatSubstate
 				textOptions.text = "Add sicks, goods, bads and shits on display";
 			case "Note Splash":
 				textOptions.text = "Enable it, when hit sicks, the splash will show";
+			case "Disable Trace Log":
+				textOptions.text = "Will disable a trace log show in command app";
 			case "Exit":
 				textOptions.text = "Return Options Menu";
 		}

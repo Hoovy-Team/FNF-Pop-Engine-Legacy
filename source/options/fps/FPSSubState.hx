@@ -11,7 +11,6 @@ import flixel.util.FlxColor;
 import lime.utils.Assets;
 import flixel.FlxSubState;
 import flixel.util.FlxSave;
-import Options;
 import openfl.Lib;
 
 class FPSSubState extends FlxSubState
@@ -22,7 +21,6 @@ class FPSSubState extends FlxSubState
 	var curSelected:Int = 0;
 
 	var grpOptionsTexts:FlxTypedGroup<Alphabet>;
-
 
 	var botplayOptionsEnabledTxt:Alphabet;
 	var ghostTappingEnabledTxt:Alphabet;
@@ -136,7 +134,6 @@ class FPSSubState extends FlxSubState
 			
 				case "Maximum Type":
 					Lib.current.stage.frameRate = 800;
-
 			}
 		}
 	}

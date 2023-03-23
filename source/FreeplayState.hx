@@ -318,8 +318,8 @@ class FreeplayState extends MusicBeatState
 		curDifficulty += change;
 
 		if (curDifficulty < 0)
-			curDifficulty = 2;
-		if (curDifficulty > 2)
+			curDifficulty = 3;
+		if (curDifficulty > 3)
 			curDifficulty = 0;
 
 		// adjusting the highscore song name to be compatible (changeDiff)
@@ -344,6 +344,9 @@ class FreeplayState extends MusicBeatState
 			case 2:
 				diffText.text = "HARD";
 				diffText.color = FlxColor.RED;
+			case 3:
+				diffText.text = "HARDER";
+				diffText.color = 0x9C0707;
 		}
 	}
 
